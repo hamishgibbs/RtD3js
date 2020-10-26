@@ -3,7 +3,7 @@ React library for the [`RtD3`](https://github.com/epiforecasts/RtD3) R package.
 
 ## Description
 
-Provides a JavaScript interface for the Rt visualisations in RtD3.
+Provides a JavaScript interface for Rt visualisations in RtD3.
 
 Written in [`React`](https://reactjs.org/), tested with [`jest`](https://jestjs.io/), built with [`webpack`](https://webpack.js.org/).
 
