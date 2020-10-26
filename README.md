@@ -21,7 +21,7 @@ This library is developed in the [`node`](https://hub.docker.com/_/node) docker 
 
 To get started developing this project locally, clone this repository and `cd` into the new directory.
 
-To build the libraries docker image run:
+To build the library's docker image run:
 
 ``` {shell}
 make build
