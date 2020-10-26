@@ -4,4 +4,11 @@ module.exports = {
     optimization: {
         minimize: false
     },
+    output: {
+      path: __dirname + '/dist',
+      filename: 'main.js',
+      library: 'RtD3js',    // very important line
+      libraryTarget: 'umd',    // very important line
+      umdNamedDefine: true     // very important line
+  },
 }

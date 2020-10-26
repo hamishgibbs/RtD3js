@@ -1,4 +1,14 @@
-/******/ (() => { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define("RtD3js", [], factory);
+	else if(typeof exports === 'object')
+		exports["RtD3js"] = factory();
+	else
+		root["RtD3js"] = factory();
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
@@ -516,6 +526,45 @@ if (true) {
 } else {}
 
 
+/***/ }),
+
+/***/ 552:
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+// ESM COMPAT FLAG
+__webpack_require__.r(__webpack_exports__);
+
+// EXPORTS
+__webpack_require__.d(__webpack_exports__, {
+  "default": () => /* binding */ App
+});
+
+// CONCATENATED MODULE: ./src/test.js
+var React = __webpack_require__(294);
+var ReactDOM = __webpack_require__(935);
+
+class Greetings extends React.Component
+{
+    render()
+    {
+        return React.createElement('h1', null, 'Greetings, Hamish!');
+    }
+}
+
+// CONCATENATED MODULE: ./src/index.js
+var src_React = __webpack_require__(294);
+var src_ReactDOM = __webpack_require__(935);
+
+
+
+class App extends src_React.Component{
+    render()
+    {
+        return src_React.createElement('div', null, src_React.createElement(Greetings));
+    }
+}
+
+
 /***/ })
 
 /******/ 	});
@@ -544,43 +593,39 @@ if (true) {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-(() => {
-
-// CONCATENATED MODULE: ./src/test.js
-var React = __webpack_require__(294);
-var ReactDOM = __webpack_require__(935);
-
-class Greetings extends React.Component
-{
-    render()
-    {
-        return React.createElement('h1', null, 'Greetings, Hamish!');
-    }
-}
-
-// CONCATENATED MODULE: ./src/index.js
-var src_React = __webpack_require__(294);
-var src_ReactDOM = __webpack_require__(935);
-
-
-
-class App extends src_React.Component{
-    render()
-    {
-        return src_React.createElement('div', null, src_React.createElement(Greetings));
-    }
-}
-
-
-window.onload = function()
-{
-  src_ReactDOM.render(
-      src_React.createElement(App),
-      document.getElementById('root')
-  );
-};
-
-})();
-
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	// module exports must be returned from runtime so entry inlining is disabled
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(552);
 /******/ })()
 ;
+});

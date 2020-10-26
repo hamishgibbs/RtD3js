@@ -3,9 +3,20 @@
         <title>React Hello World</title>
         <script src="https://unpkg.com/react@15/dist/react.js"></script>
         <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
-        <script src="main.js"></script>
+        <script type="text/javascript" src="/Users/hamishgibbs/Documents/Personal/RtD3js/dist/main.js"></script>
     </head>
     <body>
         <div id="root"></div>
+        <script>
+        // Need a function to render the app in the root element (any root element). Should be easy with import App from module
+        // then just App_render (root)
+        window.onload = function()
+          {
+            ReactDOM.render(
+                React.createElement(RtD3js.default),
+                document.getElementById('root')
+            );
+          };
+        </script>
     </body>
 </html>
