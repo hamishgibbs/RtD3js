@@ -39,6 +39,12 @@ To run unit tests in a container, run:
 make test
 ```
 
+To watch files for changes during development, enter the container and run:
+
+``` {shell}
+npm run watch
+```
+
 ## Special considerations
 
 Because this library will be used in an R package (an RStudio Viewer, R Markdown Document, or Shiny application), we have to rely on a single `.js` output, not a fully configured build process and development server. The stripped-down build process means less fancy syntax.
