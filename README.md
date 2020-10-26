@@ -13,7 +13,7 @@ Transitioning from `rt_vis` to `RtD3js` should be straightforward, with few chan
 
 There are a number of motivations for transitioning to a component framework like `React`. Primarily, `rt_vis` attempts to reproduce the behaviour of a `React` application without using a framework, which has led to lots of code duplication and a lack of clarity when defining components.
 
-`React` adds easy reusability of various components, ease of testing, and a more reliable build workflow.
+`React` adds easy reusability of various components, ease of testing, greater maintainability, and a more reliable build workflow.
 
 ## Local development
 
