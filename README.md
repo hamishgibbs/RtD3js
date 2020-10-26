@@ -43,4 +43,4 @@ make test
 
 Because this library will be used in an R package (an RStudio Viewer, R Markdown Document, or Shiny application), we have to rely on a single `.js` output, not a fully configured build process and development server. The stripped-down build process means less fancy syntax.
 
-Primarily, `.jsx` syntax like `<h1>` and `</h1>` should be replaced with `React.createElement('h1', etc., ect.)`.
+`.jsx` syntax like `<h1>` and `</h1>` should be replaced with `React.createElement('h1', etc., ect.)`.
