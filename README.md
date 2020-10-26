@@ -1,5 +1,5 @@
 # RtD3js
-React library for RtD3 R package.
+React library for the [`RtD3`](https://github.com/epiforecasts/RtD3) R package.
 
 ## Description
 
