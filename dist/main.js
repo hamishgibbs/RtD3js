@@ -12,7 +12,7 @@ return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 423:
+/***/ 229:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -353,7 +353,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         width: "100%",
         height: "100%"
       };
-      return /*#__PURE__*/TimeseriesPlot_React.createElement("div", null, /*#__PURE__*/TimeseriesPlot_React.createElement("h2", null, this.props.plot_title), /*#__PURE__*/TimeseriesPlot_React.createElement("div", {
+      return /*#__PURE__*/TimeseriesPlot_React.createElement("div", null, /*#__PURE__*/TimeseriesPlot_React.createElement("h5", null, this.props.plot_title), /*#__PURE__*/TimeseriesPlot_React.createElement("div", {
         id: this.props.container_id,
         style: container_style
       }, /*#__PURE__*/TimeseriesPlot_React.createElement("svg", {
@@ -427,25 +427,33 @@ var Map = /*#__PURE__*/function (_React$Component) {
       var path = Map_d3.geoPath().projection(projection);
       var svg = Map_d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
       var g = svg.append("g").attr("class", "countries");
+
+      if (this.props.legend_ref['legend_type'] === 'sequential') {
+        var scale_sequential = this.create_sequential_legend(this.props.summaryData, this.props.legend_ref);
+      }
+
       g.selectAll("path").data(this.props.geoData.features).enter().append("path").attr("d", path).attr('region-name', function (feature) {
         return feature.properties.sovereignt;
       }).attr('fill', function (feature) {
         var feature_name = feature.properties.sovereignt;
 
-        var summary_data = _this2.props.summaryData.filter(function (d) {
-          if (d.Country == feature_name) {
-            return d;
+        if (_this2.props.legend_ref['legend_type'] === 'qualitative') {
+          return _this2.qualitative_fill(feature_name, _this2.props.summaryData, _this2.props.legend_ref);
+        } else if (_this2.props.legend_ref['legend_type'] === 'sequential') {
+          return _this2.sequential_fill(feature_name, _this2.props.summaryData, scale_sequential, _this2.props.legend_ref);
+        }
+      }).attr('stroke', '#333').on('mousemove', function (e) {
+        var hovered_feature = _this2.props.geoData.features.map(function (feature) {
+          //console.log(feature.geometry)
+          if (Map_d3.geoContains(feature.geometry, projection.invert([e.clientX, e.clientY]))) {
+            return feature;
           }
         });
 
-        try {
-          return _this2.props.legend_ref['legend_values'][summary_data[0][_this2.props.legend_ref['variable_name']]];
-        } catch (_unused) {
-          return _this2.props.legend_ref['legend_values']['No Data'];
-        }
-      }).attr('stroke', '#333').on('mousemove', function (e) {
-        console.log(e, _this2);
-        Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html('Me!');
+        var hovered_feature = hovered_feature.filter(function (x) {
+          return x !== undefined;
+        })[0];
+        Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(hovered_feature.properties.sovereignt);
       }).on('mouseenter', function (e) {
         Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("opacity", 1);
       }).on('mouseout', function (e) {
@@ -456,6 +464,49 @@ var Map = /*#__PURE__*/function (_React$Component) {
         g.selectAll('path').attr('transform', e.transform);
       });
       svg.call(zoom);
+    }
+  }, {
+    key: "create_sequential_legend",
+    value: function create_sequential_legend(summaryData, legend_ref) {
+      var legend_scale = Map_d3[legend_ref['legend_scale']]().range([legend_ref['legend_values']['low'], legend_ref['legend_values']['high']]);
+      var summary_values = summaryData.map(function (d) {
+        return parseFloat(d[legend_ref['variable_name']].split(' ')[0]);
+      });
+      var legend_max = Map_d3.max(summary_values);
+      var legend_min = Map_d3.min(summary_values);
+      legend_scale.domain([legend_min, legend_max]);
+      return legend_scale;
+    }
+  }, {
+    key: "sequential_fill",
+    value: function sequential_fill(feature_name, summaryData, legend_scale, legend_ref) {
+      var summary_data = summaryData.filter(function (d) {
+        if (d.Country == feature_name) {
+          return d;
+        }
+      });
+
+      try {
+        var summary_value = parseFloat(summary_data[0][legend_ref['variable_name']].split(' ')[0]);
+        return legend_scale(summary_value);
+      } catch (_unused) {
+        return legend_ref['legend_values']['No Data'];
+      }
+    }
+  }, {
+    key: "qualitative_fill",
+    value: function qualitative_fill(feature_name, summaryData, legend_ref) {
+      var summary_data = summaryData.filter(function (d) {
+        if (d.Country == feature_name) {
+          return d;
+        }
+      });
+
+      try {
+        return legend_ref['legend_values'][summary_data[0][legend_ref['variable_name']]];
+      } catch (_unused2) {
+        return legend_ref['legend_values']['No Data'];
+      }
     }
   }, {
     key: "componentDidMount",
@@ -492,6 +543,67 @@ var Map = /*#__PURE__*/function (_React$Component) {
 }(Map_React.Component);
 
 
+// CONCATENATED MODULE: ./src/MapControls.js
+function MapControls_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { MapControls_typeof = function _typeof(obj) { return typeof obj; }; } else { MapControls_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return MapControls_typeof(obj); }
+
+function MapControls_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function MapControls_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function MapControls_createClass(Constructor, protoProps, staticProps) { if (protoProps) MapControls_defineProperties(Constructor.prototype, protoProps); if (staticProps) MapControls_defineProperties(Constructor, staticProps); return Constructor; }
+
+function MapControls_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) MapControls_setPrototypeOf(subClass, superClass); }
+
+function MapControls_setPrototypeOf(o, p) { MapControls_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return MapControls_setPrototypeOf(o, p); }
+
+function MapControls_createSuper(Derived) { var hasNativeReflectConstruct = MapControls_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = MapControls_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = MapControls_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return MapControls_possibleConstructorReturn(this, result); }; }
+
+function MapControls_possibleConstructorReturn(self, call) { if (call && (MapControls_typeof(call) === "object" || typeof call === "function")) { return call; } return MapControls_assertThisInitialized(self); }
+
+function MapControls_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function MapControls_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function MapControls_getPrototypeOf(o) { MapControls_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return MapControls_getPrototypeOf(o); }
+
+var MapControls_React = __webpack_require__(294);
+
+var MapControls_ReactDOM = __webpack_require__(935);
+
+var MapControls_d3 = __webpack_require__(332);
+
+var MapControls = /*#__PURE__*/function (_React$Component) {
+  MapControls_inherits(MapControls, _React$Component);
+
+  var _super = MapControls_createSuper(MapControls);
+
+  function MapControls() {
+    MapControls_classCallCheck(this, MapControls);
+
+    return _super.apply(this, arguments);
+  }
+
+  MapControls_createClass(MapControls, [{
+    key: "render",
+    value: function render() {
+      var legend_options = [];
+      this.props.legend_ref.map(function (item) {
+        legend_options.push( /*#__PURE__*/MapControls_React.createElement("option", null, item['variable_name']));
+      });
+      return /*#__PURE__*/MapControls_React.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/MapControls_React.createElement("div", null, /*#__PURE__*/MapControls_React.createElement("select", {
+        className: "form-control",
+        id: "map-data-selection",
+        onChange: this.props.select_handler
+      }, legend_options)));
+    }
+  }]);
+
+  return MapControls;
+}(MapControls_React.Component);
+
+
 // CONCATENATED MODULE: ./src/summaryWidget.js
 function summaryWidget_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { summaryWidget_typeof = function _typeof(obj) { return typeof obj; }; } else { summaryWidget_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return summaryWidget_typeof(obj); }
 
@@ -526,6 +638,7 @@ var summaryWidget_React = __webpack_require__(294);
 var summaryWidget_ReactDOM = __webpack_require__(935);
 
 var summaryWidget_d3 = __webpack_require__(332);
+
 
 
 
@@ -594,6 +707,18 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "update_legend_state",
+    value: function update_legend_state() {
+      var selected_variable = document.getElementById('map-data-selection');
+      selected_variable = selected_variable.options[selected_variable.selectedIndex].value;
+      var active_map_legend = this.props.x.map_legend_ref.filter(function (legend) {
+        return legend['variable_name'] == selected_variable;
+      })[0];
+      this.setState({
+        active_map_legend: active_map_legend
+      });
+    }
+  }, {
     key: "get_dates",
     value: function get_dates(data) {
       var dates = data.map(function (data) {
@@ -643,6 +768,9 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           summaryData: this.state.rtData[this.state.active_source]['summaryData'],
           projection: this.props.x.projection,
           legend_ref: this.state.active_map_legend
+        }), /*#__PURE__*/summaryWidget_React.createElement(MapControls, {
+          legend_ref: this.props.x.map_legend_ref,
+          select_handler: this.update_legend_state.bind(this)
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "r-container",
           svg_id: "r-svg",
@@ -23002,7 +23130,7 @@ if (true) {
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(423);
+/******/ 	return __webpack_require__(229);
 /******/ })()
 ;
 });

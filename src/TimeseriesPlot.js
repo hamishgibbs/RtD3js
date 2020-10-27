@@ -324,7 +324,7 @@ export default class TimeseriesPlot extends React.Component{
     };
     return (
       <div>
-        <h2>{this.props.plot_title}</h2>
+        <h5>{this.props.plot_title}</h5>
         <div id={this.props.container_id} style={container_style}>
           <svg id={this.props.svg_id} style={svg_style}>
           </svg>

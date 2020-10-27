@@ -4,6 +4,7 @@ var d3 = require('d3');
 
 import TimeseriesPlot from './TimeseriesPlot';
 import Map from './Map';
+import MapControls from './MapControls';
 
 export default class SummaryWidget extends React.Component{
   constructor(props) {
@@ -65,6 +66,18 @@ export default class SummaryWidget extends React.Component{
       })
     })
   };
+  update_legend_state(){
+
+    var selected_variable = document.getElementById('map-data-selection');
+    selected_variable = selected_variable.options[selected_variable.selectedIndex].value
+
+    var active_map_legend = this.props.x.map_legend_ref.filter(legend => {
+      return legend['variable_name'] == selected_variable
+    })[0]
+
+    this.setState({active_map_legend: active_map_legend})
+
+  }
   get_dates(data){
 
     var dates = data.map(data => {return(new Date(Date.parse(data.date)))})
@@ -123,6 +136,9 @@ export default class SummaryWidget extends React.Component{
              projection={this.props.x.projection}
              legend_ref={this.state.active_map_legend}>
         </Map>
+        <MapControls legend_ref={this.props.x.map_legend_ref}
+                     select_handler={this.update_legend_state.bind(this)}>
+        </MapControls>
         <TimeseriesPlot container_id='r-container'
                         svg_id='r-svg'
                         content_id='r-content'

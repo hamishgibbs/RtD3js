@@ -5,6 +5,12 @@
         <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
         <script src="https://d3js.org/d3.v6.min.js"></script>
         <script type="text/javascript" src="/Users/hamishgibbs/Documents/Personal/RtD3js/dist/main.js"></script>
+        <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous"
+        />
     </head>
     <body>
         <div id="root"></div>
@@ -54,7 +60,14 @@
                                 'Likely increasing':'purple',
                                 'Decreasing':'pink',
                                 'Likely decreasing':'green',
-                                'No Data':'grey'}}
+                                'No Data':'grey'}},
+              {'variable_name':'Effective reproduction no.',
+               'legend_type':'sequential',
+               'legend_scale':'scaleLinear',
+               'legend_values':{'low':'white',
+                                'high':'green',
+                                'No Data':'grey'}
+              }
             ],
         }
 
