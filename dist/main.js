@@ -12,7 +12,7 @@ return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 478:
+/***/ 678:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -72,134 +72,10 @@ var Greetings = /*#__PURE__*/function (_React$Component) {
 }(React.Component);
 
 
-// CONCATENATED MODULE: ./src/PlotContainer.js
-function PlotContainer_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { PlotContainer_typeof = function _typeof(obj) { return typeof obj; }; } else { PlotContainer_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return PlotContainer_typeof(obj); }
-
-function PlotContainer_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function PlotContainer_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function PlotContainer_createClass(Constructor, protoProps, staticProps) { if (protoProps) PlotContainer_defineProperties(Constructor.prototype, protoProps); if (staticProps) PlotContainer_defineProperties(Constructor, staticProps); return Constructor; }
-
-function PlotContainer_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) PlotContainer_setPrototypeOf(subClass, superClass); }
-
-function PlotContainer_setPrototypeOf(o, p) { PlotContainer_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return PlotContainer_setPrototypeOf(o, p); }
-
-function PlotContainer_createSuper(Derived) { var hasNativeReflectConstruct = PlotContainer_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = PlotContainer_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = PlotContainer_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return PlotContainer_possibleConstructorReturn(this, result); }; }
-
-function PlotContainer_possibleConstructorReturn(self, call) { if (call && (PlotContainer_typeof(call) === "object" || typeof call === "function")) { return call; } return PlotContainer_assertThisInitialized(self); }
-
-function PlotContainer_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function PlotContainer_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function PlotContainer_getPrototypeOf(o) { PlotContainer_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return PlotContainer_getPrototypeOf(o); }
-
-var PlotContainer_React = __webpack_require__(294);
-
-var PlotContainer_ReactDOM = __webpack_require__(935);
-
-var D3 = __webpack_require__(332);
-
-var PlotContainer = /*#__PURE__*/function (_React$Component) {
-  PlotContainer_inherits(PlotContainer, _React$Component);
-
-  var _super = PlotContainer_createSuper(PlotContainer);
-
-  function PlotContainer() {
-    PlotContainer_classCallCheck(this, PlotContainer);
-
-    return _super.apply(this, arguments);
-  }
-
-  PlotContainer_createClass(PlotContainer, [{
-    key: "render",
-    // Returns an svg plot container within a div container
-    value: function render() {
-      var container_style = {
-        width: this.props.width,
-        height: this.props.height
-      };
-      var svg_style = {
-        width: "100%",
-        height: "100%"
-      };
-      return /*#__PURE__*/PlotContainer_React.createElement("div", {
-        id: this.props.container_id,
-        style: container_style
-      }, /*#__PURE__*/PlotContainer_React.createElement("svg", {
-        id: this.props.svg_id,
-        style: svg_style
-      }));
-    }
-  }]);
-
-  return PlotContainer;
-}(PlotContainer_React.Component);
-
-
-// CONCATENATED MODULE: ./src/TsPlotAxis.js
-function TsPlotAxis_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { TsPlotAxis_typeof = function _typeof(obj) { return typeof obj; }; } else { TsPlotAxis_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return TsPlotAxis_typeof(obj); }
-
-function TsPlotAxis_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function TsPlotAxis_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function TsPlotAxis_createClass(Constructor, protoProps, staticProps) { if (protoProps) TsPlotAxis_defineProperties(Constructor.prototype, protoProps); if (staticProps) TsPlotAxis_defineProperties(Constructor, staticProps); return Constructor; }
-
-function TsPlotAxis_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) TsPlotAxis_setPrototypeOf(subClass, superClass); }
-
-function TsPlotAxis_setPrototypeOf(o, p) { TsPlotAxis_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return TsPlotAxis_setPrototypeOf(o, p); }
-
-function TsPlotAxis_createSuper(Derived) { var hasNativeReflectConstruct = TsPlotAxis_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = TsPlotAxis_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = TsPlotAxis_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return TsPlotAxis_possibleConstructorReturn(this, result); }; }
-
-function TsPlotAxis_possibleConstructorReturn(self, call) { if (call && (TsPlotAxis_typeof(call) === "object" || typeof call === "function")) { return call; } return TsPlotAxis_assertThisInitialized(self); }
-
-function TsPlotAxis_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function TsPlotAxis_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function TsPlotAxis_getPrototypeOf(o) { TsPlotAxis_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return TsPlotAxis_getPrototypeOf(o); }
-
-var TsPlotAxis_React = __webpack_require__(294);
-
-var TsPlotAxis_ReactDOM = __webpack_require__(935);
-
-var d3 = __webpack_require__(332);
-
-var TsPlotAxis = /*#__PURE__*/function (_React$Component) {
-  TsPlotAxis_inherits(TsPlotAxis, _React$Component);
-
-  var _super = TsPlotAxis_createSuper(TsPlotAxis);
-
-  function TsPlotAxis(props) {
-    TsPlotAxis_classCallCheck(this, TsPlotAxis);
-
-    return _super.call(this, props);
-  }
-
-  TsPlotAxis_createClass(TsPlotAxis, [{
-    key: "setupPlot",
-    value: function setupPlot() {
-      var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect();
-      var svg = d3.select('#' + this.props.svg_id).append('g').attr('class', 'ts-plot-content').attr("transform", "translate(" + this.props.margin.left + "," + this.props.margin.top + ")");
-      var x = d3.scaleTime().domain([this.props.min_date, this.props.max_date]).range([0, svg_dims.width]);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      console.log("I'm rendering!");
-      this.setupPlot();
-      return /*#__PURE__*/TsPlotAxis_React.createElement("g", null);
-    }
-  }]);
-
-  return TsPlotAxis;
-}(TsPlotAxis_React.Component);
-
-
 // CONCATENATED MODULE: ./src/TimeseriesPlot.js
 function TimeseriesPlot_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { TimeseriesPlot_typeof = function _typeof(obj) { return typeof obj; }; } else { TimeseriesPlot_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return TimeseriesPlot_typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function TimeseriesPlot_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -225,10 +101,7 @@ var TimeseriesPlot_React = __webpack_require__(294);
 
 var TimeseriesPlot_ReactDOM = __webpack_require__(935);
 
-var TimeseriesPlot_d3 = __webpack_require__(332);
-
-
-
+var d3 = __webpack_require__(332);
 
 var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
   TimeseriesPlot_inherits(TimeseriesPlot, _React$Component);
@@ -242,19 +115,20 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.margin = {
-      top: 0,
+      top: 10,
       right: 40,
-      bottom: 10,
-      left: 10
+      bottom: 30,
+      left: 30
     };
     return _this;
   }
 
   TimeseriesPlot_createClass(TimeseriesPlot, [{
-    key: "getCIs",
+    key: "componentDidMount",
     // Returns a timeseries plot of the given dataset
     // Add this.props.data and this.plt.plotting_variable
     // Add CredibleInterval component
+    //Add extra styling with bootstrap!
 
     /*
     Should be in the format:
@@ -271,7 +145,18 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       <VLine></VLine>
     </Plot>
      For an arbitrary number of credible intervals at arbitrary locations - use a regex to match keys and values
+     Need to pass a color ref in the format: {'value', 'type', 'color'}
      */
+    value: function componentDidMount() {
+      this.createTsPlot();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.createTsPlot();
+    }
+  }, {
+    key: "getCIs",
     value: function getCIs(data) {
       var _this2 = this;
 
@@ -305,20 +190,88 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "createTsPlot",
+    value: function createTsPlot() {
+      var _this3 = this;
+
+      var content_id = 'ts-plot-content';
+      d3.selectAll('#' + content_id).remove();
+      var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect();
+      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+      var cis = this.getCIs(this.props.data);
+      var max_ci = d3.max(cis.map(function (ci) {
+        return ci['value'];
+      }));
+      var y_max = d3.max(this.props.data.map(function (d) {
+        return d['upper_' + max_ci];
+      }));
+      var x = d3.scaleTime().domain([this.props.min_date, this.props.max_date]).range([0, svg_dims.width]);
+      var y = d3.scaleLinear().domain([0, y_max]).range([svg_dims.height - this.margin.bottom, 0]);
+      svg.append("g").attr("transform", "translate(0," + (svg_dims.height - this.margin.bottom) + ")").call(d3.axisBottom(x).ticks(6).tickSize([0])).attr("class", 'time-xaxis');
+      svg.append("g").call(d3.axisLeft(y)).attr("class", 'r0-yaxis');
+      var estimate_type_data = this.props.data.reduce(function (acc, item) {
+        if (!acc[item.type]) {
+          acc[item.type] = [];
+        }
+
+        acc[item.type].push(item);
+        return acc;
+      }, {});
+      var ci_polys = Object.keys(estimate_type_data).map(function (key) {
+        var polys = cis.map(function (ci) {
+          return _this3.credibleInterval(estimate_type_data[key], ci, x, y, key);
+        });
+        return _defineProperty({}, key, polys);
+      });
+      var ci_polys = ci_polys.reduce(function (r, c) {
+        return Object.assign(r, c);
+      }, {});
+      Object.keys(estimate_type_data).map(function (key) {
+        /* value and type attrbutes are avaible here - use them in the color ref */
+        ci_polys[key].map(function (poly) {
+          _this3.plotCIPoly(svg, estimate_type_data[key], poly['poly']);
+        });
+      });
+    }
+  }, {
+    key: "credibleInterval",
+    value: function credibleInterval(data, ci, x, y, type) {
+      var ci_poly = d3.area().x(function (d) {
+        return x(new Date(Date.parse(d.date)));
+      }).y0(function (d) {
+        return y(d[ci['lower_name']]);
+      }).y1(function (d) {
+        return y(d[ci['upper_name']]);
+      });
+      return {
+        'value': ci['value'],
+        'type': type,
+        'poly': ci_poly
+      };
+    }
+  }, {
+    key: "plotCIPoly",
+    value: function plotCIPoly(svg, data, poly) {
+      svg.append("path").datum(data).attr("d", poly).attr("class", "ci-poly").style('fill', 'red').style('opacity', 0.5);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/TimeseriesPlot_React.createElement("div", null, /*#__PURE__*/TimeseriesPlot_React.createElement(PlotContainer, {
-        container_id: this.props.container_id,
-        svg_id: this.props.svg_id,
+      var container_style = {
         width: this.props.width,
         height: this.props.height
-      }), /*#__PURE__*/TimeseriesPlot_React.createElement(TsPlotAxis, {
-        container_id: this.props.container_id,
-        svg_id: this.props.svg_id,
-        margin: this.margin,
-        min_date: this.props.min_date,
-        max_date: this.props.max_date
-      }));
+      };
+      var svg_style = {
+        width: "100%",
+        height: "100%"
+      };
+      return /*#__PURE__*/TimeseriesPlot_React.createElement("div", null, /*#__PURE__*/TimeseriesPlot_React.createElement("h2", null, this.props.plot_title), /*#__PURE__*/TimeseriesPlot_React.createElement("div", {
+        id: this.props.container_id,
+        style: container_style
+      }, /*#__PURE__*/TimeseriesPlot_React.createElement("svg", {
+        id: this.props.svg_id,
+        style: svg_style
+      })));
     }
   }]);
 
@@ -331,9 +284,9 @@ function summaryWidget_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbo
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { summaryWidget_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function summaryWidget_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function summaryWidget_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -397,7 +350,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
             // setState needs to be called for nested state
             _this2.setState(function (prevState) {
               return {
-                rtData: _objectSpread(_objectSpread({}, prevState.rtData), {}, _defineProperty({}, key, _objectSpread(_objectSpread({}, prevState.rtData[key]), {}, _defineProperty({}, sub_key, data))))
+                rtData: _objectSpread(_objectSpread({}, prevState.rtData), {}, summaryWidget_defineProperty({}, key, _objectSpread(_objectSpread({}, prevState.rtData[key]), {}, summaryWidget_defineProperty({}, sub_key, data))))
               };
             }); // Also setting the min and max dates of the active area here
 
@@ -443,6 +396,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "r-container",
           svg_id: "r-svg",
+          plot_title: "R",
           width: "100%",
           height: "250px",
           active_area: this.state.active_area,
@@ -22772,7 +22726,7 @@ if (true) {
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(478);
+/******/ 	return __webpack_require__(678);
 /******/ })()
 ;
 });

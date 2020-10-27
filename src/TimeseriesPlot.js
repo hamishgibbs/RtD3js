@@ -2,19 +2,19 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var d3 = require('d3');
 
-import PlotContainer from './PlotContainer';
-import TsPlotAxis from './TsPlotAxis';
-
 export default class TimeseriesPlot extends React.Component{
   constructor(props) {
     super(props);
 
-    this.margin = {top: 0, right: 40, bottom: 10, left: 10}
+    this.margin = {top: 10, right: 40, bottom: 30, left: 30}
 
   };
   // Returns a timeseries plot of the given dataset
   // Add this.props.data and this.plt.plotting_variable
   // Add CredibleInterval component
+
+  //Add extra styling with bootstrap!
+
   /*
   Should be in the format:
 
@@ -34,7 +34,15 @@ export default class TimeseriesPlot extends React.Component{
 
   For an arbitrary number of credible intervals at arbitrary locations - use a regex to match keys and values
 
+  Need to pass a color ref in the format: {'value', 'type', 'color'}
+
   */
+  componentDidMount() {
+      this.createTsPlot()
+   }
+   componentDidUpdate() {
+      this.createTsPlot()
+   }
   getCIs(data){
     var ci = Object.keys(data[0]).map(key => {return this.parseCI(key)})
 
@@ -62,13 +70,112 @@ export default class TimeseriesPlot extends React.Component{
     }
 
   }
+  createTsPlot(){
+    var content_id = 'ts-plot-content'
+
+    d3.selectAll('#' + content_id).remove()
+
+    var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect()
+
+    var svg = d3.select('#' + this.props.svg_id)
+                .append('g')
+                .attr('id', content_id)
+                .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
+
+    var cis = this.getCIs(this.props.data)
+
+    var max_ci = d3.max(cis.map(ci => {return(ci['value'])}))
+
+    var y_max = d3.max(this.props.data.map(d => d['upper_' + max_ci]))
+
+    var x = d3.scaleTime()
+      .domain([this.props.min_date, this.props.max_date])
+      .range([0, svg_dims.width]);
+
+    var y = d3.scaleLinear()
+      .domain([0,y_max])
+      .range([svg_dims.height - this.margin.bottom, 0]);
+
+    svg.append("g")
+       .attr("transform","translate(0,"+ (svg_dims.height - this.margin.bottom) +")")
+       .call(d3.axisBottom(x).ticks(6).tickSize([0]))
+       .attr("class",'time-xaxis');
+
+     svg.append("g")
+       .call(d3.axisLeft(y))
+       .attr("class", 'r0-yaxis');
+
+    var estimate_type_data = this.props.data.reduce((acc, item) => {
+
+      if (!acc[item.type]) {
+        acc[item.type] = [];
+      }
+
+      acc[item.type].push(item);
+      return acc;
+
+    }, {})
+
+    var ci_polys = Object.keys(estimate_type_data).map(key => {
+
+      var polys = cis.map(ci => {
+        return(this.credibleInterval(estimate_type_data[key], ci, x, y, key))
+      })
+
+      return({[key]:polys})
+
+    })
+
+    var ci_polys = ci_polys.reduce(((r, c) => Object.assign(r, c)), {});
+
+    Object.keys(estimate_type_data).map(key => {
+
+      /* value and type attrbutes are avaible here - use them in the color ref */
+
+      ci_polys[key].map(poly => {
+        this.plotCIPoly(svg, estimate_type_data[key], poly['poly'])
+      })
+    })
+
+  };
+
+  credibleInterval(data, ci, x, y, type){
+
+    var ci_poly = d3.area()
+      .x(function(d) { return x(new Date(Date.parse(d.date))) })
+      .y0(function(d) { return y(d[ci['lower_name']])})
+      .y1(function(d) { return y(d[ci['upper_name']])})
+
+
+    return({'value': ci['value'], 'type': type, 'poly':ci_poly})
+
+  };
+  plotCIPoly(svg, data, poly){
+
+    svg.append("path")
+      .datum(data)
+      .attr("d", poly)
+      .attr("class", "ci-poly")
+      .style('fill', 'red')
+      .style('opacity', 0.5)
+
+  }
   render() {
+    const container_style = {
+      width: this.props.width,
+      height: this.props.height
+    };
+    const svg_style = {
+      width: "100%",
+      height: "100%"
+    };
     return (
       <div>
-        <PlotContainer container_id={this.props.container_id} svg_id={this.props.svg_id} width={this.props.width} height={this.props.height}>
-        </PlotContainer>
-        <TsPlotAxis container_id={this.props.container_id} svg_id={this.props.svg_id} margin={this.margin} min_date={this.props.min_date} max_date={this.props.max_date}>
-        </TsPlotAxis>
+        <h2>{this.props.plot_title}</h2>
+        <div id={this.props.container_id} style={container_style}>
+          <svg id={this.props.svg_id} style={svg_style}>
+          </svg>
+        </div>
       </div>
     )
   }

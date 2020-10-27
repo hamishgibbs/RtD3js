@@ -87,6 +87,7 @@ export default class SummaryWidget extends React.Component{
       return(
         <TimeseriesPlot container_id='r-container'
                         svg_id='r-svg'
+                        plot_title='R'
                         width='100%'
                         height='250px'
                         active_area={this.state.active_area}
