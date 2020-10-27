@@ -71,22 +71,21 @@ export default class TimeseriesPlot extends React.Component{
 
   }
   createTsPlot(){
-    var content_id = 'ts-plot-content'
 
-    d3.selectAll('#' + content_id).remove()
+    d3.selectAll('#' + this.props.content_id).remove()
 
     var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect()
 
     var svg = d3.select('#' + this.props.svg_id)
                 .append('g')
-                .attr('id', content_id)
+                .attr('id', this.props.content_id)
                 .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
 
     var cis = this.getCIs(this.props.data)
 
     var max_ci = d3.max(cis.map(ci => {return(ci['value'])}))
 
-    var y_max = d3.max(this.props.data.map(d => d['upper_' + max_ci]))
+    var y_max = d3.max(this.props.data.map(d => parseFloat(d['upper_' + max_ci])))
 
     var x = d3.scaleTime()
       .domain([this.props.min_date, this.props.max_date])
@@ -130,7 +129,7 @@ export default class TimeseriesPlot extends React.Component{
 
     Object.keys(estimate_type_data).map(key => {
 
-      /* value and type attrbutes are avaible here - use them in the color ref */
+      /* value and type attrbites are avaible here - use them in the color ref */
 
       ci_polys[key].map(poly => {
         this.plotCIPoly(svg, estimate_type_data[key], poly['poly'])

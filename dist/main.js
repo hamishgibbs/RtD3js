@@ -194,16 +194,15 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     value: function createTsPlot() {
       var _this3 = this;
 
-      var content_id = 'ts-plot-content';
-      d3.selectAll('#' + content_id).remove();
+      d3.selectAll('#' + this.props.content_id).remove();
       var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect();
-      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
       var cis = this.getCIs(this.props.data);
       var max_ci = d3.max(cis.map(function (ci) {
         return ci['value'];
       }));
       var y_max = d3.max(this.props.data.map(function (d) {
-        return d['upper_' + max_ci];
+        return parseFloat(d['upper_' + max_ci]);
       }));
       var x = d3.scaleTime().domain([this.props.min_date, this.props.max_date]).range([0, svg_dims.width]);
       var y = d3.scaleLinear().domain([0, y_max]).range([svg_dims.height - this.margin.bottom, 0]);
@@ -227,7 +226,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         return Object.assign(r, c);
       }, {});
       Object.keys(estimate_type_data).map(function (key) {
-        /* value and type attrbutes are avaible here - use them in the color ref */
+        /* value and type attrbites are avaible here - use them in the color ref */
         ci_polys[key].map(function (poly) {
           _this3.plotCIPoly(svg, estimate_type_data[key], poly['poly']);
         });
@@ -393,17 +392,43 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/summaryWidget_React.createElement("h1", null, "Loading Data");
       } else {
         var activeRtData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['rtData']);
-        return /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
+        var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData']);
+        var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData']);
+        var plot_height = '200px';
+        return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "r-container",
           svg_id: "r-svg",
+          content_id: "r-content",
           plot_title: "R",
           width: "100%",
-          height: "250px",
+          height: plot_height,
           active_area: this.state.active_area,
           min_date: this.state.min_date,
           max_date: this.state.max_date,
           data: activeRtData
-        });
+        }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
+          container_id: "infection-container",
+          svg_id: "infection-svg",
+          content_id: "infection-content",
+          plot_title: "Cases by date of infection",
+          width: "100%",
+          height: plot_height,
+          active_area: this.state.active_area,
+          min_date: this.state.min_date,
+          max_date: this.state.max_date,
+          data: activeCasesInfectionData
+        }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
+          container_id: "report-container",
+          svg_id: "report-svg",
+          content_id: "report-content",
+          plot_title: "Cases by date of report",
+          width: "100%",
+          height: plot_height,
+          active_area: this.state.active_area,
+          min_date: this.state.min_date,
+          max_date: this.state.max_date,
+          data: activeCasesReportData
+        }));
       }
     }
   }]);

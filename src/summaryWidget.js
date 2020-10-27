@@ -83,18 +83,47 @@ export default class SummaryWidget extends React.Component{
 
     } else {
       var activeRtData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['rtData'])
+      var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData'])
+      var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'])
+
+      const plot_height = '200px'
 
       return(
+        <div>
         <TimeseriesPlot container_id='r-container'
                         svg_id='r-svg'
+                        content_id='r-content'
                         plot_title='R'
                         width='100%'
-                        height='250px'
+                        height={plot_height}
                         active_area={this.state.active_area}
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
                         data={activeRtData}>
         </TimeseriesPlot>
+        <TimeseriesPlot container_id='infection-container'
+                        svg_id='infection-svg'
+                        content_id='infection-content'
+                        plot_title='Cases by date of infection'
+                        width='100%'
+                        height={plot_height}
+                        active_area={this.state.active_area}
+                        min_date={this.state.min_date}
+                        max_date={this.state.max_date}
+                        data={activeCasesInfectionData}>
+        </TimeseriesPlot>
+        <TimeseriesPlot container_id='report-container'
+                        svg_id='report-svg'
+                        content_id='report-content'
+                        plot_title='Cases by date of report'
+                        width='100%'
+                        height={plot_height}
+                        active_area={this.state.active_area}
+                        min_date={this.state.min_date}
+                        max_date={this.state.max_date}
+                        data={activeCasesReportData}>
+        </TimeseriesPlot>
+        </div>
       )
     }
   }
