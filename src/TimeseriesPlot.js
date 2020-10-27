@@ -88,7 +88,6 @@ export default class TimeseriesPlot extends React.Component{
     d3.selectAll('#' + this.props.content_id).remove()
     d3.selectAll('#' + this.props.container_id + '-tooltip').remove()
 
-
     // Find container dims
     var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect()
 
@@ -187,10 +186,17 @@ export default class TimeseriesPlot extends React.Component{
       .style("opacity", 0)
       .attr("class", 'tooltip')
       .attr('id', this.props.container_id + '-tooltip')
-      .style('width', '100px')
-      .style('height', '100px')
       .style('position', 'absolute')
-      .text('Hey!')
+
+    svg.append('line')
+      .attr('id', this.props.container_id + '-hover-line')
+      .attr("x1", 20)
+      .attr("y1", 0)
+      .attr("x2", 20)
+      .attr("y2", svg_dims.height)
+      .attr('stroke', 'black')
+      .attr('stroke-width', '1px')
+      .attr('stroke-opacity', 0);
 
     svg.append("rect")
       .attr("width", svg_dims.width)
@@ -208,25 +214,34 @@ export default class TimeseriesPlot extends React.Component{
           if (x.date === hovered_x_formatted){
               return x;
           }
+        })[0];
 
-        });
+        var tooltip_string = this.format_tooltip_string(hover_data)
 
 
         d3.select('#' + this.props.container_id + '-tooltip')
-        .style("left", (e.clientX + 40) + "px")
-        .style("top", (e.clientY) + "px")
+          .style("left", (e.clientX + 40) + "px")
+          .style("top", (e.clientY) + "px")
+          .html(tooltip_string)
 
+        d3.select('#' + this.props.container_id + '-hover-line')
+          .attr('x1', e.clientX - 40)
+          .attr('x2', e.clientX - 40)
 
       }))
       .on('mouseenter', (e => {
-        console.log('Mousein')
         d3.select('#' + this.props.container_id + '-tooltip')
           .style("opacity", 1)
+
+        d3.select('#' + this.props.container_id + '-hover-line')
+          .attr('stroke-opacity', 1)
       }))
       .on('mouseout', (e => {
-        console.log('Mouseout')
         d3.select('#' + this.props.container_id + '-tooltip')
           .style("opacity", 0)
+
+        d3.select('#' + this.props.container_id + '-hover-line')
+          .attr('stroke-opacity', 0)
       }));
 
     function updateChart(e){
@@ -258,20 +273,12 @@ export default class TimeseriesPlot extends React.Component{
     }
 
   };
-  tsMouseIn(e) {
+  format_tooltip_string(hover_data){
 
-    console.log("Mouse in")
+    var hover_str = hover_data['country'] + '</br>' + hover_data['date'] + '</br>' + hover_data['lower_90']
 
-    d3.select('#' + this.props.container_id + '-tooltip')
-      .style("opacity", 1)
+    return(hover_str)
 
-  }
-  tsMouseOut(e) {
-
-    console.log("Mouse out")
-
-    d3.select('#' + this.props.container_id + '-tooltip')
-      .style("opacity", 0)
   }
   filter_color_ref(poly, ref){
 

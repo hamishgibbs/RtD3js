@@ -12,7 +12,7 @@ return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 678:
+/***/ 423:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -258,7 +258,8 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         });
       });
       var zoom = d3.zoom().scaleExtent([.5, 20]).extent([[0, 0], [svg_dims.width, svg_dims.height]]).on("zoom", updateChart);
-      d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('width', '100px').style('height', '100px').style('position', 'absolute').text('Hey!');
+      d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute');
+      svg.append('line').attr('id', this.props.container_id + '-hover-line').attr("x1", 20).attr("y1", 0).attr("x2", 20).attr("y2", svg_dims.height).attr('stroke', 'black').attr('stroke-width', '1px').attr('stroke-opacity', 0);
       svg.append("rect").attr("width", svg_dims.width).attr("height", svg_dims.height).style("fill", "none").style("pointer-events", "all").attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')').call(zoom).on('mousemove', function (e) {
         var hovered_x = _this3.active_x.invert(e.clientX);
 
@@ -268,15 +269,18 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
           if (x.date === hovered_x_formatted) {
             return x;
           }
-        });
+        })[0];
 
-        d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px");
+        var tooltip_string = _this3.format_tooltip_string(hover_data);
+
+        d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(tooltip_string);
+        d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 40).attr('x2', e.clientX - 40);
       }).on('mouseenter', function (e) {
-        console.log('Mousein');
         d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 1);
+        d3.select('#' + _this3.props.container_id + '-hover-line').attr('stroke-opacity', 1);
       }).on('mouseout', function (e) {
-        console.log('Mouseout');
         d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 0);
+        d3.select('#' + _this3.props.container_id + '-hover-line').attr('stroke-opacity', 0);
       });
 
       function updateChart(e) {
@@ -299,16 +303,10 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
-    key: "tsMouseIn",
-    value: function tsMouseIn(e) {
-      console.log("Mouse in");
-      d3.select('#' + this.props.container_id + '-tooltip').style("opacity", 1);
-    }
-  }, {
-    key: "tsMouseOut",
-    value: function tsMouseOut(e) {
-      console.log("Mouse out");
-      d3.select('#' + this.props.container_id + '-tooltip').style("opacity", 0);
+    key: "format_tooltip_string",
+    value: function format_tooltip_string(hover_data) {
+      var hover_str = hover_data['country'] + '</br>' + hover_data['date'] + '</br>' + hover_data['lower_90'];
+      return hover_str;
     }
   }, {
     key: "filter_color_ref",
@@ -369,6 +367,131 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 }(TimeseriesPlot_React.Component);
 
 
+// CONCATENATED MODULE: ./src/Map.js
+function Map_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { Map_typeof = function _typeof(obj) { return typeof obj; }; } else { Map_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return Map_typeof(obj); }
+
+function Map_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function Map_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function Map_createClass(Constructor, protoProps, staticProps) { if (protoProps) Map_defineProperties(Constructor.prototype, protoProps); if (staticProps) Map_defineProperties(Constructor, staticProps); return Constructor; }
+
+function Map_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) Map_setPrototypeOf(subClass, superClass); }
+
+function Map_setPrototypeOf(o, p) { Map_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return Map_setPrototypeOf(o, p); }
+
+function Map_createSuper(Derived) { var hasNativeReflectConstruct = Map_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = Map_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = Map_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return Map_possibleConstructorReturn(this, result); }; }
+
+function Map_possibleConstructorReturn(self, call) { if (call && (Map_typeof(call) === "object" || typeof call === "function")) { return call; } return Map_assertThisInitialized(self); }
+
+function Map_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function Map_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function Map_getPrototypeOf(o) { Map_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return Map_getPrototypeOf(o); }
+
+var Map_React = __webpack_require__(294);
+
+var Map_ReactDOM = __webpack_require__(935);
+
+var Map_d3 = __webpack_require__(332);
+
+var Map = /*#__PURE__*/function (_React$Component) {
+  Map_inherits(Map, _React$Component);
+
+  var _super = Map_createSuper(Map);
+
+  function Map(props) {
+    var _this;
+
+    Map_classCallCheck(this, Map);
+
+    _this = _super.call(this, props);
+    _this.margin = {
+      top: 10,
+      right: 40,
+      bottom: 30,
+      left: 30
+    };
+    return _this;
+  }
+
+  Map_createClass(Map, [{
+    key: "createMap",
+    value: function createMap() {
+      var _this2 = this;
+
+      Map_d3.selectAll('#' + this.props.content_id).remove();
+      var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect();
+      var projection = Map_d3[this.props.projection]().fitSize([svg_dims.width, svg_dims.height], this.props.geoData);
+      var path = Map_d3.geoPath().projection(projection);
+      var svg = Map_d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+      var g = svg.append("g").attr("class", "countries");
+      g.selectAll("path").data(this.props.geoData.features).enter().append("path").attr("d", path).attr('region-name', function (feature) {
+        return feature.properties.sovereignt;
+      }).attr('fill', function (feature) {
+        var feature_name = feature.properties.sovereignt;
+
+        var summary_data = _this2.props.summaryData.filter(function (d) {
+          if (d.Country == feature_name) {
+            return d;
+          }
+        });
+
+        try {
+          return _this2.props.legend_ref['legend_values'][summary_data[0][_this2.props.legend_ref['variable_name']]];
+        } catch (_unused) {
+          return _this2.props.legend_ref['legend_values']['No Data'];
+        }
+      }).attr('stroke', '#333').on('mousemove', function (e) {
+        console.log(e, _this2);
+        Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html('Me!');
+      }).on('mouseenter', function (e) {
+        Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("opacity", 1);
+      }).on('mouseout', function (e) {
+        Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("opacity", 0);
+      });
+      Map_d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute');
+      var zoom = Map_d3.zoom().scaleExtent([1, 8]).on('zoom', function (e) {
+        g.selectAll('path').attr('transform', e.transform);
+      });
+      svg.call(zoom);
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.createMap();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.createMap();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var container_style = {
+        width: this.props.width,
+        height: this.props.height
+      };
+      var svg_style = {
+        width: "100%",
+        height: "100%"
+      };
+      return /*#__PURE__*/Map_React.createElement("div", {
+        id: this.props.container_id,
+        style: container_style
+      }, /*#__PURE__*/Map_React.createElement("svg", {
+        id: this.props.svg_id,
+        style: svg_style
+      }));
+    }
+  }]);
+
+  return Map;
+}(Map_React.Component);
+
+
 // CONCATENATED MODULE: ./src/summaryWidget.js
 function summaryWidget_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { summaryWidget_typeof = function _typeof(obj) { return typeof obj; }; } else { summaryWidget_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return summaryWidget_typeof(obj); }
 
@@ -406,6 +529,7 @@ var summaryWidget_d3 = __webpack_require__(332);
 
 
 
+
 var SummaryWidget = /*#__PURE__*/function (_React$Component) {
   summaryWidget_inherits(SummaryWidget, _React$Component);
 
@@ -420,9 +544,11 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       active_area: 'United Kingdom',
       active_source: 'Cases',
+      active_map_legend: null,
       min_date: null,
       max_date: null,
-      rtData: {}
+      rtData: {},
+      geoData: null
     };
     return _this;
   }
@@ -432,7 +558,16 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      //rtData is nested recursively
+      // Default to the first map legend
+      this.setState({
+        active_map_legend: this.props.x.map_legend_ref[0]
+      });
+      this.props.x.geoData.then(function (data) {
+        _this2.setState({
+          geoData: data
+        });
+      }); //rtData is nested recursively
+
       Object.keys(this.props.x.rtData).map(function (key, index) {
         _this2.state.rtData[key] = new Object();
         Object.keys(_this2.props.x.rtData[key]).map(function (sub_key, sub_index) {
@@ -469,8 +604,20 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "filterData",
     value: function filterData(region, input) {
-      var filter_var = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'country';
+      var filter_var = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'region';
       // Filters an array for an arbitrary value by an arbitrary column
+      var input_keys = Object.keys(input[0]); // Add flexibility for the most common filtered variables. Assumes there is only one of these per dataset
+
+      if (input_keys.includes('region')) {
+        filter_var = 'region';
+      } else if (input_keys.includes('country')) {
+        filter_var = 'country';
+      } else if (input_keys.includes('Country')) {
+        filter_var = 'Country';
+      } else if (input_keys.includes('Region')) {
+        filter_var = 'Region';
+      }
+
       var filtered = input.filter(function (e) {
         return e[filter_var] == region;
       });
@@ -486,7 +633,17 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
         var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData']);
         var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData']);
         var plot_height = '200px';
-        return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
+        return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(Map, {
+          container_id: "map-container",
+          svg_id: "map-svg",
+          content_id: "map-content",
+          width: "100%",
+          height: "600px",
+          geoData: this.state.geoData,
+          summaryData: this.state.rtData[this.state.active_source]['summaryData'],
+          projection: this.props.x.projection,
+          legend_ref: this.state.active_map_legend
+        }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "r-container",
           svg_id: "r-svg",
           content_id: "r-content",
@@ -22845,7 +23002,7 @@ if (true) {
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(678);
+/******/ 	return __webpack_require__(423);
 /******/ })()
 ;
 });

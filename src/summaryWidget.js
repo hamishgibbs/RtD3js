@@ -3,6 +3,7 @@ var ReactDOM = require('react-dom');
 var d3 = require('d3');
 
 import TimeseriesPlot from './TimeseriesPlot';
+import Map from './Map';
 
 export default class SummaryWidget extends React.Component{
   constructor(props) {
@@ -10,13 +11,22 @@ export default class SummaryWidget extends React.Component{
 
     this.state = {active_area: 'United Kingdom',
                   active_source: 'Cases',
+                  active_map_legend: null,
                   min_date: null,
                   max_date: null,
-                  rtData: {}};
+                  rtData: {},
+                  geoData: null};
 
   };
 
   componentWillMount() {
+
+    // Default to the first map legend
+    this.setState({active_map_legend: this.props.x.map_legend_ref[0]})
+
+    this.props.x.geoData.then(data => {
+      this.setState({geoData: data})
+    })
 
     //rtData is nested recursively
     Object.keys(this.props.x.rtData).map((key, index) => {
@@ -62,8 +72,21 @@ export default class SummaryWidget extends React.Component{
     return dates
 
   }
-  filterData(region, input, filter_var='country'){
+  filterData(region, input, filter_var='region'){
     // Filters an array for an arbitrary value by an arbitrary column
+
+    var input_keys = Object.keys(input[0])
+
+    // Add flexibility for the most common filtered variables. Assumes there is only one of these per dataset
+    if (input_keys.includes('region')){
+      filter_var = 'region'
+    } else if (input_keys.includes('country')){
+      filter_var = 'country'
+    } else if (input_keys.includes('Country')){
+      filter_var = 'Country'
+    } else if (input_keys.includes('Region')){
+      filter_var = 'Region'
+    }
 
     var filtered = input.filter(function (e) {
         return e[filter_var] == region;
@@ -90,6 +113,16 @@ export default class SummaryWidget extends React.Component{
 
       return(
         <div>
+        <Map container_id='map-container'
+             svg_id='map-svg'
+             content_id='map-content'
+             width='100%'
+             height='600px'
+             geoData={this.state.geoData}
+             summaryData={this.state.rtData[this.state.active_source]['summaryData']}
+             projection={this.props.x.projection}
+             legend_ref={this.state.active_map_legend}>
+        </Map>
         <TimeseriesPlot container_id='r-container'
                         svg_id='r-svg'
                         content_id='r-content'
