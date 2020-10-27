@@ -217,7 +217,9 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 
       var x_axis = svg.append("g").attr("transform", "translate(0," + (svg_dims.height - this.margin.bottom) + ")").call(d3.axisBottom(x).ticks(6).tickSize([0])).attr("class", 'time-xaxis'); // Add y axis to plot
 
-      var y_axis = svg.append("g").call(d3.axisLeft(y)).attr("class", 'r0-yaxis'); // Group data by estimate type
+      var y_axis = svg.append("g").call(d3.axisLeft(y)).attr("class", 'r0-yaxis');
+      var clip = svg.append("defs").append("svg:clipPath").attr("id", "clip").append("svg:rect").attr("width", svg_dims.width).attr("height", svg_dims.height).attr("x", 0).attr("y", 0);
+      var plot_content = svg.append('g').attr("clip-path", "url(#clip)"); // Group data by estimate type
 
       var estimate_type_data = this.props.data.reduce(function (acc, item) {
         if (!acc[item.type]) {
@@ -242,9 +244,30 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         ci_polys[key].map(function (poly) {
           var color = _this3.filter_color_ref(poly, _this3.props.ts_color_ref)['color'];
 
-          _this3.plotCIPoly(svg, estimate_type_data[key], poly['poly'], color);
+          _this3.plotCIPoly(plot_content, estimate_type_data[key], poly['poly'], color, poly['value']);
         });
       });
+      var zoom = d3.zoom().scaleExtent([.5, 20]) // This control how much you can unzoom (x0.5) and zoom (x20)
+      .extent([[0, 0], [svg_dims.width, svg_dims.height]]).on("zoom", updateChart);
+      svg.append("rect").attr("width", svg_dims.width).attr("height", svg_dims.height).style("fill", "none").style("pointer-events", "all").attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')').call(zoom);
+
+      function updateChart(e) {
+        var newX = e.transform.rescaleX(x);
+        var newY = e.transform.rescaleY(y);
+        x_axis.call(d3.axisBottom(newX));
+        y_axis.call(d3.axisLeft(newY));
+        plot_content.selectAll("path").attr('d', function (d) {
+          var ci_value = d3.select(this).attr('ci_value');
+          var new_poly = d3.area().x(function (d) {
+            return newX(new Date(Date.parse(d.date)));
+          }).y0(function (d) {
+            return newY(d['lower_' + ci_value]);
+          }).y1(function (d) {
+            return newY(d['upper_' + ci_value]);
+          });
+          return new_poly(d);
+        });
+      }
     }
   }, {
     key: "filter_color_ref",
@@ -277,8 +300,8 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "plotCIPoly",
-    value: function plotCIPoly(svg, data, poly, color) {
-      svg.append("path").datum(data).attr("d", poly).attr("class", "ci-poly").style('fill', color).style('opacity', 0.5);
+    value: function plotCIPoly(svg, data, poly, color, ci_value) {
+      svg.append("path").datum(data).attr("d", poly).attr("class", "ci-poly").attr("ci_value", ci_value).style('fill', color).style('opacity', 0.5);
     }
   }, {
     key: "render",
