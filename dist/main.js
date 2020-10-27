@@ -120,6 +120,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       bottom: 30,
       left: 30
     };
+    _this.active_x = null;
     return _this;
   }
 
@@ -194,8 +195,16 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     value: function createTsPlot() {
       var _this3 = this;
 
-      // Remove all plot content when plot is re-rendered
-      d3.selectAll('#' + this.props.content_id).remove(); // Find container dims
+      // Function to update component acitve x scale
+      function updateX(x) {
+        this.active_x = x;
+      } // Bind method to this instance of the component
+
+
+      var x_updated = updateX.bind(this); // Remove all plot content when plot is re-rendered
+
+      d3.selectAll('#' + this.props.content_id).remove();
+      d3.selectAll('#' + this.props.container_id + '-tooltip').remove(); // Find container dims
 
       var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect(); // Add plot group to svg
 
@@ -211,7 +220,8 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         return parseFloat(d['upper_' + max_ci]);
       })); // Define x scale
 
-      var x = d3.scaleTime().domain([this.props.min_date, this.props.max_date]).range([0, svg_dims.width]); // Define y scale
+      var x = d3.scaleTime().domain([this.props.min_date, this.props.max_date]).range([0, svg_dims.width]);
+      x_updated(x); // Define y scale
 
       var y = d3.scaleLinear().domain([0, y_max]).range([svg_dims.height - this.margin.bottom, 0]); // Add x axis to plot
 
@@ -247,15 +257,34 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
           _this3.plotCIPoly(plot_content, estimate_type_data[key], poly['poly'], color, poly['value']);
         });
       });
-      var zoom = d3.zoom().scaleExtent([.5, 20]) // This control how much you can unzoom (x0.5) and zoom (x20)
-      .extent([[0, 0], [svg_dims.width, svg_dims.height]]).on("zoom", updateChart);
-      svg.append("rect").attr("width", svg_dims.width).attr("height", svg_dims.height).style("fill", "none").style("pointer-events", "all").attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')').call(zoom);
+      var zoom = d3.zoom().scaleExtent([.5, 20]).extent([[0, 0], [svg_dims.width, svg_dims.height]]).on("zoom", updateChart);
+      d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('width', '100px').style('height', '100px').style('position', 'absolute').text('Hey!');
+      svg.append("rect").attr("width", svg_dims.width).attr("height", svg_dims.height).style("fill", "none").style("pointer-events", "all").attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')').call(zoom).on('mousemove', function (e) {
+        var hovered_x = _this3.active_x.invert(e.clientX);
+
+        var hovered_x_formatted = hovered_x.toISOString().slice(0, 10);
+
+        var hover_data = _this3.props.data.filter(function (x) {
+          if (x.date === hovered_x_formatted) {
+            return x;
+          }
+        });
+
+        d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px");
+      }).on('mouseenter', function (e) {
+        console.log('Mousein');
+        d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 1);
+      }).on('mouseout', function (e) {
+        console.log('Mouseout');
+        d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 0);
+      });
 
       function updateChart(e) {
         var newX = e.transform.rescaleX(x);
         var newY = e.transform.rescaleY(y);
         x_axis.call(d3.axisBottom(newX));
         y_axis.call(d3.axisLeft(newY));
+        x_updated(newX);
         plot_content.selectAll("path").attr('d', function (d) {
           var ci_value = d3.select(this).attr('ci_value');
           var new_poly = d3.area().x(function (d) {
@@ -268,6 +297,18 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
           return new_poly(d);
         });
       }
+    }
+  }, {
+    key: "tsMouseIn",
+    value: function tsMouseIn(e) {
+      console.log("Mouse in");
+      d3.select('#' + this.props.container_id + '-tooltip').style("opacity", 1);
+    }
+  }, {
+    key: "tsMouseOut",
+    value: function tsMouseOut(e) {
+      console.log("Mouse out");
+      d3.select('#' + this.props.container_id + '-tooltip').style("opacity", 0);
     }
   }, {
     key: "filter_color_ref",
