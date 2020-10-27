@@ -72,38 +72,50 @@ export default class TimeseriesPlot extends React.Component{
   }
   createTsPlot(){
 
+    // Remove all plot content when plot is re-rendered
     d3.selectAll('#' + this.props.content_id).remove()
 
+    // Find container dims
     var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect()
 
+    // Add plot group to svg
     var svg = d3.select('#' + this.props.svg_id)
                 .append('g')
                 .attr('id', this.props.content_id)
                 .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
 
+    // Get all CIs from the data keys
     var cis = this.getCIs(this.props.data)
 
+    // Get the value of the highest CI
     var max_ci = d3.max(cis.map(ci => {return(ci['value'])}))
 
+    // Y max is the max of the highest CI
     var y_max = d3.max(this.props.data.map(d => parseFloat(d['upper_' + max_ci])))
 
+    // Define x scale
     var x = d3.scaleTime()
       .domain([this.props.min_date, this.props.max_date])
       .range([0, svg_dims.width]);
 
+    // Define y scale
     var y = d3.scaleLinear()
       .domain([0,y_max])
       .range([svg_dims.height - this.margin.bottom, 0]);
 
-    svg.append("g")
+    // Add x axis to plot
+    var x_axis = svg.append("g")
        .attr("transform","translate(0,"+ (svg_dims.height - this.margin.bottom) +")")
        .call(d3.axisBottom(x).ticks(6).tickSize([0]))
        .attr("class",'time-xaxis');
 
-     svg.append("g")
+    // Add y axis to plot
+     var y_axis = svg.append("g")
        .call(d3.axisLeft(y))
        .attr("class", 'r0-yaxis');
 
+
+    // Group data by estimate type
     var estimate_type_data = this.props.data.reduce((acc, item) => {
 
       if (!acc[item.type]) {
@@ -115,6 +127,7 @@ export default class TimeseriesPlot extends React.Component{
 
     }, {})
 
+    // Extract credible interval polygons
     var ci_polys = Object.keys(estimate_type_data).map(key => {
 
       var polys = cis.map(ci => {
@@ -125,12 +138,10 @@ export default class TimeseriesPlot extends React.Component{
 
     })
 
+    // Plot each polygon
     var ci_polys = ci_polys.reduce(((r, c) => Object.assign(r, c)), {});
 
     Object.keys(estimate_type_data).map(key => {
-
-      /* value and type attrbites are avaible here - use them in the color ref */
-      console.log(key)
 
       ci_polys[key].map(poly => {
 

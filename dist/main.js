@@ -194,20 +194,31 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     value: function createTsPlot() {
       var _this3 = this;
 
-      d3.selectAll('#' + this.props.content_id).remove();
-      var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect();
-      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
-      var cis = this.getCIs(this.props.data);
+      // Remove all plot content when plot is re-rendered
+      d3.selectAll('#' + this.props.content_id).remove(); // Find container dims
+
+      var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect(); // Add plot group to svg
+
+      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")"); // Get all CIs from the data keys
+
+      var cis = this.getCIs(this.props.data); // Get the value of the highest CI
+
       var max_ci = d3.max(cis.map(function (ci) {
         return ci['value'];
-      }));
+      })); // Y max is the max of the highest CI
+
       var y_max = d3.max(this.props.data.map(function (d) {
         return parseFloat(d['upper_' + max_ci]);
-      }));
-      var x = d3.scaleTime().domain([this.props.min_date, this.props.max_date]).range([0, svg_dims.width]);
-      var y = d3.scaleLinear().domain([0, y_max]).range([svg_dims.height - this.margin.bottom, 0]);
-      svg.append("g").attr("transform", "translate(0," + (svg_dims.height - this.margin.bottom) + ")").call(d3.axisBottom(x).ticks(6).tickSize([0])).attr("class", 'time-xaxis');
-      svg.append("g").call(d3.axisLeft(y)).attr("class", 'r0-yaxis');
+      })); // Define x scale
+
+      var x = d3.scaleTime().domain([this.props.min_date, this.props.max_date]).range([0, svg_dims.width]); // Define y scale
+
+      var y = d3.scaleLinear().domain([0, y_max]).range([svg_dims.height - this.margin.bottom, 0]); // Add x axis to plot
+
+      var x_axis = svg.append("g").attr("transform", "translate(0," + (svg_dims.height - this.margin.bottom) + ")").call(d3.axisBottom(x).ticks(6).tickSize([0])).attr("class", 'time-xaxis'); // Add y axis to plot
+
+      var y_axis = svg.append("g").call(d3.axisLeft(y)).attr("class", 'r0-yaxis'); // Group data by estimate type
+
       var estimate_type_data = this.props.data.reduce(function (acc, item) {
         if (!acc[item.type]) {
           acc[item.type] = [];
@@ -215,19 +226,19 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 
         acc[item.type].push(item);
         return acc;
-      }, {});
+      }, {}); // Extract credible interval polygons
+
       var ci_polys = Object.keys(estimate_type_data).map(function (key) {
         var polys = cis.map(function (ci) {
           return _this3.credibleInterval(estimate_type_data[key], ci, x, y, key);
         });
         return _defineProperty({}, key, polys);
-      });
+      }); // Plot each polygon
+
       var ci_polys = ci_polys.reduce(function (r, c) {
         return Object.assign(r, c);
       }, {});
       Object.keys(estimate_type_data).map(function (key) {
-        /* value and type attrbites are avaible here - use them in the color ref */
-        console.log(key);
         ci_polys[key].map(function (poly) {
           var color = _this3.filter_color_ref(poly, _this3.props.ts_color_ref)['color'];
 
