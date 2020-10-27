@@ -8,7 +8,11 @@ export default class App extends React.Component{
     render()
     {
         if (this.props.widget == 'summaryWidget'){
-          return React.createElement('div', null, <SummaryWidget></SummaryWidget>);
+          return (
+            <div>
+              <SummaryWidget x={this.props.x}></SummaryWidget>
+            </div>
+          );
         } else {
           return <h1>Unknown widget</h1>
         }
