@@ -227,10 +227,26 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       }, {});
       Object.keys(estimate_type_data).map(function (key) {
         /* value and type attrbites are avaible here - use them in the color ref */
+        console.log(key);
         ci_polys[key].map(function (poly) {
-          _this3.plotCIPoly(svg, estimate_type_data[key], poly['poly']);
+          var color = _this3.filter_color_ref(poly, _this3.props.ts_color_ref)['color'];
+
+          _this3.plotCIPoly(svg, estimate_type_data[key], poly['poly'], color);
         });
       });
+    }
+  }, {
+    key: "filter_color_ref",
+    value: function filter_color_ref(poly, ref) {
+      ref = ref.map(function (ref) {
+        if (poly.value == ref.value && poly.type == ref.type) {
+          return ref;
+        }
+      });
+      var ref = ref.filter(function (x) {
+        return x !== undefined;
+      });
+      return ref[0];
     }
   }, {
     key: "credibleInterval",
@@ -250,8 +266,8 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "plotCIPoly",
-    value: function plotCIPoly(svg, data, poly) {
-      svg.append("path").datum(data).attr("d", poly).attr("class", "ci-poly").style('fill', 'red').style('opacity', 0.5);
+    value: function plotCIPoly(svg, data, poly, color) {
+      svg.append("path").datum(data).attr("d", poly).attr("class", "ci-poly").style('fill', color).style('opacity', 0.5);
     }
   }, {
     key: "render",
@@ -405,6 +421,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           active_area: this.state.active_area,
           min_date: this.state.min_date,
           max_date: this.state.max_date,
+          ts_color_ref: this.props.x.ts_color_ref,
           data: activeRtData
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "infection-container",
@@ -416,6 +433,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           active_area: this.state.active_area,
           min_date: this.state.min_date,
           max_date: this.state.max_date,
+          ts_color_ref: this.props.x.ts_color_ref,
           data: activeCasesInfectionData
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "report-container",
@@ -427,6 +445,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           active_area: this.state.active_area,
           min_date: this.state.min_date,
           max_date: this.state.max_date,
+          ts_color_ref: this.props.x.ts_color_ref,
           data: activeCasesReportData
         }));
       }

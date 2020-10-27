@@ -99,6 +99,7 @@ export default class SummaryWidget extends React.Component{
                         active_area={this.state.active_area}
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
+                        ts_color_ref={this.props.x.ts_color_ref}
                         data={activeRtData}>
         </TimeseriesPlot>
         <TimeseriesPlot container_id='infection-container'
@@ -110,6 +111,7 @@ export default class SummaryWidget extends React.Component{
                         active_area={this.state.active_area}
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
+                        ts_color_ref={this.props.x.ts_color_ref}
                         data={activeCasesInfectionData}>
         </TimeseriesPlot>
         <TimeseriesPlot container_id='report-container'
@@ -121,6 +123,7 @@ export default class SummaryWidget extends React.Component{
                         active_area={this.state.active_area}
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
+                        ts_color_ref={this.props.x.ts_color_ref}
                         data={activeCasesReportData}>
         </TimeseriesPlot>
         </div>

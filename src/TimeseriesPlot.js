@@ -130,14 +130,28 @@ export default class TimeseriesPlot extends React.Component{
     Object.keys(estimate_type_data).map(key => {
 
       /* value and type attrbites are avaible here - use them in the color ref */
+      console.log(key)
 
       ci_polys[key].map(poly => {
-        this.plotCIPoly(svg, estimate_type_data[key], poly['poly'])
+
+        var color = this.filter_color_ref(poly, this.props.ts_color_ref)['color']
+
+        this.plotCIPoly(svg, estimate_type_data[key], poly['poly'], color)
       })
     })
 
   };
+  filter_color_ref(poly, ref){
 
+    ref = ref.map(ref => {if(poly.value == ref.value && poly.type == ref.type){return ref }})
+
+    var ref = ref.filter(function(x) {
+       return x !== undefined;
+    });
+
+    return(ref[0])
+
+  }
   credibleInterval(data, ci, x, y, type){
 
     var ci_poly = d3.area()
@@ -149,13 +163,13 @@ export default class TimeseriesPlot extends React.Component{
     return({'value': ci['value'], 'type': type, 'poly':ci_poly})
 
   };
-  plotCIPoly(svg, data, poly){
+  plotCIPoly(svg, data, poly, color){
 
     svg.append("path")
       .datum(data)
       .attr("d", poly)
       .attr("class", "ci-poly")
-      .style('fill', 'red')
+      .style('fill', color)
       .style('opacity', 0.5)
 
   }
