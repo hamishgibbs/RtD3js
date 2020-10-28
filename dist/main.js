@@ -362,6 +362,27 @@ var Map = /*#__PURE__*/function (_React$Component) {
       }
 
       var update_area = this.props.area_click_handler;
+      /*
+      (e => {
+        // Putting this in a function could give access to area name and mouse event without needing to use geoContains
+         var hovered_feature = this.props.geoData.features.map(feature => {
+          //console.log(feature.geometry)
+          if (d3.geoContains(feature.geometry, projection.invert([e.clientX, e.clientY]))){
+            return(feature)
+          }
+         })
+         var hovered_feature = hovered_feature.filter(function(x) {
+           return x !== undefined;
+        })[0];
+         d3.select('#' + this.props.container_id + '-tooltip')
+          .style("left", (e.clientX + 40) + "px")
+          .style("top", (e.clientY) + "px")
+          .html(hovered_feature.properties.sovereignt)
+      }))
+      */
+
+      var data = this.props.summaryData;
+      var container_id = this.props.container_id;
       g.selectAll("path").data(this.props.geoData.features).enter().append("path").attr("d", path).attr('region-name', function (feature) {
         return feature.properties.sovereignt;
       }).attr('fill', function (feature) {
@@ -373,18 +394,19 @@ var Map = /*#__PURE__*/function (_React$Component) {
           return _this2.sequential_fill(feature_name, _this2.props.summaryData, scale_sequential, _this2.props.legend_ref);
         }
       }).attr('stroke', '#333').on('mousemove', function (e) {
-        // Putting this in a function could give access to area name and mouse event without needing to use geoContains
-        var hovered_feature = _this2.props.geoData.features.map(function (feature) {
-          //console.log(feature.geometry)
-          if (Map_d3.geoContains(feature.geometry, projection.invert([e.clientX, e.clientY]))) {
-            return feature;
-          }
+        console.log(e, Map_d3.select(this).attr('region-name'));
+        var hovered_name = Map_d3.select(this).attr('region-name');
+        var hovered_data = data.filter(function (d) {
+          return d.Country == hovered_name;
         });
 
-        var hovered_feature = hovered_feature.filter(function (x) {
-          return x !== undefined;
-        })[0];
-        Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(hovered_feature.properties.sovereignt);
+        try {
+          Map_d3.select('#' + container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(hovered_data[0].Country);
+        } catch (_unused) {
+          Map_d3.select('#' + container_id + '-tooltip').style("opacity", 0);
+        }
+
+        console.log(hovered_data);
       }).on('mouseenter', function (e) {
         Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("opacity", 1);
       }).on('mouseout', function (e) {
@@ -410,7 +432,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
       try {
         var summary_value = parseFloat(summary_data[0][legend_ref['variable_name']].split(' ')[0]);
         return legend_scale(summary_value);
-      } catch (_unused) {
+      } catch (_unused2) {
         return legend_ref['legend_values']['No Data'];
       }
     }
@@ -425,7 +447,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
 
       try {
         return legend_ref['legend_values'][summary_data[0][legend_ref['variable_name']]];
-      } catch (_unused2) {
+      } catch (_unused3) {
         return legend_ref['legend_values']['No Data'];
       }
     }

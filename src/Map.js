@@ -34,6 +34,31 @@ export default class Map extends React.Component{
 
     var update_area = this.props.area_click_handler
 
+    /*
+    (e => {
+      // Putting this in a function could give access to area name and mouse event without needing to use geoContains
+
+      var hovered_feature = this.props.geoData.features.map(feature => {
+        //console.log(feature.geometry)
+        if (d3.geoContains(feature.geometry, projection.invert([e.clientX, e.clientY]))){
+          return(feature)
+        }
+
+      })
+
+      var hovered_feature = hovered_feature.filter(function(x) {
+         return x !== undefined;
+      })[0];
+
+      d3.select('#' + this.props.container_id + '-tooltip')
+        .style("left", (e.clientX + 40) + "px")
+        .style("top", (e.clientY) + "px")
+        .html(hovered_feature.properties.sovereignt)
+    }))
+    */
+    var data = this.props.summaryData
+    var container_id = this.props.container_id
+
     g.selectAll("path")
         .data(this.props.geoData.features)
         .enter().append("path")
@@ -53,26 +78,27 @@ export default class Map extends React.Component{
 
           }))
       		.attr('stroke', '#333')
-          .on('mousemove', (e => {
-            // Putting this in a function could give access to area name and mouse event without needing to use geoContains
+          .on('mousemove', function(e){
+            console.log(e, d3.select(this).attr('region-name'))
 
-            var hovered_feature = this.props.geoData.features.map(feature => {
-              //console.log(feature.geometry)
-              if (d3.geoContains(feature.geometry, projection.invert([e.clientX, e.clientY]))){
-                return(feature)
-              }
+            var hovered_name = d3.select(this).attr('region-name')
 
+            var hovered_data = data.filter(d => {
+              return( d.Country == hovered_name)
             })
 
-            var hovered_feature = hovered_feature.filter(function(x) {
-               return x !== undefined;
-            })[0];
+            try {
+              d3.select('#' + container_id + '-tooltip')
+                .style("left", (e.clientX + 40) + "px")
+                .style("top", (e.clientY) + "px")
+                .html(hovered_data[0].Country)
+            } catch {
+              d3.select('#' + container_id + '-tooltip')
+                .style("opacity", 0)
+            }
 
-            d3.select('#' + this.props.container_id + '-tooltip')
-              .style("left", (e.clientX + 40) + "px")
-              .style("top", (e.clientY) + "px")
-              .html(hovered_feature.properties.sovereignt)
-          }))
+            console.log(hovered_data)
+          })
           .on('mouseenter', (e => {
             d3.select('#' + this.props.container_id + '-tooltip')
               .style("opacity", 1)
