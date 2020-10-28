@@ -17,6 +17,18 @@ There are a number of motivations for transitioning to a component framework lik
 
 `React` adds easy reusability of various components, ease of testing, greater maintainability, and a more reliable build workflow.
 
+## New Features
+
+* User supplied arbitrary value confidence intervals
+* User supplied map legends and colors
+  * Qualitative palette
+  * Sequential palette (probably supports any named [here](https://github.com/d3/d3-scale))
+* User supplied map projection (any named [here](https://github.com/d3/d3-geo#projections))
+* User supplied timeseries colors
+* Zoomable time series plots
+* Zoomable map
+* Extendable for future widgets
+
 ## Local development
 
 This library is developed in the [`node`](https://hub.docker.com/_/node) docker container.
