@@ -11,13 +11,11 @@ export default class MapControls extends React.Component{
     })
 
     return (
-      <div className="row">
         <div>
           <select className="form-control" id="map-data-selection" onChange={this.props.select_handler}>
             {legend_options}
           </select>
         </div>
-      </div>
     )
   }
 }

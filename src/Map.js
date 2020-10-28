@@ -29,8 +29,10 @@ export default class Map extends React.Component{
       		.attr("class", "countries")
 
     if (this.props.legend_ref['legend_type'] === 'sequential'){
-      var scale_sequential = this.create_sequential_legend(this.props.summaryData, this.props.legend_ref)
+      var scale_sequential = this.props.create_sequential_legend(this.props.summaryData, this.props.legend_ref)
     }
+
+    var update_area = this.props.area_click_handler
 
     g.selectAll("path")
         .data(this.props.geoData.features)
@@ -52,6 +54,7 @@ export default class Map extends React.Component{
           }))
       		.attr('stroke', '#333')
           .on('mousemove', (e => {
+            // Putting this in a function could give access to area name and mouse event without needing to use geoContains
 
             var hovered_feature = this.props.geoData.features.map(feature => {
               //console.log(feature.geometry)
@@ -77,7 +80,10 @@ export default class Map extends React.Component{
           .on('mouseout', (e => {
             d3.select('#' + this.props.container_id + '-tooltip')
               .style("opacity", 0)
-          }));
+          }))
+          .on('click', function(e){
+            update_area(d3.select(this).attr('region-name'))
+          });
 
      d3.select("#" + this.props.container_id)
        .append("div")
@@ -89,29 +95,13 @@ export default class Map extends React.Component{
     var zoom = d3.zoom()
       .scaleExtent([1, 8])
       .on('zoom', function(e) {
-          
+
           g.selectAll('path')
            .attr('transform', e.transform);
       });
 
     svg.call(zoom);
 
-  }
-  create_sequential_legend(summaryData, legend_ref){
-
-    var legend_scale = d3[legend_ref['legend_scale']]()
-      .range([legend_ref['legend_values']['low'], legend_ref['legend_values']['high']])
-
-    var summary_values = summaryData.map((d => {
-        return(parseFloat(d[legend_ref['variable_name']].split(' ')[0]))
-    }))
-
-    var legend_max = d3.max(summary_values)
-    var legend_min = d3.min(summary_values)
-
-    legend_scale.domain([legend_min,legend_max])
-
-    return(legend_scale)
   }
   sequential_fill(feature_name, summaryData, legend_scale, legend_ref){
 

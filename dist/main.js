@@ -12,7 +12,7 @@ return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 229:
+/***/ 808:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -23,8 +23,10 @@ __webpack_require__.d(__webpack_exports__, {
   "default": () => /* binding */ App
 });
 
-// CONCATENATED MODULE: ./src/greeting.js
+// CONCATENATED MODULE: ./src/TimeseriesPlot.js
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -50,68 +52,17 @@ var React = __webpack_require__(294);
 
 var ReactDOM = __webpack_require__(935);
 
-var Greetings = /*#__PURE__*/function (_React$Component) {
-  _inherits(Greetings, _React$Component);
-
-  var _super = _createSuper(Greetings);
-
-  function Greetings() {
-    _classCallCheck(this, Greetings);
-
-    return _super.apply(this, arguments);
-  }
-
-  _createClass(Greetings, [{
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/React.createElement("h1", null, "Greetings, ", this.props.name);
-    }
-  }]);
-
-  return Greetings;
-}(React.Component);
-
-
-// CONCATENATED MODULE: ./src/TimeseriesPlot.js
-function TimeseriesPlot_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { TimeseriesPlot_typeof = function _typeof(obj) { return typeof obj; }; } else { TimeseriesPlot_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return TimeseriesPlot_typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function TimeseriesPlot_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function TimeseriesPlot_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function TimeseriesPlot_createClass(Constructor, protoProps, staticProps) { if (protoProps) TimeseriesPlot_defineProperties(Constructor.prototype, protoProps); if (staticProps) TimeseriesPlot_defineProperties(Constructor, staticProps); return Constructor; }
-
-function TimeseriesPlot_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) TimeseriesPlot_setPrototypeOf(subClass, superClass); }
-
-function TimeseriesPlot_setPrototypeOf(o, p) { TimeseriesPlot_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return TimeseriesPlot_setPrototypeOf(o, p); }
-
-function TimeseriesPlot_createSuper(Derived) { var hasNativeReflectConstruct = TimeseriesPlot_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = TimeseriesPlot_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = TimeseriesPlot_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return TimeseriesPlot_possibleConstructorReturn(this, result); }; }
-
-function TimeseriesPlot_possibleConstructorReturn(self, call) { if (call && (TimeseriesPlot_typeof(call) === "object" || typeof call === "function")) { return call; } return TimeseriesPlot_assertThisInitialized(self); }
-
-function TimeseriesPlot_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function TimeseriesPlot_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function TimeseriesPlot_getPrototypeOf(o) { TimeseriesPlot_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return TimeseriesPlot_getPrototypeOf(o); }
-
-var TimeseriesPlot_React = __webpack_require__(294);
-
-var TimeseriesPlot_ReactDOM = __webpack_require__(935);
-
 var d3 = __webpack_require__(332);
 
 var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
-  TimeseriesPlot_inherits(TimeseriesPlot, _React$Component);
+  _inherits(TimeseriesPlot, _React$Component);
 
-  var _super = TimeseriesPlot_createSuper(TimeseriesPlot);
+  var _super = _createSuper(TimeseriesPlot);
 
   function TimeseriesPlot(props) {
     var _this;
 
-    TimeseriesPlot_classCallCheck(this, TimeseriesPlot);
+    _classCallCheck(this, TimeseriesPlot);
 
     _this = _super.call(this, props);
     _this.margin = {
@@ -124,30 +75,8 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     return _this;
   }
 
-  TimeseriesPlot_createClass(TimeseriesPlot, [{
+  _createClass(TimeseriesPlot, [{
     key: "componentDidMount",
-    // Returns a timeseries plot of the given dataset
-    // Add this.props.data and this.plt.plotting_variable
-    // Add CredibleInterval component
-    //Add extra styling with bootstrap!
-
-    /*
-    Should be in the format:
-     for cases by:
-    <Plot>
-      <BarPlot></BarPlot>
-      for every slice of data:
-      <CredibleInterval></CredibleInterval>
-    </Plot>
-     for R by:
-    <Plot>
-      for every slice of data:
-      <CredibleInterval></CredibleInterval>
-      <VLine></VLine>
-    </Plot>
-     For an arbitrary number of credible intervals at arbitrary locations - use a regex to match keys and values
-     Need to pass a color ref in the format: {'value', 'type', 'color'}
-     */
     value: function componentDidMount() {
       this.createTsPlot();
     }
@@ -273,7 +202,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 
         var tooltip_string = _this3.format_tooltip_string(hover_data);
 
-        d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(tooltip_string);
+        d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + _this3.props.map_height - 200 + "px").html(tooltip_string);
         d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 40).attr('x2', e.clientX - 40);
       }).on('mouseenter', function (e) {
         d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 1);
@@ -353,10 +282,10 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         width: "100%",
         height: "100%"
       };
-      return /*#__PURE__*/TimeseriesPlot_React.createElement("div", null, /*#__PURE__*/TimeseriesPlot_React.createElement("h5", null, this.props.plot_title), /*#__PURE__*/TimeseriesPlot_React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h5", null, this.props.plot_title), /*#__PURE__*/React.createElement("div", {
         id: this.props.container_id,
         style: container_style
-      }, /*#__PURE__*/TimeseriesPlot_React.createElement("svg", {
+      }, /*#__PURE__*/React.createElement("svg", {
         id: this.props.svg_id,
         style: svg_style
       })));
@@ -364,7 +293,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return TimeseriesPlot;
-}(TimeseriesPlot_React.Component);
+}(React.Component);
 
 
 // CONCATENATED MODULE: ./src/Map.js
@@ -429,9 +358,10 @@ var Map = /*#__PURE__*/function (_React$Component) {
       var g = svg.append("g").attr("class", "countries");
 
       if (this.props.legend_ref['legend_type'] === 'sequential') {
-        var scale_sequential = this.create_sequential_legend(this.props.summaryData, this.props.legend_ref);
+        var scale_sequential = this.props.create_sequential_legend(this.props.summaryData, this.props.legend_ref);
       }
 
+      var update_area = this.props.area_click_handler;
       g.selectAll("path").data(this.props.geoData.features).enter().append("path").attr("d", path).attr('region-name', function (feature) {
         return feature.properties.sovereignt;
       }).attr('fill', function (feature) {
@@ -443,6 +373,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
           return _this2.sequential_fill(feature_name, _this2.props.summaryData, scale_sequential, _this2.props.legend_ref);
         }
       }).attr('stroke', '#333').on('mousemove', function (e) {
+        // Putting this in a function could give access to area name and mouse event without needing to use geoContains
         var hovered_feature = _this2.props.geoData.features.map(function (feature) {
           //console.log(feature.geometry)
           if (Map_d3.geoContains(feature.geometry, projection.invert([e.clientX, e.clientY]))) {
@@ -458,24 +389,14 @@ var Map = /*#__PURE__*/function (_React$Component) {
         Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("opacity", 1);
       }).on('mouseout', function (e) {
         Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("opacity", 0);
+      }).on('click', function (e) {
+        update_area(Map_d3.select(this).attr('region-name'));
       });
       Map_d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute');
       var zoom = Map_d3.zoom().scaleExtent([1, 8]).on('zoom', function (e) {
         g.selectAll('path').attr('transform', e.transform);
       });
       svg.call(zoom);
-    }
-  }, {
-    key: "create_sequential_legend",
-    value: function create_sequential_legend(summaryData, legend_ref) {
-      var legend_scale = Map_d3[legend_ref['legend_scale']]().range([legend_ref['legend_values']['low'], legend_ref['legend_values']['high']]);
-      var summary_values = summaryData.map(function (d) {
-        return parseFloat(d[legend_ref['variable_name']].split(' ')[0]);
-      });
-      var legend_max = Map_d3.max(summary_values);
-      var legend_min = Map_d3.min(summary_values);
-      legend_scale.domain([legend_min, legend_max]);
-      return legend_scale;
     }
   }, {
     key: "sequential_fill",
@@ -590,18 +511,205 @@ var MapControls = /*#__PURE__*/function (_React$Component) {
       this.props.legend_ref.map(function (item) {
         legend_options.push( /*#__PURE__*/MapControls_React.createElement("option", null, item['variable_name']));
       });
-      return /*#__PURE__*/MapControls_React.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/MapControls_React.createElement("div", null, /*#__PURE__*/MapControls_React.createElement("select", {
+      return /*#__PURE__*/MapControls_React.createElement("div", null, /*#__PURE__*/MapControls_React.createElement("select", {
         className: "form-control",
         id: "map-data-selection",
         onChange: this.props.select_handler
-      }, legend_options)));
+      }, legend_options));
     }
   }]);
 
   return MapControls;
 }(MapControls_React.Component);
+
+
+// CONCATENATED MODULE: ./src/MapLegend.js
+function MapLegend_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { MapLegend_typeof = function _typeof(obj) { return typeof obj; }; } else { MapLegend_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return MapLegend_typeof(obj); }
+
+function MapLegend_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function MapLegend_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function MapLegend_createClass(Constructor, protoProps, staticProps) { if (protoProps) MapLegend_defineProperties(Constructor.prototype, protoProps); if (staticProps) MapLegend_defineProperties(Constructor, staticProps); return Constructor; }
+
+function MapLegend_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) MapLegend_setPrototypeOf(subClass, superClass); }
+
+function MapLegend_setPrototypeOf(o, p) { MapLegend_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return MapLegend_setPrototypeOf(o, p); }
+
+function MapLegend_createSuper(Derived) { var hasNativeReflectConstruct = MapLegend_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = MapLegend_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = MapLegend_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return MapLegend_possibleConstructorReturn(this, result); }; }
+
+function MapLegend_possibleConstructorReturn(self, call) { if (call && (MapLegend_typeof(call) === "object" || typeof call === "function")) { return call; } return MapLegend_assertThisInitialized(self); }
+
+function MapLegend_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function MapLegend_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function MapLegend_getPrototypeOf(o) { MapLegend_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return MapLegend_getPrototypeOf(o); }
+
+var MapLegend_React = __webpack_require__(294);
+
+var MapLegend_ReactDOM = __webpack_require__(935);
+
+var MapLegend_d3 = __webpack_require__(332);
+
+var MapLegend = /*#__PURE__*/function (_React$Component) {
+  MapLegend_inherits(MapLegend, _React$Component);
+
+  var _super = MapLegend_createSuper(MapLegend);
+
+  function MapLegend(props) {
+    MapLegend_classCallCheck(this, MapLegend);
+
+    return _super.call(this, props);
+  }
+
+  MapLegend_createClass(MapLegend, [{
+    key: "create_map_legend",
+    value: function create_map_legend() {
+      if (this.props.active_map_legend['legend_type'] === 'sequential') {
+        var scale_sequential = this.props.create_sequential_legend(this.props.summaryData, this.props.active_map_legend);
+      }
+
+      if (this.props.active_map_legend['legend_type'] === 'qualitative') {
+        this.create_qualitative_legend(this.props.active_map_legend);
+      } else if (this.props.active_map_legend['legend_type'] === 'sequential') {
+        this.create_sequential_legend(scale_sequential, this.props.active_map_legend);
+      }
+    }
+  }, {
+    key: "create_qualitative_legend",
+    value: function create_qualitative_legend(legend_ref) {
+      MapLegend_d3.selectAll('#legend-item').remove();
+      MapLegend_d3.selectAll('#legend-item-group').remove();
+      Object.keys(legend_ref['legend_values']).map(function (key) {
+        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row');
+        group.append('div').attr('id', 'legend-item').text(key + ':');
+        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_ref['legend_values'][key]);
+      });
+    }
+  }, {
+    key: "create_sequential_legend",
+    value: function create_sequential_legend(scale, legend_ref) {
+      MapLegend_d3.selectAll('#legend-item').remove();
+      MapLegend_d3.selectAll('#legend-item-group').remove(); //Get 5 representative values between min and max
+
+      var scale_min = scale.domain()[0];
+      var scale_max = scale.domain()[1];
+      var scale_range = scale_max - scale_min;
+      var index = [0, 1, 2, 3, 4];
+      var legend_values = index.map(function (i) {
+        return scale_min + scale_range / 4 * i;
+      });
+      var legend_colors = legend_values.map(function (value) {
+        return scale(value);
+      });
+      index.map(function (i) {
+        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row');
+        group.append('div').attr('id', 'legend-item').text(legend_values[i] + ':');
+        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_colors[i]);
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.create_map_legend();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.create_map_legend();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var container_style = {
+        width: "100%",
+        height: "100%"
+      };
+      return /*#__PURE__*/MapLegend_React.createElement("div", {
+        className: "d-flex justify-content-around",
+        id: "map-legend",
+        style: container_style
+      });
+    }
+  }]);
+
+  return MapLegend;
+}(MapLegend_React.Component);
+
+
+// CONCATENATED MODULE: ./src/CountrySelect.js
+function CountrySelect_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { CountrySelect_typeof = function _typeof(obj) { return typeof obj; }; } else { CountrySelect_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return CountrySelect_typeof(obj); }
+
+function CountrySelect_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function CountrySelect_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function CountrySelect_createClass(Constructor, protoProps, staticProps) { if (protoProps) CountrySelect_defineProperties(Constructor.prototype, protoProps); if (staticProps) CountrySelect_defineProperties(Constructor, staticProps); return Constructor; }
+
+function CountrySelect_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) CountrySelect_setPrototypeOf(subClass, superClass); }
+
+function CountrySelect_setPrototypeOf(o, p) { CountrySelect_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return CountrySelect_setPrototypeOf(o, p); }
+
+function CountrySelect_createSuper(Derived) { var hasNativeReflectConstruct = CountrySelect_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = CountrySelect_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = CountrySelect_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return CountrySelect_possibleConstructorReturn(this, result); }; }
+
+function CountrySelect_possibleConstructorReturn(self, call) { if (call && (CountrySelect_typeof(call) === "object" || typeof call === "function")) { return call; } return CountrySelect_assertThisInitialized(self); }
+
+function CountrySelect_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function CountrySelect_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function CountrySelect_getPrototypeOf(o) { CountrySelect_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return CountrySelect_getPrototypeOf(o); }
+
+var CountrySelect_React = __webpack_require__(294);
+
+var CountrySelect_ReactDOM = __webpack_require__(935);
+
+var CountrySelect_d3 = __webpack_require__(332);
+
+var CountrySelect = /*#__PURE__*/function (_React$Component) {
+  CountrySelect_inherits(CountrySelect, _React$Component);
+
+  var _super = CountrySelect_createSuper(CountrySelect);
+
+  function CountrySelect(props) {
+    CountrySelect_classCallCheck(this, CountrySelect);
+
+    return _super.call(this, props);
+  }
+
+  CountrySelect_createClass(CountrySelect, [{
+    key: "render",
+    value: function render() {
+      var region_options = [];
+      this.props.summaryData.map(function (item) {
+        region_options.push( /*#__PURE__*/CountrySelect_React.createElement("option", null, item['Country']));
+      });
+      var source_options = [];
+      this.props.data_sources.map(function (item) {
+        source_options.push( /*#__PURE__*/CountrySelect_React.createElement("option", null, item));
+      });
+      var select_style = {
+        width: '200px'
+      };
+      return /*#__PURE__*/CountrySelect_React.createElement("div", {
+        className: "d-flex justify-content-between pt-3"
+      }, /*#__PURE__*/CountrySelect_React.createElement("select", {
+        className: "form-control",
+        id: "region-data-selection",
+        onChange: this.props.select_handler,
+        style: select_style
+      }, region_options), /*#__PURE__*/CountrySelect_React.createElement("h4", null, this.props.active_area), /*#__PURE__*/CountrySelect_React.createElement("select", {
+        className: "form-control",
+        id: "source-data-selection",
+        onChange: this.props.source_select_handler,
+        style: select_style
+      }, source_options));
+    }
+  }]);
+
+  return CountrySelect;
+}(CountrySelect_React.Component);
 
 
 // CONCATENATED MODULE: ./src/summaryWidget.js
@@ -638,6 +746,8 @@ var summaryWidget_React = __webpack_require__(294);
 var summaryWidget_ReactDOM = __webpack_require__(935);
 
 var summaryWidget_d3 = __webpack_require__(332);
+
+
 
 
 
@@ -719,6 +829,24 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "update_region_state",
+    value: function update_region_state() {
+      var selected_variable = document.getElementById('region-data-selection');
+      selected_variable = selected_variable.options[selected_variable.selectedIndex].value;
+      this.setState({
+        active_area: selected_variable
+      });
+    }
+  }, {
+    key: "update_source_state",
+    value: function update_source_state() {
+      var selected_variable = document.getElementById('source-data-selection');
+      selected_variable = selected_variable.options[selected_variable.selectedIndex].value;
+      this.setState({
+        active_source: selected_variable
+      });
+    }
+  }, {
     key: "get_dates",
     value: function get_dates(data) {
       var dates = data.map(function (data) {
@@ -749,6 +877,18 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
       return filtered;
     }
   }, {
+    key: "create_sequential_legend",
+    value: function create_sequential_legend(summaryData, legend_ref) {
+      var legend_scale = summaryWidget_d3[legend_ref['legend_scale']]().range([legend_ref['legend_values']['low'], legend_ref['legend_values']['high']]);
+      var summary_values = summaryData.map(function (d) {
+        return parseFloat(d[legend_ref['variable_name']].split(' ')[0]);
+      });
+      var legend_max = summaryWidget_d3.max(summary_values);
+      var legend_min = summaryWidget_d3.min(summary_values);
+      legend_scale.domain([legend_min, legend_max]);
+      return legend_scale;
+    }
+  }, {
     key: "render",
     value: function render() {
       if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
@@ -758,19 +898,38 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
         var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData']);
         var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData']);
         var plot_height = '200px';
+        var map_height = 600;
         return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(Map, {
           container_id: "map-container",
           svg_id: "map-svg",
           content_id: "map-content",
           width: "100%",
-          height: "600px",
+          height: map_height + 'px',
           geoData: this.state.geoData,
           summaryData: this.state.rtData[this.state.active_source]['summaryData'],
           projection: this.props.x.projection,
-          legend_ref: this.state.active_map_legend
-        }), /*#__PURE__*/summaryWidget_React.createElement(MapControls, {
+          legend_ref: this.state.active_map_legend,
+          create_sequential_legend: this.create_sequential_legend,
+          area_click_handler: function (x) {
+            this.setState({
+              active_area: x
+            });
+          }.bind(this)
+        }), /*#__PURE__*/summaryWidget_React.createElement("div", {
+          className: "d-flex justify-content-around"
+        }, /*#__PURE__*/summaryWidget_React.createElement(MapControls, {
           legend_ref: this.props.x.map_legend_ref,
           select_handler: this.update_legend_state.bind(this)
+        }), /*#__PURE__*/summaryWidget_React.createElement(MapLegend, {
+          active_map_legend: this.state.active_map_legend,
+          summaryData: this.state.rtData[this.state.active_source]['summaryData'],
+          create_sequential_legend: this.create_sequential_legend
+        })), /*#__PURE__*/summaryWidget_React.createElement(CountrySelect, {
+          summaryData: this.state.rtData[this.state.active_source]['summaryData'],
+          data_sources: Object.keys(this.state.rtData),
+          active_area: this.state.active_area,
+          select_handler: this.update_region_state.bind(this),
+          source_select_handler: this.update_source_state.bind(this)
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "r-container",
           svg_id: "r-svg",
@@ -782,7 +941,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           min_date: this.state.min_date,
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
-          data: activeRtData
+          data: activeRtData,
+          map_height: map_height
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "infection-container",
           svg_id: "infection-svg",
@@ -794,7 +954,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           min_date: this.state.min_date,
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
-          data: activeCasesInfectionData
+          data: activeCasesInfectionData,
+          map_height: map_height
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "report-container",
           svg_id: "report-svg",
@@ -806,7 +967,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           min_date: this.state.min_date,
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
-          data: activeCasesReportData
+          data: activeCasesReportData,
+          map_height: map_height
         }));
       }
     }
@@ -842,7 +1004,6 @@ function src_getPrototypeOf(o) { src_getPrototypeOf = Object.setPrototypeOf ? Ob
 var src_React = __webpack_require__(294);
 
 var src_ReactDOM = __webpack_require__(935);
-
 
 
 
@@ -23130,7 +23291,7 @@ if (true) {
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(229);
+/******/ 	return __webpack_require__(808);
 /******/ })()
 ;
 });

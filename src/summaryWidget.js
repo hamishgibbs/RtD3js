@@ -5,6 +5,8 @@ var d3 = require('d3');
 import TimeseriesPlot from './TimeseriesPlot';
 import Map from './Map';
 import MapControls from './MapControls';
+import MapLegend from './MapLegend';
+import CountrySelect from './CountrySelect';
 
 export default class SummaryWidget extends React.Component{
   constructor(props) {
@@ -78,6 +80,22 @@ export default class SummaryWidget extends React.Component{
     this.setState({active_map_legend: active_map_legend})
 
   }
+  update_region_state(){
+
+    var selected_variable = document.getElementById('region-data-selection');
+    selected_variable = selected_variable.options[selected_variable.selectedIndex].value
+
+    this.setState({active_area: selected_variable})
+
+  }
+  update_source_state(){
+
+    var selected_variable = document.getElementById('source-data-selection');
+    selected_variable = selected_variable.options[selected_variable.selectedIndex].value
+
+    this.setState({active_source: selected_variable})
+
+  }
   get_dates(data){
 
     var dates = data.map(data => {return(new Date(Date.parse(data.date)))})
@@ -108,6 +126,22 @@ export default class SummaryWidget extends React.Component{
     return ( filtered )
 
   }
+  create_sequential_legend(summaryData, legend_ref){
+
+    var legend_scale = d3[legend_ref['legend_scale']]()
+      .range([legend_ref['legend_values']['low'], legend_ref['legend_values']['high']])
+
+    var summary_values = summaryData.map((d => {
+        return(parseFloat(d[legend_ref['variable_name']].split(' ')[0]))
+    }))
+
+    var legend_max = d3.max(summary_values)
+    var legend_min = d3.min(summary_values)
+
+    legend_scale.domain([legend_min,legend_max])
+
+    return(legend_scale)
+  }
 
   render() {
 
@@ -123,6 +157,7 @@ export default class SummaryWidget extends React.Component{
       var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'])
 
       const plot_height = '200px'
+      const map_height = 600
 
       return(
         <div>
@@ -130,15 +165,29 @@ export default class SummaryWidget extends React.Component{
              svg_id='map-svg'
              content_id='map-content'
              width='100%'
-             height='600px'
+             height= {map_height + 'px'}
              geoData={this.state.geoData}
              summaryData={this.state.rtData[this.state.active_source]['summaryData']}
              projection={this.props.x.projection}
-             legend_ref={this.state.active_map_legend}>
+             legend_ref={this.state.active_map_legend}
+             create_sequential_legend={this.create_sequential_legend}
+             area_click_handler={function(x){this.setState({active_area: x})}.bind(this)}>
         </Map>
-        <MapControls legend_ref={this.props.x.map_legend_ref}
-                     select_handler={this.update_legend_state.bind(this)}>
-        </MapControls>
+        <div className="d-flex justify-content-around">
+          <MapControls legend_ref={this.props.x.map_legend_ref}
+                       select_handler={this.update_legend_state.bind(this)}>
+          </MapControls>
+          <MapLegend active_map_legend={this.state.active_map_legend}
+                     summaryData={this.state.rtData[this.state.active_source]['summaryData']}
+                     create_sequential_legend={this.create_sequential_legend}>
+          </MapLegend>
+        </div>
+        <CountrySelect summaryData={this.state.rtData[this.state.active_source]['summaryData']}
+                       data_sources={Object.keys(this.state.rtData)}
+                       active_area={this.state.active_area}
+                       select_handler={this.update_region_state.bind(this)}
+                       source_select_handler={this.update_source_state.bind(this)}>
+        </CountrySelect>
         <TimeseriesPlot container_id='r-container'
                         svg_id='r-svg'
                         content_id='r-content'
@@ -149,7 +198,8 @@ export default class SummaryWidget extends React.Component{
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
-                        data={activeRtData}>
+                        data={activeRtData}
+                        map_height={map_height}>
         </TimeseriesPlot>
         <TimeseriesPlot container_id='infection-container'
                         svg_id='infection-svg'
@@ -161,7 +211,8 @@ export default class SummaryWidget extends React.Component{
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
-                        data={activeCasesInfectionData}>
+                        data={activeCasesInfectionData}
+                        map_height={map_height}>
         </TimeseriesPlot>
         <TimeseriesPlot container_id='report-container'
                         svg_id='report-svg'
@@ -173,7 +224,8 @@ export default class SummaryWidget extends React.Component{
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
-                        data={activeCasesReportData}>
+                        data={activeCasesReportData}
+                        map_height={map_height}>
         </TimeseriesPlot>
         </div>
       )

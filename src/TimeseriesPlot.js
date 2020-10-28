@@ -11,34 +11,6 @@ export default class TimeseriesPlot extends React.Component{
     this.active_x = null
 
   };
-  // Returns a timeseries plot of the given dataset
-  // Add this.props.data and this.plt.plotting_variable
-  // Add CredibleInterval component
-
-  //Add extra styling with bootstrap!
-
-  /*
-  Should be in the format:
-
-  for cases by:
-  <Plot>
-    <BarPlot></BarPlot>
-    for every slice of data:
-    <CredibleInterval></CredibleInterval>
-  </Plot>
-
-  for R by:
-  <Plot>
-    for every slice of data:
-    <CredibleInterval></CredibleInterval>
-    <VLine></VLine>
-  </Plot>
-
-  For an arbitrary number of credible intervals at arbitrary locations - use a regex to match keys and values
-
-  Need to pass a color ref in the format: {'value', 'type', 'color'}
-
-  */
   componentDidMount() {
       this.createTsPlot()
    }
@@ -218,10 +190,9 @@ export default class TimeseriesPlot extends React.Component{
 
         var tooltip_string = this.format_tooltip_string(hover_data)
 
-
         d3.select('#' + this.props.container_id + '-tooltip')
           .style("left", (e.clientX + 40) + "px")
-          .style("top", (e.clientY) + "px")
+          .style("top", (e.clientY + this.props.map_height - 200) + "px")
           .html(tooltip_string)
 
         d3.select('#' + this.props.container_id + '-hover-line')
