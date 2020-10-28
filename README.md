@@ -27,7 +27,7 @@ There are a number of motivations for transitioning to a component framework lik
 * User supplied timeseries colors
 * Zoomable time series plots
 * Zoomable map
-* Extendable for future widgets
+* Extensible for future widgets
 
 ## Local development
 
