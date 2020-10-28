@@ -64,3 +64,7 @@ npm run watch
 Because this library will be used in an R package (an RStudio Viewer, R Markdown Document, or Shiny application), we have to rely on a single `.js` output, not a fully configured build process and development server. The stripped-down build process means less fancy syntax.
 
 `.jsx` syntax like `<h1>` and `</h1>` should be replaced with `React.createElement('h1', etc., ect.)`.
+
+*2020-10-27 This has been solved with `babel-loader`. `.jsx` syntax now works fine.*
+
+
