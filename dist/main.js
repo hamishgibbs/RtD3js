@@ -362,25 +362,6 @@ var Map = /*#__PURE__*/function (_React$Component) {
       }
 
       var update_area = this.props.area_click_handler;
-      /*
-      (e => {
-        // Putting this in a function could give access to area name and mouse event without needing to use geoContains
-         var hovered_feature = this.props.geoData.features.map(feature => {
-          //console.log(feature.geometry)
-          if (d3.geoContains(feature.geometry, projection.invert([e.clientX, e.clientY]))){
-            return(feature)
-          }
-         })
-         var hovered_feature = hovered_feature.filter(function(x) {
-           return x !== undefined;
-        })[0];
-         d3.select('#' + this.props.container_id + '-tooltip')
-          .style("left", (e.clientX + 40) + "px")
-          .style("top", (e.clientY) + "px")
-          .html(hovered_feature.properties.sovereignt)
-      }))
-      */
-
       var data = this.props.summaryData;
       var container_id = this.props.container_id;
       g.selectAll("path").data(this.props.geoData.features).enter().append("path").attr("d", path).attr('region-name', function (feature) {
@@ -394,7 +375,6 @@ var Map = /*#__PURE__*/function (_React$Component) {
           return _this2.sequential_fill(feature_name, _this2.props.summaryData, scale_sequential, _this2.props.legend_ref);
         }
       }).attr('stroke', '#333').on('mousemove', function (e) {
-        console.log(e, Map_d3.select(this).attr('region-name'));
         var hovered_name = Map_d3.select(this).attr('region-name');
         var hovered_data = data.filter(function (d) {
           return d.Country == hovered_name;
@@ -405,8 +385,6 @@ var Map = /*#__PURE__*/function (_React$Component) {
         } catch (_unused) {
           Map_d3.select('#' + container_id + '-tooltip').style("opacity", 0);
         }
-
-        console.log(hovered_data);
       }).on('mouseenter', function (e) {
         Map_d3.select('#' + _this2.props.container_id + '-tooltip').style("opacity", 1);
       }).on('mouseout', function (e) {
@@ -793,7 +771,6 @@ var TimeseriesLegend = /*#__PURE__*/function (_React$Component) {
         return estimate_type_data[key][0];
       });
       legend_items.map(function (item) {
-        console.log(item);
         var group = TimeseriesLegend_d3.select('#ts-legend').append('div').attr('id', 'ts-legend-item-group').attr('class', 'row pl-2');
         group.append('div').attr('id', 'ts-legend-item').text(item['type'] + ':');
         group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'ts-legend-item').style('width', '10px').style('height', '10px').style('background-color', item['color']);

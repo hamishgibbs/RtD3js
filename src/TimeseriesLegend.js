@@ -30,9 +30,7 @@ export default class TimeseriesLegend extends React.Component{
     })
 
     legend_items.map(item => {
-
-      console.log(item)
-
+      
       var group = d3.select('#ts-legend')
         .append('div')
         .attr('id', 'ts-legend-item-group')
