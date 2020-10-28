@@ -149,7 +149,9 @@ export default class SummaryWidget extends React.Component{
     if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
 
       return(
-          <h1>Loading Data</h1>
+          <div className="d-flex justify-content-center pt-4">
+            <h4 className="text-muted">Loading...</h4>
+          </div>
       )
 
     } else {

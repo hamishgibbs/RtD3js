@@ -974,7 +974,11 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
-        return /*#__PURE__*/summaryWidget_React.createElement("h1", null, "Loading Data");
+        return /*#__PURE__*/summaryWidget_React.createElement("div", {
+          className: "d-flex justify-content-center pt-4"
+        }, /*#__PURE__*/summaryWidget_React.createElement("h3", {
+          className: "text-muted"
+        }, "Loading..."));
       } else {
         var activeRtData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['rtData']);
         var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData']);
