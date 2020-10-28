@@ -7,6 +7,7 @@ import Map from './Map';
 import MapControls from './MapControls';
 import MapLegend from './MapLegend';
 import CountrySelect from './CountrySelect';
+import TimeseriesLegend from './TimeseriesLegend';
 
 export default class SummaryWidget extends React.Component{
   constructor(props) {
@@ -227,6 +228,8 @@ export default class SummaryWidget extends React.Component{
                         data={activeCasesReportData}
                         map_height={map_height}>
         </TimeseriesPlot>
+        <TimeseriesLegend ts_color_ref={this.props.x.ts_color_ref}>
+        </TimeseriesLegend>
         </div>
       )
     }

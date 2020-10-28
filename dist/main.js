@@ -12,7 +12,7 @@ return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 808:
+/***/ 24:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -712,6 +712,88 @@ var CountrySelect = /*#__PURE__*/function (_React$Component) {
 }(CountrySelect_React.Component);
 
 
+// CONCATENATED MODULE: ./src/TimeseriesLegend.js
+function TimeseriesLegend_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { TimeseriesLegend_typeof = function _typeof(obj) { return typeof obj; }; } else { TimeseriesLegend_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return TimeseriesLegend_typeof(obj); }
+
+function TimeseriesLegend_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function TimeseriesLegend_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function TimeseriesLegend_createClass(Constructor, protoProps, staticProps) { if (protoProps) TimeseriesLegend_defineProperties(Constructor.prototype, protoProps); if (staticProps) TimeseriesLegend_defineProperties(Constructor, staticProps); return Constructor; }
+
+function TimeseriesLegend_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) TimeseriesLegend_setPrototypeOf(subClass, superClass); }
+
+function TimeseriesLegend_setPrototypeOf(o, p) { TimeseriesLegend_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return TimeseriesLegend_setPrototypeOf(o, p); }
+
+function TimeseriesLegend_createSuper(Derived) { var hasNativeReflectConstruct = TimeseriesLegend_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = TimeseriesLegend_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = TimeseriesLegend_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return TimeseriesLegend_possibleConstructorReturn(this, result); }; }
+
+function TimeseriesLegend_possibleConstructorReturn(self, call) { if (call && (TimeseriesLegend_typeof(call) === "object" || typeof call === "function")) { return call; } return TimeseriesLegend_assertThisInitialized(self); }
+
+function TimeseriesLegend_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function TimeseriesLegend_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function TimeseriesLegend_getPrototypeOf(o) { TimeseriesLegend_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return TimeseriesLegend_getPrototypeOf(o); }
+
+var TimeseriesLegend_React = __webpack_require__(294);
+
+var TimeseriesLegend_ReactDOM = __webpack_require__(935);
+
+var TimeseriesLegend_d3 = __webpack_require__(332);
+
+var TimeseriesLegend = /*#__PURE__*/function (_React$Component) {
+  TimeseriesLegend_inherits(TimeseriesLegend, _React$Component);
+
+  var _super = TimeseriesLegend_createSuper(TimeseriesLegend);
+
+  function TimeseriesLegend(props) {
+    TimeseriesLegend_classCallCheck(this, TimeseriesLegend);
+
+    return _super.call(this, props);
+  }
+
+  TimeseriesLegend_createClass(TimeseriesLegend, [{
+    key: "render",
+    value: function render() {
+      TimeseriesLegend_d3.selectAll('#ts-legend-item').remove();
+      TimeseriesLegend_d3.selectAll('#ts-legend-item-group').remove(); // Group data by estimate type
+
+      var estimate_type_data = this.props.ts_color_ref.reduce(function (acc, item) {
+        if (!acc[item.type]) {
+          acc[item.type] = [];
+        }
+
+        acc[item.type].push(item);
+        return acc;
+      }, {}); // Choose an arbitrary color from each category
+
+      var legend_items = Object.keys(estimate_type_data).map(function (key) {
+        return estimate_type_data[key][0];
+      });
+      legend_items.map(function (item) {
+        console.log(item);
+        var group = TimeseriesLegend_d3.select('#ts-legend').append('div').attr('id', 'ts-legend-item-group').attr('class', 'row pl-2');
+        group.append('div').attr('id', 'ts-legend-item').text(item['type'] + ':');
+        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'ts-legend-item').style('width', '10px').style('height', '10px').style('background-color', item['color']);
+      });
+      var container_style = {
+        width: "100%",
+        height: "40px"
+      };
+      return /*#__PURE__*/TimeseriesLegend_React.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/TimeseriesLegend_React.createElement("div", {
+        className: "d-flex justify-content-around",
+        id: "ts-legend",
+        style: container_style
+      }));
+    }
+  }]);
+
+  return TimeseriesLegend;
+}(TimeseriesLegend_React.Component);
+
+
 // CONCATENATED MODULE: ./src/summaryWidget.js
 function summaryWidget_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { summaryWidget_typeof = function _typeof(obj) { return typeof obj; }; } else { summaryWidget_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return summaryWidget_typeof(obj); }
 
@@ -746,6 +828,7 @@ var summaryWidget_React = __webpack_require__(294);
 var summaryWidget_ReactDOM = __webpack_require__(935);
 
 var summaryWidget_d3 = __webpack_require__(332);
+
 
 
 
@@ -969,6 +1052,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           ts_color_ref: this.props.x.ts_color_ref,
           data: activeCasesReportData,
           map_height: map_height
+        }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesLegend, {
+          ts_color_ref: this.props.x.ts_color_ref
         }));
       }
     }
@@ -23291,7 +23376,7 @@ if (true) {
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(808);
+/******/ 	return __webpack_require__(24);
 /******/ })()
 ;
 });
