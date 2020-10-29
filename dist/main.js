@@ -191,6 +191,21 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         this.plot_hline(plot_content, this.props.data, this.props.hline_intercept, x, y);
       }
 
+      if (this.props.obsCasesData !== undefined) {
+        plot_content.selectAll('rect').data(this.props.obsCasesData).enter().append('rect').attr('x', function (d, i) {
+          return x(new Date(Date.parse(d.date)), -0.5);
+        }).attr("width", function (d) {
+          return 0.8 * (x(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - x(new Date(Date.parse(d.date))));
+        }).attr("height", 0).attr("y", svg_dims.height).style('fill', this.props.ts_bar_color).transition().duration(250).delay(function (d, i) {
+          return i * 4;
+        }).attr('height', function (d, i) {
+          return svg_dims.height - y(d.confirm);
+        }).attr('y', function (d, i) {
+          return y(d.confirm);
+        }).attr('class', 'cases_bar');
+        console.log("there's cases");
+      }
+
       var zoom = d3.zoom().scaleExtent([.5, 20]).extent([[0, 0], [svg_dims.width, svg_dims.height]]).on("zoom", updateChart);
       d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute');
       svg.append('line').attr('id', this.props.container_id + '-hover-line').attr("x1", 20).attr("y1", 0).attr("x2", 20).attr("y2", svg_dims.height).attr('stroke', 'black').attr('stroke-width', '1px').attr('stroke-opacity', 0);
@@ -998,6 +1013,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
         var activeRtData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['rtData']);
         var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData']);
         var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData']);
+        var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData']);
         var plot_height = '200px';
         var map_height = 600;
         return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(Map, {
@@ -1057,7 +1073,9 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
           data: activeCasesInfectionData,
-          map_height: map_height
+          map_height: map_height,
+          obsCasesData: activeObsCasesData,
+          ts_bar_color: this.props.x.ts_bar_color
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "report-container",
           svg_id: "report-svg",
