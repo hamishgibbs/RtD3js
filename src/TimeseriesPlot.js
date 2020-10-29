@@ -237,10 +237,10 @@ export default class TimeseriesPlot extends React.Component{
 
       x_updated(newX)
 
-
       plot_content
         .selectAll('#cases_bar')
         .attr('x', function(d, i) {return newX(new Date(Date.parse(d.date)), -0.5);})
+        .attr("width", function(d) {return 0.8 * (newX(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - newX(new Date(Date.parse(d.date))))})
 
       plot_content
         .selectAll("path")

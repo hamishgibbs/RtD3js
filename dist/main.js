@@ -226,9 +226,12 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         var newY = e.transform.rescaleY(y);
         x_axis.call(d3.axisBottom(newX));
         y_axis.call(d3.axisLeft(newY));
-        x_updated(newX);
+        x_updated(newX); //x(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - x(new Date(Date.parse(d.date))
+
         plot_content.selectAll('#cases_bar').attr('x', function (d, i) {
           return newX(new Date(Date.parse(d.date)), -0.5);
+        }).attr("width", function (d) {
+          return 0.8 * (newX(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - newX(new Date(Date.parse(d.date))));
         });
         plot_content.selectAll("path").attr('d', function (d) {
           var ci_value = d3.select(this).attr('ci_value');
