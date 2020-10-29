@@ -154,6 +154,12 @@ export default class TimeseriesPlot extends React.Component{
 
     }
 
+    if (this.props.obsCasesData !== undefined){
+
+      this.plot_obs_bars(plot_content, this.props.obsCasesData, svg_dims, this.props.ts_bar_color, x, y)
+
+    }
+
     var zoom = d3.zoom()
       .scaleExtent([.5, 20])
       .extent([[0, 0], [svg_dims.width, svg_dims.height]])
@@ -221,6 +227,9 @@ export default class TimeseriesPlot extends React.Component{
           .attr('stroke-opacity', 0)
       }));
 
+
+    var hline_intercept = this.props.hline_intercept
+
     function updateChart(e){
 
       var newX = e.transform.rescaleX(x);
@@ -230,6 +239,28 @@ export default class TimeseriesPlot extends React.Component{
       y_axis.call(d3.axisLeft(newY))
 
       x_updated(newX)
+
+      try {
+        plot_content
+          .selectAll('#cases_bar')
+          .attr('x', function(d, i) {return newX(new Date(Date.parse(d.date)), -0.5);})
+          .attr("width", function(d) {return 0.8 * (newX(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - newX(new Date(Date.parse(d.date))))})
+          .attr('height', function(d, i) {return newY(0) - newY(d.confirm);})
+          .attr('y', function(d, i) {return newY(d.confirm);})
+      } catch {}
+
+      /*try {
+
+        var hline = d3.line()
+          .x(function(d){ return newX(new Date(Date.parse(d.date))); })
+          .y(function(d){ return newY(hline_intercept); })
+          .curve(d3.curveCardinal);
+
+        plot_content
+          .selectAll('#r-line')
+          .attr("d", hline)
+
+      } catch {}*/
 
       plot_content
         .selectAll("path")
@@ -300,10 +331,31 @@ export default class TimeseriesPlot extends React.Component{
       svg.append("path")
         .datum(data)
         .attr("d", hline)
-        .attr("class", 'r0_line')
+        .attr("id", 'r-line')
         .style('stroke', 'black')
         .style('stroke-dasharray', "5,5")
 
+  }
+  plot_obs_bars(svg, data, svg_dims, ts_bar_color, x, y){
+
+    svg.selectAll('rect')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('x', function(d, i) {return x(new Date(Date.parse(d.date)), -0.5);})
+        .attr("width", function(d) {return 0.8 * (x(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - x(new Date(Date.parse(d.date))))})
+        .attr("height", 0)
+        .attr("y", svg_dims.height)
+        .style('fill', ts_bar_color)
+        .style('opacity', 0.5)
+        .transition()
+        .duration(250)
+        .delay(function (d, i) {
+          return i * 4;
+        })
+        .attr('height', function(d, i) {return y(0) - y(d.confirm);})
+        .attr('y', function(d, i) {return y(d.confirm);})
+        .attr('id', 'cases_bar');
   }
   render() {
     const container_style = {

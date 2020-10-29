@@ -158,6 +158,7 @@ export default class SummaryWidget extends React.Component{
       var activeRtData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['rtData'])
       var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData'])
       var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'])
+      var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData'])
 
       const plot_height = '200px'
       const map_height = 600
@@ -216,7 +217,9 @@ export default class SummaryWidget extends React.Component{
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
                         data={activeCasesInfectionData}
-                        map_height={map_height}>
+                        map_height={map_height}
+                        obsCasesData={activeObsCasesData}
+                        ts_bar_color={this.props.x.ts_bar_color}>
         </TimeseriesPlot>
         <TimeseriesPlot container_id='report-container'
                         svg_id='report-svg'
@@ -229,7 +232,9 @@ export default class SummaryWidget extends React.Component{
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
                         data={activeCasesReportData}
-                        map_height={map_height}>
+                        map_height={map_height}
+                        obsCasesData={activeObsCasesData}
+                        ts_bar_color={this.props.x.ts_bar_color}>
         </TimeseriesPlot>
         <TimeseriesLegend ts_color_ref={this.props.x.ts_color_ref}>
         </TimeseriesLegend>
