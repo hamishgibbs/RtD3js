@@ -232,7 +232,9 @@ export default class SummaryWidget extends React.Component{
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
                         data={activeCasesReportData}
-                        map_height={map_height}>
+                        map_height={map_height}
+                        obsCasesData={activeObsCasesData}
+                        ts_bar_color={this.props.x.ts_bar_color}>
         </TimeseriesPlot>
         <TimeseriesLegend ts_color_ref={this.props.x.ts_color_ref}>
         </TimeseriesLegend>

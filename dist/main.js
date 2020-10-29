@@ -226,13 +226,20 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         var newY = e.transform.rescaleY(y);
         x_axis.call(d3.axisBottom(newX));
         y_axis.call(d3.axisLeft(newY));
-        x_updated(newX); //x(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - x(new Date(Date.parse(d.date))
+        x_updated(newX);
 
-        plot_content.selectAll('#cases_bar').attr('x', function (d, i) {
-          return newX(new Date(Date.parse(d.date)), -0.5);
-        }).attr("width", function (d) {
-          return 0.8 * (newX(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - newX(new Date(Date.parse(d.date))));
-        });
+        try {
+          plot_content.selectAll('#cases_bar').attr('x', function (d, i) {
+            return newX(new Date(Date.parse(d.date)), -0.5);
+          }).attr("width", function (d) {
+            return 0.8 * (newX(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - newX(new Date(Date.parse(d.date))));
+          }).attr('height', function (d, i) {
+            return newY(0) - newY(d.confirm);
+          }).attr('y', function (d, i) {
+            return newY(d.confirm);
+          });
+        } catch (_unused) {}
+
         plot_content.selectAll("path").attr('d', function (d) {
           var ci_value = d3.select(this).attr('ci_value');
           var new_poly = d3.area().x(function (d) {
@@ -306,7 +313,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       }).attr("height", 0).attr("y", svg_dims.height).style('fill', ts_bar_color).style('opacity', 0.5).transition().duration(250).delay(function (d, i) {
         return i * 4;
       }).attr('height', function (d, i) {
-        return svg_dims.height - y(d.confirm);
+        return y(0) - y(d.confirm);
       }).attr('y', function (d, i) {
         return y(d.confirm);
       }).attr('id', 'cases_bar');
@@ -1098,7 +1105,9 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
           data: activeCasesReportData,
-          map_height: map_height
+          map_height: map_height,
+          obsCasesData: activeObsCasesData,
+          ts_bar_color: this.props.x.ts_bar_color
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesLegend, {
           ts_color_ref: this.props.x.ts_color_ref
         }));
