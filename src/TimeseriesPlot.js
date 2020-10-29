@@ -148,6 +148,12 @@ export default class TimeseriesPlot extends React.Component{
       })
     })
 
+    if (this.props.hline_intercept !== undefined){
+
+      this.plot_hline(plot_content, this.props.data, this.props.hline_intercept, x, y)
+
+    }
+
     var zoom = d3.zoom()
       .scaleExtent([.5, 20])
       .extent([[0, 0], [svg_dims.width, svg_dims.height]])
@@ -282,6 +288,21 @@ export default class TimeseriesPlot extends React.Component{
       .attr("ci_value", ci_value)
       .style('fill', color)
       .style('opacity', 0.5)
+
+  }
+  plot_hline(svg, data, intercept, x, y){
+
+    var hline = d3.line()
+      .x(function(d){ return x(new Date(Date.parse(d.date))); })
+      .y(function(d){ return y(intercept); })
+      .curve(d3.curveCardinal);
+
+      svg.append("path")
+        .datum(data)
+        .attr("d", hline)
+        .attr("class", 'r0_line')
+        .style('stroke', 'black')
+        .style('stroke-dasharray', "5,5")
 
   }
   render() {

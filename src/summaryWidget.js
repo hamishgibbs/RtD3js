@@ -202,7 +202,8 @@ export default class SummaryWidget extends React.Component{
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
                         data={activeRtData}
-                        map_height={map_height}>
+                        map_height={map_height}
+                        hline_intercept={1}>
         </TimeseriesPlot>
         <TimeseriesPlot container_id='infection-container'
                         svg_id='infection-svg'
