@@ -186,6 +186,11 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
           _this3.plotCIPoly(plot_content, estimate_type_data[key], poly['poly'], color, poly['value']);
         });
       });
+
+      if (this.props.hline_intercept !== undefined) {
+        this.plot_hline(plot_content, this.props.data, this.props.hline_intercept, x, y);
+      }
+
       var zoom = d3.zoom().scaleExtent([.5, 20]).extent([[0, 0], [svg_dims.width, svg_dims.height]]).on("zoom", updateChart);
       d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute');
       svg.append('line').attr('id', this.props.container_id + '-hover-line').attr("x1", 20).attr("y1", 0).attr("x2", 20).attr("y2", svg_dims.height).attr('stroke', 'black').attr('stroke-width', '1px').attr('stroke-opacity', 0);
@@ -270,6 +275,16 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     key: "plotCIPoly",
     value: function plotCIPoly(svg, data, poly, color, ci_value) {
       svg.append("path").datum(data).attr("d", poly).attr("class", "ci-poly").attr("ci_value", ci_value).style('fill', color).style('opacity', 0.5);
+    }
+  }, {
+    key: "plot_hline",
+    value: function plot_hline(svg, data, intercept, x, y) {
+      var hline = d3.line().x(function (d) {
+        return x(new Date(Date.parse(d.date)));
+      }).y(function (d) {
+        return y(intercept);
+      }).curve(d3.curveCardinal);
+      svg.append("path").datum(data).attr("d", hline).attr("class", 'r0_line').style('stroke', 'black').style('stroke-dasharray', "5,5");
     }
   }, {
     key: "render",
@@ -976,7 +991,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
       if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
         return /*#__PURE__*/summaryWidget_React.createElement("div", {
           className: "d-flex justify-content-center pt-4"
-        }, /*#__PURE__*/summaryWidget_React.createElement("h3", {
+        }, /*#__PURE__*/summaryWidget_React.createElement("h4", {
           className: "text-muted"
         }, "Loading..."));
       } else {
@@ -1028,7 +1043,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
           data: activeRtData,
-          map_height: map_height
+          map_height: map_height,
+          hline_intercept: 1
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "infection-container",
           svg_id: "infection-svg",
