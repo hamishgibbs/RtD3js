@@ -227,6 +227,9 @@ export default class TimeseriesPlot extends React.Component{
           .attr('stroke-opacity', 0)
       }));
 
+
+    var hline_intercept = this.props.hline_intercept
+
     function updateChart(e){
 
       var newX = e.transform.rescaleX(x);
@@ -245,6 +248,19 @@ export default class TimeseriesPlot extends React.Component{
           .attr('height', function(d, i) {return newY(0) - newY(d.confirm);})
           .attr('y', function(d, i) {return newY(d.confirm);})
       } catch {}
+
+      /*try {
+
+        var hline = d3.line()
+          .x(function(d){ return newX(new Date(Date.parse(d.date))); })
+          .y(function(d){ return newY(hline_intercept); })
+          .curve(d3.curveCardinal);
+
+        plot_content
+          .selectAll('#r-line')
+          .attr("d", hline)
+
+      } catch {}*/
 
       plot_content
         .selectAll("path")
@@ -315,7 +331,7 @@ export default class TimeseriesPlot extends React.Component{
       svg.append("path")
         .datum(data)
         .attr("d", hline)
-        .attr("class", 'r0_line')
+        .attr("id", 'r-line')
         .style('stroke', 'black')
         .style('stroke-dasharray', "5,5")
 

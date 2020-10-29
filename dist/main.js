@@ -220,6 +220,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 0);
         d3.select('#' + _this3.props.container_id + '-hover-line').attr('stroke-opacity', 0);
       });
+      var hline_intercept = this.props.hline_intercept;
 
       function updateChart(e) {
         var newX = e.transform.rescaleX(x);
@@ -239,6 +240,16 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
             return newY(d.confirm);
           });
         } catch (_unused) {}
+        /*try {
+           var hline = d3.line()
+            .x(function(d){ return newX(new Date(Date.parse(d.date))); })
+            .y(function(d){ return newY(hline_intercept); })
+            .curve(d3.curveCardinal);
+           plot_content
+            .selectAll('#r-line')
+            .attr("d", hline)
+         } catch {}*/
+
 
         plot_content.selectAll("path").attr('d', function (d) {
           var ci_value = d3.select(this).attr('ci_value');
@@ -301,7 +312,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       }).y(function (d) {
         return y(intercept);
       }).curve(d3.curveCardinal);
-      svg.append("path").datum(data).attr("d", hline).attr("class", 'r0_line').style('stroke', 'black').style('stroke-dasharray', "5,5");
+      svg.append("path").datum(data).attr("d", hline).attr("id", 'r-line').style('stroke', 'black').style('stroke-dasharray', "5,5");
     }
   }, {
     key: "plot_obs_bars",
