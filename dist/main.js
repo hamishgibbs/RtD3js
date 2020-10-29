@@ -192,18 +192,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       }
 
       if (this.props.obsCasesData !== undefined) {
-        plot_content.selectAll('rect').data(this.props.obsCasesData).enter().append('rect').attr('x', function (d, i) {
-          return x(new Date(Date.parse(d.date)), -0.5);
-        }).attr("width", function (d) {
-          return 0.8 * (x(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - x(new Date(Date.parse(d.date))));
-        }).attr("height", 0).attr("y", svg_dims.height).style('fill', this.props.ts_bar_color).transition().duration(250).delay(function (d, i) {
-          return i * 4;
-        }).attr('height', function (d, i) {
-          return svg_dims.height - y(d.confirm);
-        }).attr('y', function (d, i) {
-          return y(d.confirm);
-        }).attr('class', 'cases_bar');
-        console.log("there's cases");
+        this.plot_obs_bars(plot_content, this.props.obsCasesData, svg_dims, this.props.ts_bar_color, x, y);
       }
 
       var zoom = d3.zoom().scaleExtent([.5, 20]).extent([[0, 0], [svg_dims.width, svg_dims.height]]).on("zoom", updateChart);
@@ -238,6 +227,9 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         x_axis.call(d3.axisBottom(newX));
         y_axis.call(d3.axisLeft(newY));
         x_updated(newX);
+        plot_content.selectAll('#cases_bar').attr('x', function (d, i) {
+          return newX(new Date(Date.parse(d.date)), -0.5);
+        });
         plot_content.selectAll("path").attr('d', function (d) {
           var ci_value = d3.select(this).attr('ci_value');
           var new_poly = d3.area().x(function (d) {
@@ -300,6 +292,21 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         return y(intercept);
       }).curve(d3.curveCardinal);
       svg.append("path").datum(data).attr("d", hline).attr("class", 'r0_line').style('stroke', 'black').style('stroke-dasharray', "5,5");
+    }
+  }, {
+    key: "plot_obs_bars",
+    value: function plot_obs_bars(svg, data, svg_dims, ts_bar_color, x, y) {
+      svg.selectAll('rect').data(data).enter().append('rect').attr('x', function (d, i) {
+        return x(new Date(Date.parse(d.date)), -0.5);
+      }).attr("width", function (d) {
+        return 0.8 * (x(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - x(new Date(Date.parse(d.date))));
+      }).attr("height", 0).attr("y", svg_dims.height).style('fill', ts_bar_color).style('opacity', 0.5).transition().duration(250).delay(function (d, i) {
+        return i * 4;
+      }).attr('height', function (d, i) {
+        return svg_dims.height - y(d.confirm);
+      }).attr('y', function (d, i) {
+        return y(d.confirm);
+      }).attr('id', 'cases_bar');
     }
   }, {
     key: "render",
