@@ -218,7 +218,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
         var tooltip_string = _this3.format_tooltip_string(hover_data, cis);
 
         d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + _this3.props.map_height - 200 + "px").html(tooltip_string);
-        d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 40).attr('x2', e.clientX - 40);
+        d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 60).attr('x2', e.clientX - 60);
       }).on('mouseenter', function (e) {
         d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 1);
         d3.select('#' + _this3.props.container_id + '-hover-line').attr('stroke-opacity', 1);

@@ -226,8 +226,8 @@ export default class TimeseriesPlot extends React.Component{
           .html(tooltip_string)
 
         d3.select('#' + this.props.container_id + '-hover-line')
-          .attr('x1', e.clientX - 40)
-          .attr('x2', e.clientX - 40)
+          .attr('x1', e.clientX - 60)
+          .attr('x2', e.clientX - 60)
 
       }))
       .on('mouseenter', (e => {
