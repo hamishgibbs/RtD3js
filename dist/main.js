@@ -69,7 +69,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       top: 10,
       right: 40,
       bottom: 30,
-      left: 30
+      left: 60
     };
     _this.active_x = null;
     return _this;
@@ -209,7 +209,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
           }
         })[0];
 
-        var tooltip_string = _this3.format_tooltip_string(hover_data);
+        var tooltip_string = _this3.format_tooltip_string(hover_data, cis);
 
         d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + _this3.props.map_height - 200 + "px").html(tooltip_string);
         d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 40).attr('x2', e.clientX - 40);
@@ -266,8 +266,12 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "format_tooltip_string",
-    value: function format_tooltip_string(hover_data) {
-      var hover_str = hover_data['country'] + '</br>' + hover_data['date'] + '</br>' + hover_data['lower_90'];
+    value: function format_tooltip_string(hover_data, cis) {
+      var sep = '</br>';
+      var hover_str = '<b>' + hover_data['country'] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>';
+      hover_str = hover_str + cis.map(function (ci) {
+        return sep + '<b>' + ci['value'] + '% CI: </b>' + hover_data[ci['lower_name']] + ' - ' + hover_data[ci['upper_name']];
+      });
       return hover_str;
     }
   }, {

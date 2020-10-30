@@ -6,7 +6,7 @@ export default class TimeseriesPlot extends React.Component{
   constructor(props) {
     super(props);
 
-    this.margin = {top: 10, right: 40, bottom: 30, left: 30}
+    this.margin = {top: 10, right: 40, bottom: 30, left: 60}
 
     this.active_x = null
 
@@ -200,7 +200,7 @@ export default class TimeseriesPlot extends React.Component{
           }
         })[0];
 
-        var tooltip_string = this.format_tooltip_string(hover_data)
+        var tooltip_string = this.format_tooltip_string(hover_data, cis)
 
         d3.select('#' + this.props.container_id + '-tooltip')
           .style("left", (e.clientX + 40) + "px")
@@ -281,9 +281,15 @@ export default class TimeseriesPlot extends React.Component{
     }
 
   };
-  format_tooltip_string(hover_data){
+  format_tooltip_string(hover_data, cis){
 
-    var hover_str = hover_data['country'] + '</br>' + hover_data['date'] + '</br>' + hover_data['lower_90']
+    var sep = '</br>'
+
+    var hover_str = '<b>' + hover_data['country'] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>'
+
+    hover_str = hover_str + cis.map(ci => {
+      return(sep + '<b>' +ci['value'] + '% CI: </b>' + hover_data[ci['lower_name']] + ' - ' + hover_data[ci['upper_name']])
+    })
 
     return(hover_str)
 
