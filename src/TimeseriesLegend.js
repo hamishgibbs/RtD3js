@@ -34,7 +34,7 @@ export default class TimeseriesLegend extends React.Component{
       var group = d3.select('#ts-legend')
         .append('div')
         .attr('id', 'ts-legend-item-group')
-        .attr('class', 'row pl-2 pr-1 bg-light')
+        .attr('class', 'row pl-2 pr-2 bg-light')
 
       group
         .append('div')
@@ -54,12 +54,12 @@ export default class TimeseriesLegend extends React.Component{
 
     const container_style = {
       width: "100%",
-      height: "40px"
+      height: "20px"
     };
 
     return(
       <div className='row'>
-        <div className="d-flex justify-content-end" id='ts-legend' style={container_style}></div>
+        <div className="d-flex justify-content-end pr-2" id='ts-legend' style={container_style}></div>
       </div>
     )
   }

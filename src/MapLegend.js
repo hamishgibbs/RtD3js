@@ -109,7 +109,7 @@ export default class MapLegend extends React.Component{
       height: "100%"
     };
     return(
-      <div className="d-flex justify-content-end" id='map-legend' style={container_style}></div>
+      <div className="d-flex justify-content-end pr-2" id='map-legend' style={container_style}></div>
     )
   }
 }

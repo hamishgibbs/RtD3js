@@ -694,7 +694,7 @@ var MapLegend = /*#__PURE__*/function (_React$Component) {
         height: "100%"
       };
       return /*#__PURE__*/MapLegend_React.createElement("div", {
-        className: "d-flex justify-content-end",
+        className: "d-flex justify-content-end pr-2",
         id: "map-legend",
         style: container_style
       });
@@ -838,18 +838,18 @@ var TimeseriesLegend = /*#__PURE__*/function (_React$Component) {
         return estimate_type_data[key][0];
       });
       legend_items.map(function (item) {
-        var group = TimeseriesLegend_d3.select('#ts-legend').append('div').attr('id', 'ts-legend-item-group').attr('class', 'row pl-2 pr-1 bg-light');
+        var group = TimeseriesLegend_d3.select('#ts-legend').append('div').attr('id', 'ts-legend-item-group').attr('class', 'row pl-2 pr-2 bg-light');
         group.append('div').attr('id', 'ts-legend-item').attr('class', 'pl-2 pr-1').text(item['type'] + ':');
         group.append('div').attr('class', 'pr-4 pt-2').append('div').attr('id', 'ts-legend-item').style('width', '10px').style('height', '10px').style('background-color', item['color']);
       });
       var container_style = {
         width: "100%",
-        height: "40px"
+        height: "20px"
       };
       return /*#__PURE__*/TimeseriesLegend_React.createElement("div", {
         className: "row"
       }, /*#__PURE__*/TimeseriesLegend_React.createElement("div", {
-        className: "d-flex justify-content-end",
+        className: "d-flex justify-content-end pr-2",
         id: "ts-legend",
         style: container_style
       }));
