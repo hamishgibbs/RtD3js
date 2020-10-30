@@ -426,6 +426,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
       var update_area = this.props.area_click_handler;
       var data = this.props.summaryData;
       var container_id = this.props.container_id;
+      var legend_ref = this.props.legend_ref;
       g.selectAll("path").data(this.props.geoData.features).enter().append("path").attr("d", path).attr('region-name', function (feature) {
         return feature.properties.sovereignt;
       }).attr('fill', function (feature) {
@@ -440,10 +441,14 @@ var Map = /*#__PURE__*/function (_React$Component) {
         var hovered_name = Map_d3.select(this).attr('region-name');
         var hovered_data = data.filter(function (d) {
           return d.Country == hovered_name;
-        });
+        })[0];
+
+        function format_tooltip_string(hovered_data, legend_ref) {
+          return '<b>' + hovered_data['Country'] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']];
+        }
 
         try {
-          Map_d3.select('#' + container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(hovered_data[0].Country);
+          Map_d3.select('#' + container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(format_tooltip_string(hovered_data, legend_ref));
         } catch (_unused) {
           Map_d3.select('#' + container_id + '-tooltip').style("opacity", 0);
         }
@@ -454,7 +459,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
       }).on('click', function (e) {
         update_area(Map_d3.select(this).attr('region-name'));
       });
-      Map_d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute');
+      Map_d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute').style('background-color', 'white');
       var zoom = Map_d3.zoom().scaleExtent([1, 8]).on('zoom', function (e) {
         g.selectAll('path').attr('transform', e.transform);
       });
