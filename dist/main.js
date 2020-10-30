@@ -649,9 +649,9 @@ var MapLegend = /*#__PURE__*/function (_React$Component) {
       MapLegend_d3.selectAll('#legend-item').remove();
       MapLegend_d3.selectAll('#legend-item-group').remove();
       Object.keys(legend_ref['legend_values']).map(function (key) {
-        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row');
-        group.append('div').attr('id', 'legend-item').text(key + ':');
-        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_ref['legend_values'][key]);
+        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row pl-3');
+        group.append('div').attr('id', 'legend-item').attr('class', 'pl-2 pr-1').text(key + ':');
+        group.append('div').attr('class', 'pr-4 pt-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_ref['legend_values'][key]);
       });
     }
   }, {
@@ -671,9 +671,9 @@ var MapLegend = /*#__PURE__*/function (_React$Component) {
         return scale(value);
       });
       index.map(function (i) {
-        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row');
-        group.append('div').attr('id', 'legend-item').text(legend_values[i] + ':');
-        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_colors[i]);
+        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row pl-3');
+        group.append('div').attr('id', 'legend-item').text(legend_values[i] + ':').attr('class', 'pl-2 pr-1');
+        group.append('div').attr('class', 'pr-4 pt-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_colors[i]);
       });
     }
   }, {
@@ -694,7 +694,7 @@ var MapLegend = /*#__PURE__*/function (_React$Component) {
         height: "100%"
       };
       return /*#__PURE__*/MapLegend_React.createElement("div", {
-        className: "d-flex justify-content-around",
+        className: "d-flex justify-content-end",
         id: "map-legend",
         style: container_style
       });
