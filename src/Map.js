@@ -97,6 +97,9 @@ export default class Map extends React.Component{
        .attr('id', this.props.container_id + '-tooltip')
        .style('position', 'absolute')
        .style('background-color', 'white')
+       .style('border', '1px solid black')
+       .style('border-radius', '15px')
+       .style('padding', '5px')
 
     var zoom = d3.zoom()
       .scaleExtent([1, 8])

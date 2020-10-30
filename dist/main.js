@@ -459,7 +459,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
       }).on('click', function (e) {
         update_area(Map_d3.select(this).attr('region-name'));
       });
-      Map_d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute').style('background-color', 'white');
+      Map_d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute').style('background-color', 'white').style('border', '1px solid black').style('border-radius', '15px').style('padding', '5px');
       var zoom = Map_d3.zoom().scaleExtent([1, 8]).on('zoom', function (e) {
         g.selectAll('path').attr('transform', e.transform);
       });
