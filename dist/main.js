@@ -671,7 +671,7 @@ var MapLegend = /*#__PURE__*/function (_React$Component) {
         return scale(value);
       });
       index.map(function (i) {
-        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row pl-3');
+        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row pl-2 pr-1 bg-light');
         group.append('div').attr('id', 'legend-item').text(legend_values[i] + ':').attr('class', 'pl-2 pr-1');
         group.append('div').attr('class', 'pr-4 pt-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_colors[i]);
       });
@@ -838,9 +838,9 @@ var TimeseriesLegend = /*#__PURE__*/function (_React$Component) {
         return estimate_type_data[key][0];
       });
       legend_items.map(function (item) {
-        var group = TimeseriesLegend_d3.select('#ts-legend').append('div').attr('id', 'ts-legend-item-group').attr('class', 'row pl-2');
-        group.append('div').attr('id', 'ts-legend-item').text(item['type'] + ':');
-        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'ts-legend-item').style('width', '10px').style('height', '10px').style('background-color', item['color']);
+        var group = TimeseriesLegend_d3.select('#ts-legend').append('div').attr('id', 'ts-legend-item-group').attr('class', 'row pl-2 pr-1 bg-light');
+        group.append('div').attr('id', 'ts-legend-item').attr('class', 'pl-2 pr-1').text(item['type'] + ':');
+        group.append('div').attr('class', 'pr-4 pt-2').append('div').attr('id', 'ts-legend-item').style('width', '10px').style('height', '10px').style('background-color', item['color']);
       });
       var container_style = {
         width: "100%",
@@ -849,7 +849,7 @@ var TimeseriesLegend = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/TimeseriesLegend_React.createElement("div", {
         className: "row"
       }, /*#__PURE__*/TimeseriesLegend_React.createElement("div", {
-        className: "d-flex justify-content-around",
+        className: "d-flex justify-content-end",
         id: "ts-legend",
         style: container_style
       }));

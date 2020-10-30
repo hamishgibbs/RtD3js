@@ -75,7 +75,7 @@ export default class MapLegend extends React.Component{
       var group = d3.select('#map-legend')
         .append('div')
         .attr('id', 'legend-item-group')
-        .attr('class', 'row pl-3')
+        .attr('class', 'row pl-2 pr-1 bg-light')
 
       group
         .append('div')
