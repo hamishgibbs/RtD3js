@@ -249,7 +249,7 @@ export default class TimeseriesPlot extends React.Component{
           .attr('y', function(d, i) {return newY(d.confirm);})
       } catch {}
 
-      /*try {
+      try {
 
         var hline = d3.line()
           .x(function(d){ return newX(new Date(Date.parse(d.date))); })
@@ -258,12 +258,16 @@ export default class TimeseriesPlot extends React.Component{
 
         plot_content
           .selectAll('#r-line')
-          .attr("d", hline)
+          .attr("d", function(d){
 
-      } catch {}*/
+            return(hline(d))
+
+          })
+
+      } catch {}
 
       plot_content
-        .selectAll("path")
+        .selectAll("#ci-poly")
         .attr('d', function(d) {
 
           var ci_value = d3.select(this).attr('ci_value')
@@ -321,7 +325,7 @@ export default class TimeseriesPlot extends React.Component{
     svg.append("path")
       .datum(data)
       .attr("d", poly)
-      .attr("class", "ci-poly")
+      .attr("id", "ci-poly")
       .attr("ci_value", ci_value)
       .style('fill', color)
       .style('opacity', 0.5)

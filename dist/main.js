@@ -240,18 +240,19 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
             return newY(d.confirm);
           });
         } catch (_unused) {}
-        /*try {
-           var hline = d3.line()
-            .x(function(d){ return newX(new Date(Date.parse(d.date))); })
-            .y(function(d){ return newY(hline_intercept); })
-            .curve(d3.curveCardinal);
-           plot_content
-            .selectAll('#r-line')
-            .attr("d", hline)
-         } catch {}*/
 
+        try {
+          var hline = d3.line().x(function (d) {
+            return newX(new Date(Date.parse(d.date)));
+          }).y(function (d) {
+            return newY(hline_intercept);
+          }).curve(d3.curveCardinal);
+          plot_content.selectAll('#r-line').attr("d", function (d) {
+            return hline(d);
+          });
+        } catch (_unused2) {}
 
-        plot_content.selectAll("path").attr('d', function (d) {
+        plot_content.selectAll("#ci-poly").attr('d', function (d) {
           var ci_value = d3.select(this).attr('ci_value');
           var new_poly = d3.area().x(function (d) {
             return newX(new Date(Date.parse(d.date)));
@@ -306,7 +307,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "plotCIPoly",
     value: function plotCIPoly(svg, data, poly, color, ci_value) {
-      svg.append("path").datum(data).attr("d", poly).attr("class", "ci-poly").attr("ci_value", ci_value).style('fill', color).style('opacity', 0.5);
+      svg.append("path").datum(data).attr("d", poly).attr("id", "ci-poly").attr("ci_value", ci_value).style('fill', color).style('opacity', 0.5);
     }
   }, {
     key: "plot_hline",
