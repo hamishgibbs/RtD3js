@@ -185,6 +185,10 @@ export default class TimeseriesPlot extends React.Component{
       .attr("class", 'tooltip')
       .attr('id', this.props.container_id + '-tooltip')
       .style('position', 'absolute')
+      .style('background-color', 'white')
+      .style('border', '1px solid black')
+      .style('border-radius', '15px')
+      .style('padding', '5px')
 
     svg.append('line')
       .attr('id', this.props.container_id + '-hover-line')
