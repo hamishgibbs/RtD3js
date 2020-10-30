@@ -137,7 +137,13 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 
       var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect(); // Add plot group to svg
 
-      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")"); // Get all CIs from the data keys
+      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+
+      if (this.props.data.length == 0) {
+        svg.append('text').attr('id', '#' + this.props.content_id).text('No Data').style('fill', 'lightgrey').style('font-weight', 'bold').attr('y', svg_dims.height / 2).attr('x', svg_dims.width / 2.5);
+        return null;
+      } // Get all CIs from the data keys
+
 
       var cis = this.getCIs(this.props.data); // Get the value of the highest CI
 

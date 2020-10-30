@@ -69,6 +69,20 @@ export default class TimeseriesPlot extends React.Component{
                 .attr('id', this.props.content_id)
                 .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
 
+    if (this.props.data.length == 0){
+
+      svg.append('text')
+        .attr('id', '#' + this.props.content_id)
+        .text('No Data')
+        .style('fill', 'lightgrey')
+        .style('font-weight', 'bold')
+        .attr('y', svg_dims.height / 2)
+        .attr('x', svg_dims.width / 2.5)
+
+      return(null)
+
+    }
+
     // Get all CIs from the data keys
     var cis = this.getCIs(this.props.data)
 
