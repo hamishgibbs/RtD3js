@@ -143,7 +143,6 @@ export default class SummaryWidget extends React.Component{
 
     return(legend_scale)
   }
-
   render() {
 
     if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
@@ -159,6 +158,8 @@ export default class SummaryWidget extends React.Component{
       var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData'])
       var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'])
       var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData'])
+
+
 
       const plot_height = '200px'
       const map_height = 600
@@ -219,7 +220,8 @@ export default class SummaryWidget extends React.Component{
                         data={activeCasesInfectionData}
                         map_height={map_height}
                         obsCasesData={activeObsCasesData}
-                        ts_bar_color={this.props.x.ts_bar_color}>
+                        ts_bar_color={this.props.x.ts_bar_color}
+                        credible_threshold={this.props.x.credible_threshold}>
         </TimeseriesPlot>
         <TimeseriesPlot container_id='report-container'
                         svg_id='report-svg'
@@ -234,7 +236,8 @@ export default class SummaryWidget extends React.Component{
                         data={activeCasesReportData}
                         map_height={map_height}
                         obsCasesData={activeObsCasesData}
-                        ts_bar_color={this.props.x.ts_bar_color}>
+                        ts_bar_color={this.props.x.ts_bar_color}
+                        credible_threshold={this.props.x.credible_threshold}>
         </TimeseriesPlot>
         <TimeseriesLegend ts_color_ref={this.props.x.ts_color_ref}>
         </TimeseriesLegend>
