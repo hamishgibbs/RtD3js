@@ -2,4 +2,5 @@
 R
 .DS_Store
 node_modules
+dist/RtD3js
 dist/index.html
