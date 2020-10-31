@@ -34,16 +34,17 @@ export default class MapLegend extends React.Component{
       var group = d3.select('#map-legend')
         .append('div')
         .attr('id', 'legend-item-group')
-        .attr('class', 'row')
+        .attr('class', 'row pl-2 pr-1 bg-light')
 
       group
         .append('div')
         .attr('id', 'legend-item')
+        .attr('class', 'pl-2 pr-1')
         .text(key + ':')
 
       group
         .append('div')
-        .attr('class', 'pt-2 pl-2')
+        .attr('class', 'pr-4 pt-2')
         .append('div')
         .attr('id', 'legend-item')
         .style('width', '10px')
@@ -74,16 +75,17 @@ export default class MapLegend extends React.Component{
       var group = d3.select('#map-legend')
         .append('div')
         .attr('id', 'legend-item-group')
-        .attr('class', 'row')
+        .attr('class', 'row pl-2 pr-1 bg-light')
 
       group
         .append('div')
         .attr('id', 'legend-item')
         .text(legend_values[i] + ':')
+        .attr('class', 'pl-2 pr-1')
 
       group
         .append('div')
-        .attr('class', 'pt-2 pl-2')
+        .attr('class', 'pr-4 pt-2')
         .append('div')
         .attr('id', 'legend-item')
         .style('width', '10px')
@@ -107,7 +109,7 @@ export default class MapLegend extends React.Component{
       height: "100%"
     };
     return(
-      <div className="d-flex justify-content-around" id='map-legend' style={container_style}></div>
+      <div className="d-flex justify-content-end pr-2" id='map-legend' style={container_style}></div>
     )
   }
 }

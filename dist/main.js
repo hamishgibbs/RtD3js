@@ -69,7 +69,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       top: 10,
       right: 40,
       bottom: 30,
-      left: 30
+      left: 60
     };
     _this.active_x = null;
     return _this;
@@ -137,7 +137,13 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 
       var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect(); // Add plot group to svg
 
-      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")"); // Get all CIs from the data keys
+      var svg = d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+
+      if (this.props.data.length == 0) {
+        svg.append('text').attr('id', '#' + this.props.content_id).text('No Data').style('fill', 'lightgrey').style('font-weight', 'bold').attr('y', svg_dims.height / 2).attr('x', svg_dims.width / 2.5);
+        return null;
+      } // Get all CIs from the data keys
+
 
       var cis = this.getCIs(this.props.data); // Get the value of the highest CI
 
@@ -196,7 +202,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       }
 
       var zoom = d3.zoom().scaleExtent([.5, 20]).extent([[0, 0], [svg_dims.width, svg_dims.height]]).on("zoom", updateChart);
-      d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute');
+      d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute').style('background-color', 'white').style('border', '1px solid black').style('border-radius', '15px').style('padding', '5px');
       svg.append('line').attr('id', this.props.container_id + '-hover-line').attr("x1", 20).attr("y1", 0).attr("x2", 20).attr("y2", svg_dims.height).attr('stroke', 'black').attr('stroke-width', '1px').attr('stroke-opacity', 0);
       svg.append("rect").attr("width", svg_dims.width).attr("height", svg_dims.height).style("fill", "none").style("pointer-events", "all").attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')').call(zoom).on('mousemove', function (e) {
         var hovered_x = _this3.active_x.invert(e.clientX);
@@ -209,10 +215,10 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
           }
         })[0];
 
-        var tooltip_string = _this3.format_tooltip_string(hover_data);
+        var tooltip_string = _this3.format_tooltip_string(hover_data, cis);
 
         d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + _this3.props.map_height - 200 + "px").html(tooltip_string);
-        d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 40).attr('x2', e.clientX - 40);
+        d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 60).attr('x2', e.clientX - 60);
       }).on('mouseenter', function (e) {
         d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 1);
         d3.select('#' + _this3.props.container_id + '-hover-line').attr('stroke-opacity', 1);
@@ -240,18 +246,19 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
             return newY(d.confirm);
           });
         } catch (_unused) {}
-        /*try {
-           var hline = d3.line()
-            .x(function(d){ return newX(new Date(Date.parse(d.date))); })
-            .y(function(d){ return newY(hline_intercept); })
-            .curve(d3.curveCardinal);
-           plot_content
-            .selectAll('#r-line')
-            .attr("d", hline)
-         } catch {}*/
 
+        try {
+          var hline = d3.line().x(function (d) {
+            return newX(new Date(Date.parse(d.date)));
+          }).y(function (d) {
+            return newY(hline_intercept);
+          }).curve(d3.curveCardinal);
+          plot_content.selectAll('#r-line').attr("d", function (d) {
+            return hline(d);
+          });
+        } catch (_unused2) {}
 
-        plot_content.selectAll("path").attr('d', function (d) {
+        plot_content.selectAll("#ci-poly").attr('d', function (d) {
           var ci_value = d3.select(this).attr('ci_value');
           var new_poly = d3.area().x(function (d) {
             return newX(new Date(Date.parse(d.date)));
@@ -266,8 +273,12 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "format_tooltip_string",
-    value: function format_tooltip_string(hover_data) {
-      var hover_str = hover_data['country'] + '</br>' + hover_data['date'] + '</br>' + hover_data['lower_90'];
+    value: function format_tooltip_string(hover_data, cis) {
+      var sep = '</br>';
+      var hover_str = '<b>' + hover_data['country'] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>';
+      hover_str = hover_str + cis.map(function (ci) {
+        return sep + '<b>' + ci['value'] + '% CI: </b>' + hover_data[ci['lower_name']] + ' - ' + hover_data[ci['upper_name']];
+      });
       return hover_str;
     }
   }, {
@@ -302,7 +313,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "plotCIPoly",
     value: function plotCIPoly(svg, data, poly, color, ci_value) {
-      svg.append("path").datum(data).attr("d", poly).attr("class", "ci-poly").attr("ci_value", ci_value).style('fill', color).style('opacity', 0.5);
+      svg.append("path").datum(data).attr("d", poly).attr("id", "ci-poly").attr("ci_value", ci_value).style('fill', color).style('opacity', 0.5);
     }
   }, {
     key: "plot_hline",
@@ -422,6 +433,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
       var update_area = this.props.area_click_handler;
       var data = this.props.summaryData;
       var container_id = this.props.container_id;
+      var legend_ref = this.props.legend_ref;
       g.selectAll("path").data(this.props.geoData.features).enter().append("path").attr("d", path).attr('region-name', function (feature) {
         return feature.properties.sovereignt;
       }).attr('fill', function (feature) {
@@ -436,10 +448,14 @@ var Map = /*#__PURE__*/function (_React$Component) {
         var hovered_name = Map_d3.select(this).attr('region-name');
         var hovered_data = data.filter(function (d) {
           return d.Country == hovered_name;
-        });
+        })[0];
+
+        function format_tooltip_string(hovered_data, legend_ref) {
+          return '<b>' + hovered_data['Country'] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']];
+        }
 
         try {
-          Map_d3.select('#' + container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(hovered_data[0].Country);
+          Map_d3.select('#' + container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + "px").html(format_tooltip_string(hovered_data, legend_ref));
         } catch (_unused) {
           Map_d3.select('#' + container_id + '-tooltip').style("opacity", 0);
         }
@@ -450,7 +466,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
       }).on('click', function (e) {
         update_area(Map_d3.select(this).attr('region-name'));
       });
-      Map_d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute');
+      Map_d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute').style('background-color', 'white').style('border', '1px solid black').style('border-radius', '15px').style('padding', '5px');
       var zoom = Map_d3.zoom().scaleExtent([1, 8]).on('zoom', function (e) {
         g.selectAll('path').attr('transform', e.transform);
       });
@@ -640,9 +656,9 @@ var MapLegend = /*#__PURE__*/function (_React$Component) {
       MapLegend_d3.selectAll('#legend-item').remove();
       MapLegend_d3.selectAll('#legend-item-group').remove();
       Object.keys(legend_ref['legend_values']).map(function (key) {
-        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row');
-        group.append('div').attr('id', 'legend-item').text(key + ':');
-        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_ref['legend_values'][key]);
+        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row pl-2 pr-1 bg-light');
+        group.append('div').attr('id', 'legend-item').attr('class', 'pl-2 pr-1').text(key + ':');
+        group.append('div').attr('class', 'pr-4 pt-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_ref['legend_values'][key]);
       });
     }
   }, {
@@ -662,9 +678,9 @@ var MapLegend = /*#__PURE__*/function (_React$Component) {
         return scale(value);
       });
       index.map(function (i) {
-        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row');
-        group.append('div').attr('id', 'legend-item').text(legend_values[i] + ':');
-        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_colors[i]);
+        var group = MapLegend_d3.select('#map-legend').append('div').attr('id', 'legend-item-group').attr('class', 'row pl-2 pr-1 bg-light');
+        group.append('div').attr('id', 'legend-item').text(legend_values[i] + ':').attr('class', 'pl-2 pr-1');
+        group.append('div').attr('class', 'pr-4 pt-2').append('div').attr('id', 'legend-item').style('width', '10px').style('height', '10px').style('background-color', legend_colors[i]);
       });
     }
   }, {
@@ -685,7 +701,7 @@ var MapLegend = /*#__PURE__*/function (_React$Component) {
         height: "100%"
       };
       return /*#__PURE__*/MapLegend_React.createElement("div", {
-        className: "d-flex justify-content-around",
+        className: "d-flex justify-content-end pr-2",
         id: "map-legend",
         style: container_style
       });
@@ -829,18 +845,18 @@ var TimeseriesLegend = /*#__PURE__*/function (_React$Component) {
         return estimate_type_data[key][0];
       });
       legend_items.map(function (item) {
-        var group = TimeseriesLegend_d3.select('#ts-legend').append('div').attr('id', 'ts-legend-item-group').attr('class', 'row pl-2');
-        group.append('div').attr('id', 'ts-legend-item').text(item['type'] + ':');
-        group.append('div').attr('class', 'pt-2 pl-2').append('div').attr('id', 'ts-legend-item').style('width', '10px').style('height', '10px').style('background-color', item['color']);
+        var group = TimeseriesLegend_d3.select('#ts-legend').append('div').attr('id', 'ts-legend-item-group').attr('class', 'row pl-2 pr-2 bg-light');
+        group.append('div').attr('id', 'ts-legend-item').attr('class', 'pl-2 pr-1').text(item['type'] + ':');
+        group.append('div').attr('class', 'pr-4 pt-2').append('div').attr('id', 'ts-legend-item').style('width', '10px').style('height', '10px').style('background-color', item['color']);
       });
       var container_style = {
         width: "100%",
-        height: "40px"
+        height: "20px"
       };
       return /*#__PURE__*/TimeseriesLegend_React.createElement("div", {
         className: "row"
       }, /*#__PURE__*/TimeseriesLegend_React.createElement("div", {
-        className: "d-flex justify-content-around",
+        className: "d-flex justify-content-end pr-2",
         id: "ts-legend",
         style: container_style
       }));

@@ -30,20 +30,21 @@ export default class TimeseriesLegend extends React.Component{
     })
 
     legend_items.map(item => {
-      
+
       var group = d3.select('#ts-legend')
         .append('div')
         .attr('id', 'ts-legend-item-group')
-        .attr('class', 'row pl-2')
+        .attr('class', 'row pl-2 pr-2 bg-light')
 
       group
         .append('div')
         .attr('id', 'ts-legend-item')
+        .attr('class', 'pl-2 pr-1')
         .text(item['type'] + ':')
 
       group
         .append('div')
-        .attr('class', 'pt-2 pl-2')
+        .attr('class', 'pr-4 pt-2')
         .append('div')
         .attr('id', 'ts-legend-item')
         .style('width', '10px')
@@ -53,12 +54,12 @@ export default class TimeseriesLegend extends React.Component{
 
     const container_style = {
       width: "100%",
-      height: "40px"
+      height: "20px"
     };
 
     return(
       <div className='row'>
-        <div className="d-flex justify-content-around" id='ts-legend' style={container_style}></div>
+        <div className="d-flex justify-content-end pr-2" id='ts-legend' style={container_style}></div>
       </div>
     )
   }

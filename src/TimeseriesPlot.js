@@ -6,7 +6,7 @@ export default class TimeseriesPlot extends React.Component{
   constructor(props) {
     super(props);
 
-    this.margin = {top: 10, right: 40, bottom: 30, left: 30}
+    this.margin = {top: 10, right: 40, bottom: 30, left: 60}
 
     this.active_x = null
 
@@ -68,6 +68,20 @@ export default class TimeseriesPlot extends React.Component{
                 .append('g')
                 .attr('id', this.props.content_id)
                 .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
+
+    if (this.props.data.length == 0){
+
+      svg.append('text')
+        .attr('id', '#' + this.props.content_id)
+        .text('No Data')
+        .style('fill', 'lightgrey')
+        .style('font-weight', 'bold')
+        .attr('y', svg_dims.height / 2)
+        .attr('x', svg_dims.width / 2.5)
+
+      return(null)
+
+    }
 
     // Get all CIs from the data keys
     var cis = this.getCIs(this.props.data)
@@ -171,6 +185,10 @@ export default class TimeseriesPlot extends React.Component{
       .attr("class", 'tooltip')
       .attr('id', this.props.container_id + '-tooltip')
       .style('position', 'absolute')
+      .style('background-color', 'white')
+      .style('border', '1px solid black')
+      .style('border-radius', '15px')
+      .style('padding', '5px')
 
     svg.append('line')
       .attr('id', this.props.container_id + '-hover-line')
@@ -200,7 +218,7 @@ export default class TimeseriesPlot extends React.Component{
           }
         })[0];
 
-        var tooltip_string = this.format_tooltip_string(hover_data)
+        var tooltip_string = this.format_tooltip_string(hover_data, cis)
 
         d3.select('#' + this.props.container_id + '-tooltip')
           .style("left", (e.clientX + 40) + "px")
@@ -208,8 +226,8 @@ export default class TimeseriesPlot extends React.Component{
           .html(tooltip_string)
 
         d3.select('#' + this.props.container_id + '-hover-line')
-          .attr('x1', e.clientX - 40)
-          .attr('x2', e.clientX - 40)
+          .attr('x1', e.clientX - 60)
+          .attr('x2', e.clientX - 60)
 
       }))
       .on('mouseenter', (e => {
@@ -249,7 +267,7 @@ export default class TimeseriesPlot extends React.Component{
           .attr('y', function(d, i) {return newY(d.confirm);})
       } catch {}
 
-      /*try {
+      try {
 
         var hline = d3.line()
           .x(function(d){ return newX(new Date(Date.parse(d.date))); })
@@ -258,12 +276,16 @@ export default class TimeseriesPlot extends React.Component{
 
         plot_content
           .selectAll('#r-line')
-          .attr("d", hline)
+          .attr("d", function(d){
 
-      } catch {}*/
+            return(hline(d))
+
+          })
+
+      } catch {}
 
       plot_content
-        .selectAll("path")
+        .selectAll("#ci-poly")
         .attr('d', function(d) {
 
           var ci_value = d3.select(this).attr('ci_value')
@@ -281,9 +303,15 @@ export default class TimeseriesPlot extends React.Component{
     }
 
   };
-  format_tooltip_string(hover_data){
+  format_tooltip_string(hover_data, cis){
 
-    var hover_str = hover_data['country'] + '</br>' + hover_data['date'] + '</br>' + hover_data['lower_90']
+    var sep = '</br>'
+
+    var hover_str = '<b>' + hover_data['country'] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>'
+
+    hover_str = hover_str + cis.map(ci => {
+      return(sep + '<b>' +ci['value'] + '% CI: </b>' + hover_data[ci['lower_name']] + ' - ' + hover_data[ci['upper_name']])
+    })
 
     return(hover_str)
 
@@ -315,7 +343,7 @@ export default class TimeseriesPlot extends React.Component{
     svg.append("path")
       .datum(data)
       .attr("d", poly)
-      .attr("class", "ci-poly")
+      .attr("id", "ci-poly")
       .attr("ci_value", ci_value)
       .style('fill', color)
       .style('opacity', 0.5)
