@@ -940,35 +940,53 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
       // Default to the first map legend
       this.setState({
         active_map_legend: this.props.x.map_legend_ref[0]
-      });
-      this.props.x.geoData.then(function (data) {
-        _this2.setState({
-          geoData: data
+      }); // Try to resolve promise or accept array
+
+      try {
+        this.props.x.geoData.then(function (data) {
+          _this2.setState({
+            geoData: data
+          });
         });
-      }); //rtData is nested recursively
+      } catch (_unused) {
+        this.setState({
+          geoData: this.props.x.geoData
+        });
+      }
+
+      try {} catch (_unused2) {} //rtData is nested recursively
+
 
       Object.keys(this.props.x.rtData).map(function (key, index) {
         _this2.state.rtData[key] = new Object();
         Object.keys(_this2.props.x.rtData[key]).map(function (sub_key, sub_index) {
-          _this2.props.x.rtData[key][sub_key].then(function (data) {
-            // setState needs to be called for nested state
+          try {
+            _this2.props.x.rtData[key][sub_key].then(function (data) {
+              // setState needs to be called for nested state
+              _this2.setState(function (prevState) {
+                return {
+                  rtData: _objectSpread(_objectSpread({}, prevState.rtData), {}, summaryWidget_defineProperty({}, key, _objectSpread(_objectSpread({}, prevState.rtData[key]), {}, summaryWidget_defineProperty({}, sub_key, data))))
+                };
+              }); // Also setting the min and max dates of the active area here
+
+
+              if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)) {
+                var min_date = summaryWidget_d3.min(_this2.get_dates(_this2.filterData(_this2.state.active_area, data)));
+                var max_date = summaryWidget_d3.max(_this2.get_dates(_this2.filterData(_this2.state.active_area, data)));
+
+                _this2.setState({
+                  min_date: min_date,
+                  max_date: max_date
+                });
+              }
+            });
+          } catch (_unused3) {
             _this2.setState(function (prevState) {
               return {
-                rtData: _objectSpread(_objectSpread({}, prevState.rtData), {}, summaryWidget_defineProperty({}, key, _objectSpread(_objectSpread({}, prevState.rtData[key]), {}, summaryWidget_defineProperty({}, sub_key, data))))
+                rtData: _objectSpread(_objectSpread({}, prevState.rtData), {}, summaryWidget_defineProperty({}, key, _objectSpread(_objectSpread({}, prevState.rtData[key]), {}, summaryWidget_defineProperty({}, sub_key, _this2.props.x.rtData[key][sub_key]))))
               };
-            }); // Also setting the min and max dates of the active area here
-
-
-            if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)) {
-              var min_date = summaryWidget_d3.min(_this2.get_dates(_this2.filterData(_this2.state.active_area, data)));
-              var max_date = summaryWidget_d3.max(_this2.get_dates(_this2.filterData(_this2.state.active_area, data)));
-
-              _this2.setState({
-                min_date: min_date,
-                max_date: max_date
-              });
-            }
-          });
+            });
+          }
         });
       });
     }
@@ -1119,7 +1137,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           data: activeCasesInfectionData,
           map_height: map_height,
           obsCasesData: activeObsCasesData,
-          ts_bar_color: this.props.x.ts_bar_color
+          ts_bar_color: this.props.x.ts_bar_color,
+          credible_threshold: this.props.x.credible_threshold
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "report-container",
           svg_id: "report-svg",
@@ -1134,7 +1153,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           data: activeCasesReportData,
           map_height: map_height,
           obsCasesData: activeObsCasesData,
-          ts_bar_color: this.props.x.ts_bar_color
+          ts_bar_color: this.props.x.ts_bar_color,
+          credible_threshold: this.props.x.credible_threshold
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesLegend, {
           ts_color_ref: this.props.x.ts_color_ref
         }));

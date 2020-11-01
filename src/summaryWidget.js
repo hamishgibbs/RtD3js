@@ -28,6 +28,7 @@ export default class SummaryWidget extends React.Component{
     // Default to the first map legend
     this.setState({active_map_legend: this.props.x.map_legend_ref[0]})
 
+    // Try to resolve promise or accept array
     try {
       this.props.x.geoData.then(data => {
         this.setState({geoData: data})
@@ -36,6 +37,11 @@ export default class SummaryWidget extends React.Component{
       this.setState({geoData: this.props.x.geoData})
     }
 
+    try {
+
+    } catch {
+
+    }
     //rtData is nested recursively
     Object.keys(this.props.x.rtData).map((key, index) => {
 
@@ -43,32 +49,48 @@ export default class SummaryWidget extends React.Component{
 
       Object.keys(this.props.x.rtData[key]).map((sub_key, sub_index) => {
 
-        this.props.x.rtData[key][sub_key].then(data => {
+        try {
+          this.props.x.rtData[key][sub_key].then(data => {
 
-          // setState needs to be called for nested state
-          this.setState(prevState => ({
-              rtData: {
-                  ...prevState.rtData,
-                  [key]: {
-                      ...prevState.rtData[key],
-                      [sub_key]: data
-                  }
-              }
-          }))
+            // setState needs to be called for nested state
+            this.setState(prevState => ({
+                rtData: {
+                    ...prevState.rtData,
+                    [key]: {
+                        ...prevState.rtData[key],
+                        [sub_key]: data
+                    }
+                }
+            }))
 
-          // Also setting the min and max dates of the active area here
-          if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)){
+            // Also setting the min and max dates of the active area here
+            if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)){
 
-            var min_date = d3.min(this.get_dates(this.filterData(this.state.active_area, data)))
-            var max_date = d3.max(this.get_dates(this.filterData(this.state.active_area, data)))
+              var min_date = d3.min(this.get_dates(this.filterData(this.state.active_area, data)))
+              var max_date = d3.max(this.get_dates(this.filterData(this.state.active_area, data)))
 
-            this.setState({min_date: min_date, max_date: max_date})
+              this.setState({min_date: min_date, max_date: max_date})
 
-          }
+            }
 
-          }
+            }
 
-        )
+          )
+      } catch {
+
+        this.setState(prevState => ({
+            rtData: {
+                ...prevState.rtData,
+                [key]: {
+                    ...prevState.rtData[key],
+                    [sub_key]: this.props.x.rtData[key][sub_key]
+                }
+            }
+        }))
+
+        // Handle max date here
+
+      }
 
       })
     })
