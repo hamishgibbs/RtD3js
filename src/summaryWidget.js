@@ -89,6 +89,14 @@ export default class SummaryWidget extends React.Component{
         }))
 
         // Handle max date here
+        if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)){
+
+          var min_date = d3.min(this.get_dates(this.filterData(this.state.active_area, this.props.x.rtData[key][sub_key])))
+          var max_date = d3.max(this.get_dates(this.filterData(this.state.active_area, this.props.x.rtData[key][sub_key])))
+
+          this.setState({min_date: min_date, max_date: max_date})
+
+        }
 
       }
 
@@ -171,6 +179,8 @@ export default class SummaryWidget extends React.Component{
   }
 
   render() {
+
+    console.log(this.state)
 
     if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
 

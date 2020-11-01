@@ -985,7 +985,18 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
               return {
                 rtData: _objectSpread(_objectSpread({}, prevState.rtData), {}, summaryWidget_defineProperty({}, key, _objectSpread(_objectSpread({}, prevState.rtData[key]), {}, summaryWidget_defineProperty({}, sub_key, _this2.props.x.rtData[key][sub_key]))))
               };
-            });
+            }); // Handle max date here
+
+
+            if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)) {
+              var min_date = summaryWidget_d3.min(_this2.get_dates(_this2.filterData(_this2.state.active_area, _this2.props.x.rtData[key][sub_key])));
+              var max_date = summaryWidget_d3.max(_this2.get_dates(_this2.filterData(_this2.state.active_area, _this2.props.x.rtData[key][sub_key])));
+
+              _this2.setState({
+                min_date: min_date,
+                max_date: max_date
+              });
+            }
           }
         });
       });
@@ -1065,6 +1076,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log(this.state);
+
       if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
         return /*#__PURE__*/summaryWidget_React.createElement("div", {
           className: "d-flex justify-content-center pt-4"
