@@ -28,9 +28,13 @@ export default class SummaryWidget extends React.Component{
     // Default to the first map legend
     this.setState({active_map_legend: this.props.x.map_legend_ref[0]})
 
-    this.props.x.geoData.then(data => {
-      this.setState({geoData: data})
-    })
+    try {
+      this.props.x.geoData.then(data => {
+        this.setState({geoData: data})
+      })
+    } catch {
+      this.setState({geoData: this.props.x.geoData})
+    }
 
     //rtData is nested recursively
     Object.keys(this.props.x.rtData).map((key, index) => {
@@ -143,6 +147,7 @@ export default class SummaryWidget extends React.Component{
 
     return(legend_scale)
   }
+
   render() {
 
     if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
