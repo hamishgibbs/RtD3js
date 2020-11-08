@@ -757,9 +757,11 @@ var CountrySelect = /*#__PURE__*/function (_React$Component) {
   CountrySelect_createClass(CountrySelect, [{
     key: "render",
     value: function render() {
+      var _this = this;
+
       var region_options = [];
       this.props.summaryData.map(function (item) {
-        region_options.push( /*#__PURE__*/CountrySelect_React.createElement("option", null, item['Country']));
+        region_options.push( /*#__PURE__*/CountrySelect_React.createElement("option", null, item[_this.props.data_ref['summaryData']['geometry_name']]));
       });
       var source_options = [];
       this.props.data_sources.map(function (item) {
@@ -1110,7 +1112,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           data_sources: Object.keys(this.state.rtData),
           active_area: this.state.active_area,
           select_handler: this.update_region_state.bind(this),
-          source_select_handler: this.update_source_state.bind(this)
+          source_select_handler: this.update_source_state.bind(this),
+          data_ref: this.props.x.data_ref
         }), /*#__PURE__*/summaryWidget_React.createElement(TimeseriesPlot, {
           container_id: "r-container",
           svg_id: "r-svg",
