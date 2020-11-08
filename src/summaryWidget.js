@@ -66,8 +66,15 @@ export default class SummaryWidget extends React.Component{
             // Also setting the min and max dates of the active area here
             if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)){
 
-              var min_date = d3.min(this.get_dates(this.filterData(this.state.active_area, data)))
-              var max_date = d3.max(this.get_dates(this.filterData(this.state.active_area, data)))
+              var min_date = d3.min(this.get_dates(this.filterData(this.state.active_area,
+                data,
+                this.props.x.data_ref[sub_key]['geometry_name']
+              )))
+
+              var max_date = d3.max(this.get_dates(this.filterData(this.state.active_area,
+                data,
+                this.props.x.data_ref[sub_key]['geometry_name']
+              )))
 
               this.setState({min_date: min_date, max_date: max_date})
 
@@ -138,24 +145,11 @@ export default class SummaryWidget extends React.Component{
     return dates
 
   }
-  filterData(region, input, filter_var='region'){
+  filterData(region, input, geometry_name, filter_var='region'){
     // Filters an array for an arbitrary value by an arbitrary column
 
-    var input_keys = Object.keys(input[0])
-
-    // Add flexibility for the most common filtered variables. Assumes there is only one of these per dataset
-    if (input_keys.includes('region')){
-      filter_var = 'region'
-    } else if (input_keys.includes('country')){
-      filter_var = 'country'
-    } else if (input_keys.includes('Country')){
-      filter_var = 'Country'
-    } else if (input_keys.includes('Region')){
-      filter_var = 'Region'
-    }
-
     var filtered = input.filter(function (e) {
-        return e[filter_var] == region;
+        return e[geometry_name] == region;
     });
 
     return ( filtered )
@@ -189,13 +183,23 @@ export default class SummaryWidget extends React.Component{
       )
 
     } else {
-      var activeRtData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['rtData'])
-      var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData'])
-      var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'])
-      var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData'])
 
-      console.log(this.state.rtData[this.state.active_source]['summaryData'])
-      console.log(this.props.x)
+      var activeRtData = this.filterData(this.state.active_area,
+        this.state.rtData[this.state.active_source]['rtData'],
+        this.props.x.data_ref['rtData']['geometry_name']
+      )
+      var activeCasesInfectionData = this.filterData(this.state.active_area,
+        this.state.rtData[this.state.active_source]['casesInfectionData'],
+        this.props.x.data_ref['casesInfectionData']['geometry_name']
+      )
+      var activeCasesReportData = this.filterData(this.state.active_area,
+        this.state.rtData[this.state.active_source]['casesReportData'],
+        this.props.x.data_ref['casesReportData']['geometry_name']
+      )
+      var activeObsCasesData = this.filterData(this.state.active_area,
+        this.state.rtData[this.state.active_source]['obsCasesData'],
+        this.props.x.data_ref['obsCasesData']['geometry_name']
+      )
 
       const plot_height = '200px'
       const map_height = 600
@@ -209,6 +213,7 @@ export default class SummaryWidget extends React.Component{
              height= {map_height + 'px'}
              geoData={this.state.geoData}
              summaryData={this.state.rtData[this.state.active_source]['summaryData']}
+             data_ref={this.props.x.data_ref}
              projection={this.props.x.projection}
              legend_ref={this.state.active_map_legend}
              create_sequential_legend={this.create_sequential_legend}
@@ -239,6 +244,7 @@ export default class SummaryWidget extends React.Component{
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
+                        data_ref={this.props.x.data_ref}
                         data={activeRtData}
                         map_height={map_height}
                         hline_intercept={1}>
@@ -253,6 +259,7 @@ export default class SummaryWidget extends React.Component{
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
+                        data_ref={this.props.x.data_ref}
                         data={activeCasesInfectionData}
                         map_height={map_height}
                         obsCasesData={activeObsCasesData}
@@ -269,6 +276,7 @@ export default class SummaryWidget extends React.Component{
                         min_date={this.state.min_date}
                         max_date={this.state.max_date}
                         ts_color_ref={this.props.x.ts_color_ref}
+                        data_ref={this.props.x.data_ref}
                         data={activeCasesReportData}
                         map_height={map_height}
                         obsCasesData={activeObsCasesData}

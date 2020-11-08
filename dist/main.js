@@ -147,9 +147,10 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 
       var cis = this.getCIs(this.props.data); // Get the value of the highest CI
 
-      var max_ci = d3.max(cis.map(function (ci) {
+      var cis_numeric = cis.map(function (ci) {
         return ci['value'];
-      })); // Y max is the max of the highest CI
+      });
+      var max_ci = d3.max(cis_numeric); // Y max is the max of the highest CI
 
       var y_max = d3.max(this.props.data.map(function (d) {
         return parseFloat(d['upper_' + max_ci]);
@@ -971,8 +972,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
 
 
               if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)) {
-                var min_date = summaryWidget_d3.min(_this2.get_dates(_this2.filterData(_this2.state.active_area, data)));
-                var max_date = summaryWidget_d3.max(_this2.get_dates(_this2.filterData(_this2.state.active_area, data)));
+                var min_date = summaryWidget_d3.min(_this2.get_dates(_this2.filterData(_this2.state.active_area, data, _this2.props.x.data_ref[sub_key]['geometry_name'])));
+                var max_date = summaryWidget_d3.max(_this2.get_dates(_this2.filterData(_this2.state.active_area, data, _this2.props.x.data_ref[sub_key]['geometry_name'])));
 
                 _this2.setState({
                   min_date: min_date,
@@ -1041,23 +1042,11 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "filterData",
-    value: function filterData(region, input) {
-      var filter_var = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'region';
+    value: function filterData(region, input, geometry_name) {
+      var filter_var = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'region';
       // Filters an array for an arbitrary value by an arbitrary column
-      var input_keys = Object.keys(input[0]); // Add flexibility for the most common filtered variables. Assumes there is only one of these per dataset
-
-      if (input_keys.includes('region')) {
-        filter_var = 'region';
-      } else if (input_keys.includes('country')) {
-        filter_var = 'country';
-      } else if (input_keys.includes('Country')) {
-        filter_var = 'Country';
-      } else if (input_keys.includes('Region')) {
-        filter_var = 'Region';
-      }
-
       var filtered = input.filter(function (e) {
-        return e[filter_var] == region;
+        return e[geometry_name] == region;
       });
       return filtered;
     }
@@ -1083,12 +1072,12 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           className: "text-muted"
         }, "Loading..."));
       } else {
-        var activeRtData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['rtData']);
-        var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData']);
-        var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData']);
-        var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData']);
-        console.log(this.state.rtData[this.state.active_source]['summaryData']);
-        console.log(this.props.x);
+        var activeRtData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['rtData'], this.props.x.data_ref['rtData']['geometry_name']);
+        var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData'], this.props.x.data_ref['casesInfectionData']['geometry_name']);
+        var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'], this.props.x.data_ref['casesReportData']['geometry_name']);
+        var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData'], this.props.x.data_ref['obsCasesData']['geometry_name']);
+        console.log(this.props.x.data_ref['rtData']['geometry_name']);
+        console.log(activeRtData);
         var plot_height = '200px';
         var map_height = 600;
         return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(Map, {

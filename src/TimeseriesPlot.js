@@ -18,6 +18,7 @@ export default class TimeseriesPlot extends React.Component{
       this.createTsPlot()
    }
   getCIs(data){
+
     var ci = Object.keys(data[0]).map(key => {return this.parseCI(key)})
 
     var ci = ci.filter(function(x) {return x !== undefined;});
@@ -87,7 +88,9 @@ export default class TimeseriesPlot extends React.Component{
     var cis = this.getCIs(this.props.data)
 
     // Get the value of the highest CI
-    var max_ci = d3.max(cis.map(ci => {return(ci['value'])}))
+    var cis_numeric = cis.map(ci => {return(ci['value'])})
+
+    var max_ci = d3.max(cis_numeric)
 
     // Y max is the max of the highest CI
     var y_max = d3.max(this.props.data.map(d => parseFloat(d['upper_' + max_ci])))
