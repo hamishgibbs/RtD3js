@@ -61,11 +61,11 @@ export default class Map extends React.Component{
             var hovered_name = d3.select(this).attr('region-name')
 
             var hovered_data = data.filter(d => {
-              return( d.Country == hovered_name)
+              return( d.region == hovered_name)
             })[0]
 
             function format_tooltip_string(hovered_data, legend_ref){
-              return('<b>' + hovered_data['Country'] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']])
+              return('<b>' + hovered_data['region'] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']])
             }
 
             try {
@@ -115,7 +115,7 @@ export default class Map extends React.Component{
   sequential_fill(feature_name, summaryData, legend_scale, legend_ref){
 
     var summary_data = summaryData.filter(function(d){
-      if (d.Country == feature_name){
+      if (d.region == feature_name){
         return(
           d
         )
@@ -139,7 +139,7 @@ export default class Map extends React.Component{
   qualitative_fill(feature_name, summaryData, legend_ref){
 
     var summary_data = summaryData.filter(function(d){
-      if (d.Country == feature_name){
+      if (d.region == feature_name){
         return(
           d
         )

@@ -447,11 +447,11 @@ var Map = /*#__PURE__*/function (_React$Component) {
       }).attr('stroke', '#333').on('mousemove', function (e) {
         var hovered_name = Map_d3.select(this).attr('region-name');
         var hovered_data = data.filter(function (d) {
-          return d.Country == hovered_name;
+          return d.region == hovered_name;
         })[0];
 
         function format_tooltip_string(hovered_data, legend_ref) {
-          return '<b>' + hovered_data['Country'] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']];
+          return '<b>' + hovered_data['region'] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']];
         }
 
         try {
@@ -476,7 +476,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
     key: "sequential_fill",
     value: function sequential_fill(feature_name, summaryData, legend_scale, legend_ref) {
       var summary_data = summaryData.filter(function (d) {
-        if (d.Country == feature_name) {
+        if (d.region == feature_name) {
           return d;
         }
       });
@@ -492,7 +492,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
     key: "qualitative_fill",
     value: function qualitative_fill(feature_name, summaryData, legend_ref) {
       var summary_data = summaryData.filter(function (d) {
-        if (d.Country == feature_name) {
+        if (d.region == feature_name) {
           return d;
         }
       });
@@ -1076,8 +1076,6 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.state);
-
       if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
         return /*#__PURE__*/summaryWidget_React.createElement("div", {
           className: "d-flex justify-content-center pt-4"
@@ -1089,6 +1087,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
         var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData']);
         var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData']);
         var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData']);
+        console.log(this.state.rtData[this.state.active_source]['summaryData']);
+        console.log(this.props.x);
         var plot_height = '200px';
         var map_height = 600;
         return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(Map, {

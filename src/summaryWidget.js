@@ -180,8 +180,6 @@ export default class SummaryWidget extends React.Component{
 
   render() {
 
-    console.log(this.state)
-
     if (Object.keys(this.state.rtData[this.state.active_source]).length <= 3) {
 
       return(
@@ -196,7 +194,8 @@ export default class SummaryWidget extends React.Component{
       var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'])
       var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData'])
 
-
+      console.log(this.state.rtData[this.state.active_source]['summaryData'])
+      console.log(this.props.x)
 
       const plot_height = '200px'
       const map_height = 600

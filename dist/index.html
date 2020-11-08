@@ -30,6 +30,13 @@
                                'casesInfectionData':d3.csv('RtD3js/data/deaths/cases_by_infection.csv'),
                                'casesReportData':d3.csv('RtD3js/data/deaths/cases_by_report.csv'),
                                'obsCasesData':d3.csv('RtD3js/data/deaths/reported_cases.csv')}},
+          'data_ref':{
+            'summaryData':{'geometry_name':'Country'},
+            'rtData':{'geometry_name':'country'},
+            'casesInfectionData':{'geometry_name':'country'},
+            'casesReportData':{'geometry_name':'country'},
+            'obsCasesData':{'geometry_name':'region'},
+            'geoData':{'geometry_name':'sovereignt'}},
           'subregional_ref':{'Afghanistan':'https://epiforecasts.io/covid/posts/national/afghanistan/',
                              'Brazil':'https://epiforecasts.io/covid/posts/national/brazil/',
                              'Colombia':'https://epiforecasts.io/covid/posts/national/colombia/',
