@@ -13,7 +13,7 @@ export default class SummaryWidget extends React.Component{
   constructor(props) {
     super(props);
 
-    this.state = {active_area: 'United Kingdom',
+    this.state = {active_area: this.props.x.activeArea,
                   active_source: 'Cases',
                   active_map_legend: null,
                   min_date: null,
@@ -206,12 +206,6 @@ export default class SummaryWidget extends React.Component{
         this.state.rtData[this.state.active_source]['obsCasesData'],
         this.props.x.data_ref['obsCasesData']['geometry_name']
       )
-
-      console.log(this.props.x)
-
-      console.log(this.state.min_date)
-      console.log(this.state.max_date)
-      console.log(activeCasesReportData)
 
       const plot_height = '200px'
       const map_height = 600
