@@ -11,7 +11,7 @@ export default class CountrySelect extends React.Component{
 
     var region_options = []
     this.props.summaryData.map(item => {
-      region_options.push(<option>{item['Country']}</option>)
+      region_options.push(<option>{item[this.props.data_ref['summaryData']['geometry_name']]}</option>)
     })
 
     var source_options = []

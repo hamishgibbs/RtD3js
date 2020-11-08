@@ -18,6 +18,7 @@ export default class TimeseriesPlot extends React.Component{
       this.createTsPlot()
    }
   getCIs(data){
+
     var ci = Object.keys(data[0]).map(key => {return this.parseCI(key)})
 
     var ci = ci.filter(function(x) {return x !== undefined;});
@@ -87,7 +88,9 @@ export default class TimeseriesPlot extends React.Component{
     var cis = this.getCIs(this.props.data)
 
     // Get the value of the highest CI
-    var max_ci = d3.max(cis.map(ci => {return(ci['value'])}))
+    var cis_numeric = cis.map(ci => {return(ci['value'])})
+
+    var max_ci = d3.max(cis_numeric)
 
     // Y max is the max of the highest CI
     var y_max = d3.max(this.props.data.map(d => parseFloat(d['upper_' + max_ci])))
@@ -208,7 +211,8 @@ export default class TimeseriesPlot extends React.Component{
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
       .call(zoom)
       .on('mousemove', (e => {
-        var hovered_x = this.active_x.invert(e.clientX)
+
+        var hovered_x = this.active_x.invert(e.pageX)
 
         var hovered_x_formatted = hovered_x.toISOString().slice(0,10)
 
@@ -218,16 +222,16 @@ export default class TimeseriesPlot extends React.Component{
           }
         })[0];
 
-        var tooltip_string = this.format_tooltip_string(hover_data, cis)
+        var tooltip_string = this.format_tooltip_string(hover_data, cis, this.props.data_ref['rtData']['geometry_name'])
 
         d3.select('#' + this.props.container_id + '-tooltip')
-          .style("left", (e.clientX + 40) + "px")
-          .style("top", (e.clientY + this.props.map_height - 200) + "px")
+          .style("left", (e.pageX + 40) + "px")
+          .style("top", (e.pageY) + "px")
           .html(tooltip_string)
 
         d3.select('#' + this.props.container_id + '-hover-line')
-          .attr('x1', e.clientX - 60)
-          .attr('x2', e.clientX - 60)
+          .attr('x1', e.pageX - 60)
+          .attr('x2', e.pageX - 60)
 
       }))
       .on('mouseenter', (e => {
@@ -303,11 +307,11 @@ export default class TimeseriesPlot extends React.Component{
     }
 
   };
-  format_tooltip_string(hover_data, cis){
+  format_tooltip_string(hover_data, cis, geometry_name){
 
     var sep = '</br>'
 
-    var hover_str = '<b>' + hover_data['country'] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>'
+    var hover_str = '<b>' + hover_data[geometry_name] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>'
 
     hover_str = hover_str + cis.map(ci => {
       return(sep + '<b>' +ci['value'] + '% CI: </b>' + hover_data[ci['lower_name']] + ' - ' + hover_data[ci['upper_name']])
