@@ -232,7 +232,8 @@ export default class SummaryWidget extends React.Component{
                        data_sources={Object.keys(this.state.rtData)}
                        active_area={this.state.active_area}
                        select_handler={this.update_region_state.bind(this)}
-                       source_select_handler={this.update_source_state.bind(this)}>
+                       source_select_handler={this.update_source_state.bind(this)}
+                       data_ref={this.props.x.data_ref}>
         </CountrySelect>
         <TimeseriesPlot container_id='r-container'
                         svg_id='r-svg'

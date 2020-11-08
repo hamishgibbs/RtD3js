@@ -422,6 +422,7 @@ var Map = /*#__PURE__*/function (_React$Component) {
 
       Map_d3.selectAll('#' + this.props.content_id).remove();
       var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect();
+      var summaryData_geometry_name = this.props.data_ref['summaryData']['geometry_name'];
       var projection = Map_d3[this.props.projection]().fitSize([svg_dims.width, svg_dims.height], this.props.geoData);
       var path = Map_d3.geoPath().projection(projection);
       var svg = Map_d3.select('#' + this.props.svg_id).append('g').attr('id', this.props.content_id).attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
@@ -436,23 +437,23 @@ var Map = /*#__PURE__*/function (_React$Component) {
       var container_id = this.props.container_id;
       var legend_ref = this.props.legend_ref;
       g.selectAll("path").data(this.props.geoData.features).enter().append("path").attr("d", path).attr('region-name', function (feature) {
-        return feature.properties.sovereignt;
+        return feature.properties[_this2.props.data_ref['geoData']['geometry_name']];
       }).attr('fill', function (feature) {
-        var feature_name = feature.properties.sovereignt;
+        var feature_name = feature.properties[_this2.props.data_ref['geoData']['geometry_name']];
 
         if (_this2.props.legend_ref['legend_type'] === 'qualitative') {
-          return _this2.qualitative_fill(feature_name, _this2.props.summaryData, _this2.props.legend_ref);
+          return _this2.qualitative_fill(feature_name, _this2.props.summaryData, summaryData_geometry_name, _this2.props.legend_ref);
         } else if (_this2.props.legend_ref['legend_type'] === 'sequential') {
-          return _this2.sequential_fill(feature_name, _this2.props.summaryData, scale_sequential, _this2.props.legend_ref);
+          return _this2.sequential_fill(feature_name, _this2.props.summaryData, summaryData_geometry_name, scale_sequential, _this2.props.legend_ref);
         }
       }).attr('stroke', '#333').on('mousemove', function (e) {
         var hovered_name = Map_d3.select(this).attr('region-name');
         var hovered_data = data.filter(function (d) {
-          return d.region == hovered_name;
+          return d[summaryData_geometry_name] == hovered_name;
         })[0];
 
         function format_tooltip_string(hovered_data, legend_ref) {
-          return '<b>' + hovered_data['region'] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']];
+          return '<b>' + hovered_data[summaryData_geometry_name] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']];
         }
 
         try {
@@ -475,9 +476,9 @@ var Map = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "sequential_fill",
-    value: function sequential_fill(feature_name, summaryData, legend_scale, legend_ref) {
+    value: function sequential_fill(feature_name, summaryData, geometry_name, legend_scale, legend_ref) {
       var summary_data = summaryData.filter(function (d) {
-        if (d.region == feature_name) {
+        if (d[geometry_name] == feature_name) {
           return d;
         }
       });
@@ -491,9 +492,9 @@ var Map = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "qualitative_fill",
-    value: function qualitative_fill(feature_name, summaryData, legend_ref) {
+    value: function qualitative_fill(feature_name, summaryData, geometry_name, legend_ref) {
       var summary_data = summaryData.filter(function (d) {
-        if (d.region == feature_name) {
+        if (d[geometry_name] == feature_name) {
           return d;
         }
       });

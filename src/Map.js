@@ -15,6 +15,8 @@ export default class Map extends React.Component{
 
     var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect()
 
+    var summaryData_geometry_name = this.props.data_ref['summaryData']['geometry_name']
+
     const projection = d3[this.props.projection]()
       .fitSize([svg_dims.width, svg_dims.height], this.props.geoData);
 
@@ -43,16 +45,27 @@ export default class Map extends React.Component{
         .enter().append("path")
           .attr("d", path)
           .attr('region-name', (feature => {
-            return(feature.properties.sovereignt)
+            return(feature.properties[this.props.data_ref['geoData']['geometry_name']])
           }))
       		.attr('fill', (feature => {
 
-            var feature_name = feature.properties.sovereignt
+            var feature_name = feature.properties[this.props.data_ref['geoData']['geometry_name']]
 
             if (this.props.legend_ref['legend_type'] === 'qualitative'){
-              return(this.qualitative_fill(feature_name, this.props.summaryData, this.props.legend_ref))
+
+              return(this.qualitative_fill(feature_name,
+                this.props.summaryData,
+                summaryData_geometry_name,
+                this.props.legend_ref))
+
             } else if (this.props.legend_ref['legend_type'] === 'sequential'){
-              return(this.sequential_fill(feature_name, this.props.summaryData, scale_sequential, this.props.legend_ref))
+
+              return(this.sequential_fill(feature_name,
+                this.props.summaryData,
+                summaryData_geometry_name,
+                scale_sequential,
+                this.props.legend_ref))
+
             }
 
           }))
@@ -61,11 +74,11 @@ export default class Map extends React.Component{
             var hovered_name = d3.select(this).attr('region-name')
 
             var hovered_data = data.filter(d => {
-              return( d.region == hovered_name)
+              return( d[summaryData_geometry_name] == hovered_name)
             })[0]
 
             function format_tooltip_string(hovered_data, legend_ref){
-              return('<b>' + hovered_data['region'] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']])
+              return('<b>' + hovered_data[summaryData_geometry_name] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']])
             }
 
             try {
@@ -112,10 +125,10 @@ export default class Map extends React.Component{
     svg.call(zoom);
 
   }
-  sequential_fill(feature_name, summaryData, legend_scale, legend_ref){
+  sequential_fill(feature_name, summaryData, geometry_name, legend_scale, legend_ref){
 
     var summary_data = summaryData.filter(function(d){
-      if (d.region == feature_name){
+      if (d[geometry_name] == feature_name){
         return(
           d
         )
@@ -136,10 +149,10 @@ export default class Map extends React.Component{
 
 
   }
-  qualitative_fill(feature_name, summaryData, legend_ref){
+  qualitative_fill(feature_name, summaryData, geometry_name, legend_ref){
 
     var summary_data = summaryData.filter(function(d){
-      if (d.region == feature_name){
+      if (d[geometry_name] == feature_name){
         return(
           d
         )
