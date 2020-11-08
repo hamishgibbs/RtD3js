@@ -81,10 +81,12 @@ export default class Map extends React.Component{
               return('<b>' + hovered_data[summaryData_geometry_name] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']])
             }
 
+            console.log(e)
+
             try {
               d3.select('#' + container_id + '-tooltip')
-                .style("left", (e.clientX + 40) + "px")
-                .style("top", (e.clientY) + "px")
+                .style("left", (e.pageX + 40) + "px")
+                .style("top", (e.pageY) + "px")
                 .html(format_tooltip_string(hovered_data, legend_ref))
             } catch {
               d3.select('#' + container_id + '-tooltip')
