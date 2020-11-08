@@ -216,7 +216,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
           }
         })[0];
 
-        var tooltip_string = _this3.format_tooltip_string(hover_data, cis);
+        var tooltip_string = _this3.format_tooltip_string(hover_data, cis, _this3.props.data_ref['rtData']['geometry_name']);
 
         d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + _this3.props.map_height - 200 + "px").html(tooltip_string);
         d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 60).attr('x2', e.clientX - 60);
@@ -274,9 +274,9 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "format_tooltip_string",
-    value: function format_tooltip_string(hover_data, cis) {
+    value: function format_tooltip_string(hover_data, cis, geometry_name) {
       var sep = '</br>';
-      var hover_str = '<b>' + hover_data['country'] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>';
+      var hover_str = '<b>' + hover_data[geometry_name] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>';
       hover_str = hover_str + cis.map(function (ci) {
         return sep + '<b>' + ci['value'] + '% CI: </b>' + hover_data[ci['lower_name']] + ' - ' + hover_data[ci['upper_name']];
       });
@@ -1076,8 +1076,6 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
         var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData'], this.props.x.data_ref['casesInfectionData']['geometry_name']);
         var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'], this.props.x.data_ref['casesReportData']['geometry_name']);
         var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData'], this.props.x.data_ref['obsCasesData']['geometry_name']);
-        console.log(this.props.x.data_ref['rtData']['geometry_name']);
-        console.log(activeRtData);
         var plot_height = '200px';
         var map_height = 600;
         return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(Map, {
@@ -1088,6 +1086,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           height: map_height + 'px',
           geoData: this.state.geoData,
           summaryData: this.state.rtData[this.state.active_source]['summaryData'],
+          data_ref: this.props.x.data_ref,
           projection: this.props.x.projection,
           legend_ref: this.state.active_map_legend,
           create_sequential_legend: this.create_sequential_legend,
@@ -1122,6 +1121,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           min_date: this.state.min_date,
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
+          data_ref: this.props.x.data_ref,
           data: activeRtData,
           map_height: map_height,
           hline_intercept: 1
@@ -1136,6 +1136,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           min_date: this.state.min_date,
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
+          data_ref: this.props.x.data_ref,
           data: activeCasesInfectionData,
           map_height: map_height,
           obsCasesData: activeObsCasesData,
@@ -1152,6 +1153,7 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
           min_date: this.state.min_date,
           max_date: this.state.max_date,
           ts_color_ref: this.props.x.ts_color_ref,
+          data_ref: this.props.x.data_ref,
           data: activeCasesReportData,
           map_height: map_height,
           obsCasesData: activeObsCasesData,

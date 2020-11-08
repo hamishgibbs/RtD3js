@@ -221,7 +221,7 @@ export default class TimeseriesPlot extends React.Component{
           }
         })[0];
 
-        var tooltip_string = this.format_tooltip_string(hover_data, cis)
+        var tooltip_string = this.format_tooltip_string(hover_data, cis, this.props.data_ref['rtData']['geometry_name'])
 
         d3.select('#' + this.props.container_id + '-tooltip')
           .style("left", (e.clientX + 40) + "px")
@@ -306,11 +306,11 @@ export default class TimeseriesPlot extends React.Component{
     }
 
   };
-  format_tooltip_string(hover_data, cis){
+  format_tooltip_string(hover_data, cis, geometry_name){
 
     var sep = '</br>'
 
-    var hover_str = '<b>' + hover_data['country'] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>'
+    var hover_str = '<b>' + hover_data[geometry_name] + '</b>' + sep + '<b>' + hover_data['date'] + '</b>'
 
     hover_str = hover_str + cis.map(ci => {
       return(sep + '<b>' +ci['value'] + '% CI: </b>' + hover_data[ci['lower_name']] + ' - ' + hover_data[ci['upper_name']])
