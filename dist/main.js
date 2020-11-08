@@ -976,6 +976,8 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
 
               if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)) {
                 var min_date = summaryWidget_d3.min(_this2.get_dates(_this2.filterData(_this2.state.active_area, data, _this2.props.x.data_ref[sub_key]['geometry_name'])));
+                console.log(min_date);
+                console.log(_this2.get_dates(_this2.filterData(_this2.state.active_area, data, _this2.props.x.data_ref[sub_key]['geometry_name'])));
                 var max_date = summaryWidget_d3.max(_this2.get_dates(_this2.filterData(_this2.state.active_area, data, _this2.props.x.data_ref[sub_key]['geometry_name'])));
 
                 _this2.setState({
@@ -1079,6 +1081,10 @@ var SummaryWidget = /*#__PURE__*/function (_React$Component) {
         var activeCasesInfectionData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesInfectionData'], this.props.x.data_ref['casesInfectionData']['geometry_name']);
         var activeCasesReportData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['casesReportData'], this.props.x.data_ref['casesReportData']['geometry_name']);
         var activeObsCasesData = this.filterData(this.state.active_area, this.state.rtData[this.state.active_source]['obsCasesData'], this.props.x.data_ref['obsCasesData']['geometry_name']);
+        console.log(this.props.x);
+        console.log(this.state.min_date);
+        console.log(this.state.max_date);
+        console.log(activeCasesReportData);
         var plot_height = '200px';
         var map_height = 600;
         return /*#__PURE__*/summaryWidget_React.createElement("div", null, /*#__PURE__*/summaryWidget_React.createElement(Map, {
