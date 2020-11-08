@@ -211,7 +211,8 @@ export default class TimeseriesPlot extends React.Component{
       .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
       .call(zoom)
       .on('mousemove', (e => {
-        var hovered_x = this.active_x.invert(e.clientX)
+
+        var hovered_x = this.active_x.invert(e.pageX)
 
         var hovered_x_formatted = hovered_x.toISOString().slice(0,10)
 
@@ -224,13 +225,13 @@ export default class TimeseriesPlot extends React.Component{
         var tooltip_string = this.format_tooltip_string(hover_data, cis, this.props.data_ref['rtData']['geometry_name'])
 
         d3.select('#' + this.props.container_id + '-tooltip')
-          .style("left", (e.clientX + 40) + "px")
-          .style("top", (e.clientY + this.props.map_height - 200) + "px")
+          .style("left", (e.pageX + 40) + "px")
+          .style("top", (e.pageY) + "px")
           .html(tooltip_string)
 
         d3.select('#' + this.props.container_id + '-hover-line')
-          .attr('x1', e.clientX - 60)
-          .attr('x2', e.clientX - 60)
+          .attr('x1', e.pageX - 60)
+          .attr('x2', e.pageX - 60)
 
       }))
       .on('mouseenter', (e => {

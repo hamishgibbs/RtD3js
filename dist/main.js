@@ -206,7 +206,7 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
       d3.select("#" + this.props.container_id).append("div").style("opacity", 0).attr("class", 'tooltip').attr('id', this.props.container_id + '-tooltip').style('position', 'absolute').style('background-color', 'white').style('border', '1px solid black').style('border-radius', '15px').style('padding', '5px');
       svg.append('line').attr('id', this.props.container_id + '-hover-line').attr("x1", 20).attr("y1", 0).attr("x2", 20).attr("y2", svg_dims.height).attr('stroke', 'black').attr('stroke-width', '1px').attr('stroke-opacity', 0);
       svg.append("rect").attr("width", svg_dims.width).attr("height", svg_dims.height).style("fill", "none").style("pointer-events", "all").attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')').call(zoom).on('mousemove', function (e) {
-        var hovered_x = _this3.active_x.invert(e.clientX);
+        var hovered_x = _this3.active_x.invert(e.pageX);
 
         var hovered_x_formatted = hovered_x.toISOString().slice(0, 10);
 
@@ -218,8 +218,8 @@ var TimeseriesPlot = /*#__PURE__*/function (_React$Component) {
 
         var tooltip_string = _this3.format_tooltip_string(hover_data, cis, _this3.props.data_ref['rtData']['geometry_name']);
 
-        d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.clientX + 40 + "px").style("top", e.clientY + _this3.props.map_height - 200 + "px").html(tooltip_string);
-        d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.clientX - 60).attr('x2', e.clientX - 60);
+        d3.select('#' + _this3.props.container_id + '-tooltip').style("left", e.pageX + 40 + "px").style("top", e.pageY + "px").html(tooltip_string);
+        d3.select('#' + _this3.props.container_id + '-hover-line').attr('x1', e.pageX - 60).attr('x2', e.pageX - 60);
       }).on('mouseenter', function (e) {
         d3.select('#' + _this3.props.container_id + '-tooltip').style("opacity", 1);
         d3.select('#' + _this3.props.container_id + '-hover-line').attr('stroke-opacity', 1);
@@ -455,8 +455,6 @@ var Map = /*#__PURE__*/function (_React$Component) {
         function format_tooltip_string(hovered_data, legend_ref) {
           return '<b>' + hovered_data[summaryData_geometry_name] + '</b></br><b>' + legend_ref['variable_name'] + ': </b>' + hovered_data[legend_ref['variable_name']];
         }
-
-        console.log(e);
 
         try {
           Map_d3.select('#' + container_id + '-tooltip').style("left", e.pageX + 40 + "px").style("top", e.pageY + "px").html(format_tooltip_string(hovered_data, legend_ref));
