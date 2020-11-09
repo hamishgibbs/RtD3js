@@ -13,7 +13,7 @@ export default class SummaryWidget extends React.Component{
   constructor(props) {
     super(props);
 
-    this.state = {active_area: 'United Kingdom',
+    this.state = {active_area: this.props.x.activeArea,
                   active_source: 'Cases',
                   active_map_legend: null,
                   min_date: null,
@@ -98,8 +98,14 @@ export default class SummaryWidget extends React.Component{
         // Handle max date here
         if (['rtData', 'casesInfectionData', 'casesReportData'].includes(sub_key)){
 
-          var min_date = d3.min(this.get_dates(this.filterData(this.state.active_area, this.props.x.rtData[key][sub_key])))
-          var max_date = d3.max(this.get_dates(this.filterData(this.state.active_area, this.props.x.rtData[key][sub_key])))
+          var min_date = d3.min(this.get_dates(this.filterData(this.state.active_area,
+            this.props.x.rtData[key][sub_key],
+            this.props.x.data_ref[sub_key]['geometry_name']
+          )))
+          var max_date = d3.max(this.get_dates(this.filterData(this.state.active_area,
+            this.props.x.rtData[key][sub_key],
+            this.props.x.data_ref[sub_key]['geometry_name']
+          )))
 
           this.setState({min_date: min_date, max_date: max_date})
 

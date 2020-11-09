@@ -80,7 +80,7 @@ export default class MapLegend extends React.Component{
       group
         .append('div')
         .attr('id', 'legend-item')
-        .text(legend_values[i] + ':')
+        .text((Math.round((legend_values[i] + Number.EPSILON) * 100) / 100) + ':')
         .attr('class', 'pl-2 pr-1')
 
       group

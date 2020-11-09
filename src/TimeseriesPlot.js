@@ -62,7 +62,7 @@ export default class TimeseriesPlot extends React.Component{
     d3.selectAll('#' + this.props.container_id + '-tooltip').remove()
 
     // Find container dims
-    var svg_dims = document.getElementById(this.props.container_id).getBoundingClientRect()
+    var container_dims = document.getElementById(this.props.container_id).getBoundingClientRect()
 
     // Add plot group to svg
     var svg = d3.select('#' + this.props.svg_id)
@@ -77,12 +77,14 @@ export default class TimeseriesPlot extends React.Component{
         .text('No Data')
         .style('fill', 'lightgrey')
         .style('font-weight', 'bold')
-        .attr('y', svg_dims.height / 2)
-        .attr('x', svg_dims.width / 2.5)
+        .attr('y', container_dims.height / 2)
+        .attr('x', container_dims.width / 2.5)
 
       return(null)
 
     }
+
+    var svg_dims = document.getElementById(this.props.content_id).getBoundingClientRect()
 
     // Get all CIs from the data keys
     var cis = this.getCIs(this.props.data)
@@ -98,18 +100,18 @@ export default class TimeseriesPlot extends React.Component{
     // Define x scale
     var x = d3.scaleTime()
       .domain([this.props.min_date, this.props.max_date])
-      .range([0, svg_dims.width]);
+      .range([0, container_dims.width]);
 
     x_updated(x)
 
     // Define y scale
     var y = d3.scaleLinear()
       .domain([0,y_max])
-      .range([svg_dims.height - this.margin.bottom, 0]);
+      .range([container_dims.height - this.margin.bottom, 0]);
 
     // Add x axis to plot
     var x_axis = svg.append("g")
-       .attr("transform","translate(0,"+ (svg_dims.height - this.margin.bottom) +")")
+       .attr("transform","translate(0,"+ (container_dims.height - this.margin.bottom) +")")
        .call(d3.axisBottom(x).ticks(6).tickSize([0]))
        .attr("class",'time-xaxis');
 
@@ -121,8 +123,8 @@ export default class TimeseriesPlot extends React.Component{
      var clip = svg.append("defs").append("svg:clipPath")
        .attr("id", "clip")
        .append("svg:rect")
-       .attr("width", svg_dims.width )
-       .attr("height", svg_dims.height )
+       .attr("width", container_dims.width )
+       .attr("height", container_dims.height )
        .attr("x", 0)
        .attr("y", 0);
 
@@ -173,13 +175,13 @@ export default class TimeseriesPlot extends React.Component{
 
     if (this.props.obsCasesData !== undefined){
 
-      this.plot_obs_bars(plot_content, this.props.obsCasesData, svg_dims, this.props.ts_bar_color, x, y)
+      this.plot_obs_bars(plot_content, this.props.obsCasesData, container_dims, this.props.ts_bar_color, x, y)
 
     }
 
     var zoom = d3.zoom()
       .scaleExtent([.5, 20])
-      .extent([[0, 0], [svg_dims.width, svg_dims.height]])
+      .extent([[0, 0], [container_dims.width, container_dims.height]])
       .on("zoom", updateChart);
 
     d3.select("#" + this.props.container_id)
@@ -198,21 +200,25 @@ export default class TimeseriesPlot extends React.Component{
       .attr("x1", 20)
       .attr("y1", 0)
       .attr("x2", 20)
-      .attr("y2", svg_dims.height)
+      .attr("y2", container_dims.height)
       .attr('stroke', 'black')
       .attr('stroke-width', '1px')
       .attr('stroke-opacity', 0);
 
     svg.append("rect")
-      .attr("width", svg_dims.width)
-      .attr("height", svg_dims.height)
+      .attr("width", container_dims.width)
+      .attr("height", container_dims.height)
       .style("fill", "none")
       .style("pointer-events", "all")
-      .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
       .call(zoom)
       .on('mousemove', (e => {
 
-        var hovered_x = this.active_x.invert(e.pageX)
+        var svg_dims = document.getElementById(this.props.content_id).getBoundingClientRect()
+        var container_dims = document.getElementById(this.props.container_id).getBoundingClientRect()
+
+        console.log(e.pageX, svg_dims.left)
+
+        var hovered_x = this.active_x.invert(e.pageX - container_dims.left - this.margin.left)
 
         var hovered_x_formatted = hovered_x.toISOString().slice(0,10)
 
@@ -226,12 +232,12 @@ export default class TimeseriesPlot extends React.Component{
 
         d3.select('#' + this.props.container_id + '-tooltip')
           .style("left", (e.pageX + 40) + "px")
-          .style("top", (e.pageY) + "px")
+          .style("top", e.pageY + "px")
           .html(tooltip_string)
 
         d3.select('#' + this.props.container_id + '-hover-line')
-          .attr('x1', e.pageX - 60)
-          .attr('x2', e.pageX - 60)
+          .attr('x1', e.pageX - container_dims.left - this.margin.left)
+          .attr('x2', e.pageX - container_dims.left - this.margin.left)
 
       }))
       .on('mouseenter', (e => {
@@ -368,7 +374,7 @@ export default class TimeseriesPlot extends React.Component{
         .style('stroke-dasharray', "5,5")
 
   }
-  plot_obs_bars(svg, data, svg_dims, ts_bar_color, x, y){
+  plot_obs_bars(svg, data, container_dims, ts_bar_color, x, y){
 
     svg.selectAll('rect')
         .data(data)
@@ -377,7 +383,7 @@ export default class TimeseriesPlot extends React.Component{
         .attr('x', function(d, i) {return x(new Date(Date.parse(d.date)), -0.5);})
         .attr("width", function(d) {return 0.8 * (x(d3.timeDay.offset(new Date(Date.parse(d.date)), 1)) - x(new Date(Date.parse(d.date))))})
         .attr("height", 0)
-        .attr("y", svg_dims.height)
+        .attr("y", container_dims.height)
         .style('fill', ts_bar_color)
         .style('opacity', 0.5)
         .transition()
